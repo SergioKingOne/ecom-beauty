@@ -1,21 +1,18 @@
 // app/(tabs)/ProductDetails.tsx
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { RouteProp, useRoute } from "@react-navigation/native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { StackScreenProps } from "@react-navigation/stack";
 
 type RootStackParamList = {
-  Home: undefined;
   ProductDetails: { productId: string };
 };
 
-type ProductDetailsScreenProps = StackScreenProps<
-  RootStackParamList,
-  "ProductDetails"
->;
+type ProductDetailsRouteProp = RouteProp<RootStackParamList, "ProductDetails">;
 
-const ProductDetailsScreen = ({ route }: ProductDetailsScreenProps) => {
+const ProductDetailsScreen = () => {
+  const route = useRoute<ProductDetailsRouteProp>();
   const { productId } = route.params;
   // Fetch product details using productId
 

@@ -1,25 +1,40 @@
 // app/(tabs)/index.tsx
-import { Image, StyleSheet, Platform, View, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, StyleSheet, Platform, FlatList } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import ProductCard from "@/components/ProductCard";
-import { NavigationProp } from "@react-navigation/native";
+import { fetchProducts } from "@/services/api";
+import { Product } from "@/types/product";
+import { StackNavigationProp } from "@react-navigation/stack";
 
-const products = [
-  { id: "1", name: "Hydra Vizor Huez", price: "237000" },
-  { id: "2", name: "Soft'lit Foundation", price: "197000" },
-  { id: "3", name: "Gloss Bomb Lip Luminizer", price: "104000" },
-  // Add more products here
-];
+type RootStackParamList = {
+  ProductDetails: { productId: string };
+};
 
-export default function HomeScreen({
-  navigation,
-}: {
-  navigation: NavigationProp<any>;
-}) {
+type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
+
+export default function HomeScreen() {
+  const navigation = useNavigation<NavigationProp>();
+  const [products, setProducts] = useState<Product[]>([]);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        const productsData = await fetchProducts();
+        setProducts(productsData);
+      } catch (error) {
+        console.error("Error loading products:", error);
+      }
+    };
+
+    loadProducts();
+  }, []);
+
   return (
     <ParallaxScrollView
       headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
@@ -69,22 +84,14 @@ export default function HomeScreen({
         <FlatList
           data={products}
           keyExtractor={(item) => item.id}
-          renderItem={({ item }) => {
-            // Convert price to number
-            const productWithPriceAsNumber = {
-              ...item,
-              price: parseFloat(item.price),
-            };
-
-            return (
-              <ProductCard
-                product={productWithPriceAsNumber}
-                onPress={() =>
-                  navigation.navigate("ProductDetails", { productId: item.id })
-                }
-              />
-            );
-          }}
+          renderItem={({ item }) => (
+            <ProductCard
+              product={item}
+              onPress={() =>
+                navigation.navigate("ProductDetails", { productId: item.id })
+              }
+            />
+          )}
         />
       </ThemedView>
     </ParallaxScrollView>

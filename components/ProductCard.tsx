@@ -1,15 +1,12 @@
+// components/ProductCard.tsx
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
+import { Product } from "@/types/product";
 
-type Product = {
-  name: string;
-  price: number;
-};
-
-type ProductCardProps = {
+interface ProductCardProps {
   product: Product;
   onPress: () => void;
-};
+}
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => (
   <View style={styles.card}>
@@ -18,8 +15,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => (
     <Button title="View Details" onPress={onPress} />
   </View>
 );
-
-// ... rest of your code
 
 const styles = StyleSheet.create({
   card: {
