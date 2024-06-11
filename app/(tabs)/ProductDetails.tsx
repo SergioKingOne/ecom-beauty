@@ -1,9 +1,11 @@
 // app/(tabs)/ProductDetails.tsx
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
+import { fetchProductDetails } from "@/services/api";
+import { Product } from "@/types/product";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -11,15 +13,48 @@ type RootStackParamList = {
 
 type ProductDetailsRouteProp = RouteProp<RootStackParamList, "ProductDetails">;
 
-const ProductDetailsScreen = () => {
+const ProductDetailsScreen: React.FC = () => {
   const route = useRoute<ProductDetailsRouteProp>();
   const { productId } = route.params;
-  // Fetch product details using productId
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const loadProductDetails = async () => {
+      try {
+        const productData = await fetchProductDetails(productId);
+        setProduct(productData);
+      } catch (error) {
+        console.error("Error fetching product details:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProductDetails();
+  }, [productId]);
+
+  if (loading) {
+    return (
+      <ThemedView style={styles.loadingContainer}>
+        <ActivityIndicator size="large" />
+      </ThemedView>
+    );
+  }
+
+  if (!product) {
+    return (
+      <ThemedView style={styles.container}>
+        <ThemedText type="title">Product not found</ThemedText>
+      </ThemedView>
+    );
+  }
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">Product Details for {productId}</ThemedText>
-      {/* Add product details content here */}
+      <ThemedText type="title">{product.name}</ThemedText>
+      <Text style={styles.price}>${product.price}</Text>
+      {/* Add more product details here */}
     </ThemedView>
   );
 };
@@ -28,6 +63,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  price: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginVertical: 16,
   },
 });
 
