@@ -1,10 +1,6 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
-
-type Product = {
-  name: string;
-  price: number;
-};
+import { Product } from "@/types/product";
 
 type ProductCardProps = {
   product: Product;
