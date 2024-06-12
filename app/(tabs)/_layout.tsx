@@ -8,8 +8,26 @@ import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HomeScreen from "@/app/(tabs)/index";
 import ExploreScreen from "@/app/(tabs)/explore";
+import { createStackNavigator } from "@react-navigation/stack";
+import ProductDetailsScreen from "./ProductDetails";
 
 const Tab = createBottomTabNavigator();
+
+type RootStackParamList = {
+  Home: undefined;
+  ProductDetails: { productId: string };
+};
+
+const Stack = createStackNavigator<RootStackParamList>();
+
+function HomeStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   const colorScheme = useColorScheme();
@@ -25,34 +43,32 @@ export default function App() {
   const safeColorScheme = colorScheme ?? "light";
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName: keyof typeof Ionicons.glyphMap;
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName: keyof typeof Ionicons.glyphMap;
 
-            if (route.name === "Home") {
-              iconName = focused ? "home" : "home-outline";
-            } else if (route.name === "Explore") {
-              iconName = focused ? "search" : "search-outline";
-            } else {
-              iconName = "alert"; // Make sure this is a valid icon name
-            }
+          if (route.name === "Home") {
+            iconName = focused ? "home" : "home-outline";
+          } else if (route.name === "Explore") {
+            iconName = focused ? "search" : "search-outline";
+          } else {
+            iconName = "alert"; // Make sure this is a valid icon name
+          }
 
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-          tabBarActiveTintColor:
-            Colors[safeColorScheme]?.primary ?? "defaultColor",
-          tabBarInactiveTintColor: Colors[safeColorScheme].secondary,
-          tabBarStyle: { backgroundColor: Colors[safeColorScheme].background },
-          headerStyle: { backgroundColor: Colors[safeColorScheme].background },
-          headerTintColor: Colors[safeColorScheme].text,
-          headerTitleStyle: { fontFamily: "Glorious" },
-        })}
-      >
-        <Tab.Screen name="Home" component={HomeScreen} />
-        <Tab.Screen name="Explore" component={ExploreScreen} />
-      </Tab.Navigator>
-    </NavigationContainer>
+          return <Ionicons name={iconName} size={size} color={color} />;
+        },
+        tabBarActiveTintColor:
+          Colors[safeColorScheme]?.primary ?? "defaultColor",
+        tabBarInactiveTintColor: Colors[safeColorScheme].secondary,
+        tabBarStyle: { backgroundColor: Colors[safeColorScheme].background },
+        headerStyle: { backgroundColor: Colors[safeColorScheme].background },
+        headerTintColor: Colors[safeColorScheme].text,
+        headerTitleStyle: { fontFamily: "Glorious" },
+      })}
+    >
+      <Tab.Screen name="Home" component={HomeStack} />
+      <Tab.Screen name="Explore" component={ExploreScreen} />
+    </Tab.Navigator>
   );
 }

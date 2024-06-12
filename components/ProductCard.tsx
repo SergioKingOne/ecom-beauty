@@ -1,7 +1,6 @@
 // components/ProductCard.tsx
 import React from "react";
 import {
-  View,
   Text,
   Button,
   StyleSheet,
@@ -10,24 +9,33 @@ import {
 } from "react-native";
 import { Product } from "@/types/product";
 import Colors from "@/constants/Colors";
+import { useNavigation } from "@react-navigation/native";
 
 interface ProductCardProps {
   product: Product;
   onPress: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => (
-  <TouchableOpacity style={styles.card} onPress={onPress}>
-    <Image source={{ uri: product.image }} style={styles.productImage} />
-    <Text style={styles.name}>{product.name}</Text>
-    <Text style={styles.price}>${product.price}</Text>
-    <Button
-      title="Add to cart"
-      onPress={onPress}
-      color={Colors.light.primary}
-    />
-  </TouchableOpacity>
-);
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const navigation = useNavigation<any>(); // Specify 'any' type for useNavigation to avoid type error
+
+  const handlePress = () => {
+    navigation.navigate("ProductDetails", { productId: product.id });
+  };
+
+  return (
+    <TouchableOpacity style={styles.card} onPress={handlePress}>
+      <Image source={{ uri: product.image }} style={styles.productImage} />
+      <Text style={styles.name}>{product.name}</Text>
+      <Text style={styles.price}>${product.price}</Text>
+      <Button
+        title="Add to cart"
+        onPress={handlePress}
+        color={Colors.light.primary}
+      />
+    </TouchableOpacity>
+  );
+};
 
 const styles = StyleSheet.create({
   card: {
