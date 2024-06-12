@@ -1,6 +1,13 @@
 // app/(tabs)/index.tsx
 import React, { useEffect, useState } from "react";
-import { Image, StyleSheet, Platform, FlatList } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  Platform,
+  FlatList,
+  View,
+  Text,
+} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
@@ -10,6 +17,7 @@ import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { StackNavigationProp } from "@react-navigation/stack";
+import Colors from "@/constants/Colors";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -36,7 +44,10 @@ export default function HomeScreen() {
 
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#f8f4f2", dark: "#1D3D47" }}
+      headerBackgroundColor={{
+        dark: Colors.dark.background,
+        light: Colors.light.background,
+      }}
       headerImage={
         <Image
           source={require("@/assets/images/partial-react-logo.png")}
@@ -46,14 +57,11 @@ export default function HomeScreen() {
     >
       <ThemedView style={styles.titleContainer}>
         <ThemedText type="title" style={styles.titleText}>
-          Hello world!
+          What's New?
         </ThemedText>
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.productsContainer}>
-        <ThemedText type="subtitle" style={styles.subtitle}>
-          Products
-        </ThemedText>
         <FlatList
           data={products}
           keyExtractor={(item) => item.id}
@@ -65,6 +73,8 @@ export default function HomeScreen() {
               }
             />
           )}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapper}
         />
       </ThemedView>
     </ParallaxScrollView>
@@ -79,9 +89,10 @@ const styles = StyleSheet.create({
     margin: 16,
   },
   titleText: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#333",
+    color: Colors.light.text,
+    fontFamily: "Glorious",
   },
   reactLogo: {
     height: 178,
@@ -94,10 +105,7 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 16,
   },
-  subtitle: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#555",
-    marginBottom: 8,
+  columnWrapper: {
+    justifyContent: "space-between",
   },
 });

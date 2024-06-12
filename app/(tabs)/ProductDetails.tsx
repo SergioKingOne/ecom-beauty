@@ -6,6 +6,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { fetchProductDetails } from "@/services/api";
 import { Product } from "@/types/product";
+import Colors from "@/constants/Colors";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -66,6 +67,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    backgroundColor: Colors.light.background,
   },
   loadingContainer: {
     flex: 1,
@@ -82,16 +84,18 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 8,
+    fontFamily: "Glorious",
+    color: Colors.light.text,
   },
   price: {
     fontSize: 20,
     fontWeight: "bold",
-    color: "#888",
+    color: Colors.light.secondary,
     marginBottom: 16,
   },
   description: {
     fontSize: 16,
-    color: "#666",
+    color: Colors.light.text,
   },
 });
 
