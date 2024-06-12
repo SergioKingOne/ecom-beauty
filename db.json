@@ -1,16 +1,18 @@
 {
-    "products": [
-        {
-            "id": 1,
-            "name": "Product 1",
-            "description": "This is product 1",
-            "price": 50
-        },
-        {
-            "id": 2,
-            "name": "Product 2",
-            "description": "This is product 2",
-            "price": 100
-        }
-    ]
+  "products": [
+    {
+      "id": 1,
+      "name": "Product 1",
+      "description": "This is product 1",
+      "price": 50,
+      "image": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+    },
+    {
+      "id": 2,
+      "name": "Product 2",
+      "description": "This is product 2",
+      "price": 100,
+      "image": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png"
+    }
+  ]
 }

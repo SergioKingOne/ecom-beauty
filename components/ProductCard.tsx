@@ -1,6 +1,13 @@
 // components/ProductCard.tsx
 import React from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+} from "react-native";
 import { Product } from "@/types/product";
 
 interface ProductCardProps {
@@ -9,11 +16,12 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => (
-  <View style={styles.card}>
+  <TouchableOpacity style={styles.card} onPress={onPress}>
+    <Image source={{ uri: product.image }} style={styles.productImage} />
     <Text style={styles.name}>{product.name}</Text>
     <Text style={styles.price}>${product.price}</Text>
-    <Button title="View Details" onPress={onPress} />
-  </View>
+    <Button title="View Details" onPress={onPress} color="#6200ea" />
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
@@ -27,10 +35,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 2,
+    alignItems: "center",
+  },
+  productImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 8,
+    marginBottom: 8,
   },
   name: {
     fontSize: 18,
     fontWeight: "bold",
+    marginBottom: 4,
   },
   price: {
     fontSize: 16,

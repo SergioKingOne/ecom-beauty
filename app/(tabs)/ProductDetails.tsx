@@ -1,6 +1,6 @@
 // app/(tabs)/ProductDetails.tsx
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, ActivityIndicator, Image } from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -52,9 +52,12 @@ const ProductDetailsScreen: React.FC = () => {
 
   return (
     <ThemedView style={styles.container}>
-      <ThemedText type="title">{product.name}</ThemedText>
+      <Image source={{ uri: product.image }} style={styles.productImage} />
+      <ThemedText type="title" style={styles.productName}>
+        {product.name}
+      </ThemedText>
       <Text style={styles.price}>${product.price}</Text>
-      {/* Add more product details here */}
+      <Text style={styles.description}>{product.description}</Text>
     </ThemedView>
   );
 };
@@ -69,10 +72,26 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  productImage: {
+    width: "100%",
+    height: 300,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  productName: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
   price: {
     fontSize: 20,
     fontWeight: "bold",
-    marginVertical: 16,
+    color: "#888",
+    marginBottom: 16,
+  },
+  description: {
+    fontSize: 16,
+    color: "#666",
   },
 });
 
