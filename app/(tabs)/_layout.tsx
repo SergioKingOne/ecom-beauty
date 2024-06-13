@@ -26,7 +26,11 @@ const Stack = createStackNavigator<RootStackParamList>();
 function HomeStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
     </Stack.Navigator>
   );
@@ -62,7 +66,7 @@ export default function App() {
           } else if (route.name === "User") {
             iconName = focused ? "person" : "person-outline";
           } else {
-            iconName = "alert"; // Make sure this is a valid icon name
+            iconName = "alert";
           }
 
           return <Ionicons name={iconName} size={size} color={color} />;
@@ -74,6 +78,8 @@ export default function App() {
         headerStyle: { backgroundColor: Colors[safeColorScheme].background },
         headerTintColor: Colors[safeColorScheme].text,
         headerTitleStyle: { fontFamily: "Glorious" },
+        // remove the header from the tab navigator
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeStack} />
