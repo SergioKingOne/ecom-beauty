@@ -58,7 +58,7 @@ export default function App() {
           } else if (route.name === "Favorites") {
             iconName = focused ? "heart" : "heart-outline";
           } else if (route.name === "Menu") {
-            iconName = focused ? "menu" : "menu-outline";
+            iconName = focused ? "grid" : "grid-outline";
           } else if (route.name === "User") {
             iconName = focused ? "person" : "person-outline";
           } else {
