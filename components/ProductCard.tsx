@@ -1,73 +1,79 @@
-// components/ProductCard.tsx
 import React from "react";
-import {
-  Text,
-  Button,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Product } from "@/types/product";
 import Colors from "@/constants/Colors";
-import { useNavigation } from "@react-navigation/native";
 
 interface ProductCardProps {
   product: Product;
   onPress: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
-  const navigation = useNavigation<any>(); // Specify 'any' type for useNavigation to avoid type error
-
-  const handlePress = () => {
-    navigation.navigate("ProductDetails", { productId: product.id });
-  };
-
-  return (
-    <TouchableOpacity style={styles.card} onPress={handlePress}>
+const ProductCard: React.FC<ProductCardProps> = ({ product, onPress }) => (
+  <TouchableOpacity style={styles.card} onPress={onPress} activeOpacity={0.8}>
+    <View style={styles.imageContainer}>
       <Image source={{ uri: product.image }} style={styles.productImage} />
+    </View>
+    <View style={styles.detailsContainer}>
       <Text style={styles.name}>{product.name}</Text>
       <Text style={styles.price}>${product.price}</Text>
-      <Button
-        title="Add to cart"
-        onPress={handlePress}
-        color={Colors.light.primary}
-      />
-    </TouchableOpacity>
-  );
-};
+      <TouchableOpacity style={styles.button} onPress={onPress}>
+        <Text style={styles.buttonText}>Add to cart</Text>
+      </TouchableOpacity>
+    </View>
+  </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
   card: {
-    padding: 16,
-    marginBottom: 16,
-    backgroundColor: Colors.light.card,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 2,
-    alignItems: "center",
     flex: 1,
     margin: 8,
+    borderRadius: 16,
+    backgroundColor: Colors.light.card,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 5,
+  },
+  imageContainer: {
+    width: "100%",
+    height: 180,
+    backgroundColor: Colors.light.secondary,
   },
   productImage: {
     width: "100%",
-    height: 150,
-    borderRadius: 8,
-    marginBottom: 8,
+    height: "100%",
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+  },
+  detailsContainer: {
+    padding: 16,
+    alignItems: "center",
   },
   name: {
     fontSize: 18,
     fontWeight: "bold",
-    marginBottom: 4,
     fontFamily: "Glorious",
+    marginBottom: 8,
+    textAlign: "center",
   },
   price: {
     fontSize: 16,
-    color: Colors.light.secondary,
-    marginBottom: 8,
+    color: Colors.light.primary,
+    marginBottom: 16,
+    textAlign: "center",
+  },
+  button: {
+    backgroundColor: Colors.light.primary,
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 25,
+  },
+  buttonText: {
+    color: Colors.light.card,
+    fontWeight: "bold",
+    fontSize: 14,
   },
 });
 

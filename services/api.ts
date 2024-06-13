@@ -26,3 +26,13 @@ export const fetchProductDetails = async (
     throw error;
   }
 };
+
+export const fetchFavoriteProducts = async (): Promise<Product[]> => {
+  try {
+    const response = await axios.get(`${API_URL}/products`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching favorite products:", error);
+    throw error;
+  }
+};

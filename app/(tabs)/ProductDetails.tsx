@@ -1,6 +1,13 @@
-// app/(tabs)/ProductDetails.tsx
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, ActivityIndicator, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -52,14 +59,17 @@ const ProductDetailsScreen: React.FC = () => {
   }
 
   return (
-    <ThemedView style={styles.container}>
+    <ScrollView style={styles.container}>
       <Image source={{ uri: product.image }} style={styles.productImage} />
       <ThemedText type="title" style={styles.productName}>
         {product.name}
       </ThemedText>
       <Text style={styles.price}>${product.price}</Text>
       <Text style={styles.description}>{product.description}</Text>
-    </ThemedView>
+      <TouchableOpacity style={styles.button}>
+        <Text style={styles.buttonText}>Add to Cart</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
@@ -90,12 +100,24 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 20,
     fontWeight: "bold",
-    color: Colors.light.secondary,
+    color: Colors.light.primary,
     marginBottom: 16,
   },
   description: {
     fontSize: 16,
-    color: Colors.light.text,
+    color: Colors.light.secondary,
+    marginBottom: 16,
+  },
+  button: {
+    backgroundColor: Colors.light.primary,
+    paddingVertical: 15,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  buttonText: {
+    color: Colors.light.card,
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 

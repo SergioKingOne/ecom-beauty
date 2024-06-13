@@ -1,18 +1,14 @@
-// app/(tabs)/index.tsx
 import React, { useEffect, useState } from "react";
 import {
   Image,
   StyleSheet,
-  Platform,
   FlatList,
   View,
+  Animated,
+  TouchableOpacity,
   Text,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { HelloWave } from "@/components/HelloWave";
-import ParallaxScrollView from "@/components/ParallaxScrollView";
-import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
@@ -25,87 +21,159 @@ type RootStackParamList = {
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
 
-export default function HomeScreen() {
+const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
+  const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
     const loadProducts = async () => {
       try {
         const productsData = await fetchProducts();
         setProducts(productsData);
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }).start();
       } catch (error) {
         console.error("Error loading products:", error);
       }
     };
 
     loadProducts();
-  }, []);
+  }, [fadeAnim]);
 
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{
-        dark: Colors.dark.background,
-        light: Colors.light.background,
-      }}
-      headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
-        />
-      }
-    >
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title" style={styles.titleText}>
-          What's New?
-        </ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.productsContainer}>
-        <FlatList
-          data={products}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (
-            <ProductCard
-              product={item}
-              onPress={() =>
-                navigation.navigate("ProductDetails", { productId: item.id })
-              }
+    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+      <View style={styles.header}>
+        <Text style={styles.logoText}>D'ALMA</Text>
+        <View style={styles.headerIcons}>
+          <TouchableOpacity>
+            <Image
+              source={require("@/assets/icons/search.png")}
+              style={styles.icon}
             />
-          )}
-          numColumns={2}
-          columnWrapperStyle={styles.columnWrapper}
-        />
-      </ThemedView>
-    </ParallaxScrollView>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image
+              source={require("@/assets/icons/shopping-bag.png")}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+      <View style={styles.categoryContainer}>
+        {["All", "Skincare", "Cosmetics", "Fragrance"].map((category) => (
+          <TouchableOpacity key={category} style={styles.categoryButton}>
+            <Text style={styles.categoryText}>{category}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+      <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
+      <FlatList
+        data={products}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (
+          <ProductCard
+            product={item}
+            onPress={() =>
+              navigation.navigate("ProductDetails", { productId: item.id })
+            }
+          />
+        )}
+        numColumns={1}
+        contentContainerStyle={styles.flatListContent}
+      />
+      <View style={styles.footer}>
+        <TouchableOpacity>
+          <Image
+            source={require("@/assets/icons/home.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("@/assets/icons/heart.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("@/assets/icons/menu.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity>
+          <Image
+            source={require("@/assets/icons/user.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+      </View>
+    </Animated.View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: "#fdfbfb",
+  },
+  header: {
     flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    margin: 16,
-  },
-  titleText: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: Colors.light.text,
-    fontFamily: "Glorious",
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: "absolute",
-  },
-  productsContainer: {
-    marginTop: 16,
-    paddingHorizontal: 16,
-  },
-  columnWrapper: {
     justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#ffffff",
+  },
+  logoText: {
+    fontSize: 24,
+    fontFamily: "Glorious",
+    color: "#131313",
+  },
+  headerIcons: {
+    flexDirection: "row",
+  },
+  icon: {
+    height: 24,
+    width: 24,
+    marginLeft: 16,
+  },
+  categoryContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingVertical: 8,
+    backgroundColor: "#ffffff",
+  },
+  categoryButton: {
+    padding: 8,
+    borderRadius: 20,
+    backgroundColor: "#f0f0f0",
+  },
+  categoryText: {
+    fontSize: 14,
+    fontFamily: "Glorious",
+    color: "#131313",
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontFamily: "Glorious",
+    color: "#131313",
+    paddingHorizontal: 16,
+    paddingTop: 16,
+  },
+  flatListContent: {
+    paddingHorizontal: 16,
+    paddingBottom: 100,
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#ffffff",
   },
 });
+
+export default HomeScreen;

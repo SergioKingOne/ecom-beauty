@@ -8,6 +8,7 @@ import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HomeScreen from "@/app/(tabs)/index";
 import ExploreScreen from "@/app/(tabs)/explore";
+import FavoritesScreen from "@/app/(tabs)/favorites";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProductDetailsScreen from "./ProductDetails";
 
@@ -52,6 +53,8 @@ export default function App() {
             iconName = focused ? "home" : "home-outline";
           } else if (route.name === "Explore") {
             iconName = focused ? "search" : "search-outline";
+          } else if (route.name === "Favorites") {
+            iconName = focused ? "heart" : "heart-outline";
           } else {
             iconName = "alert"; // Make sure this is a valid icon name
           }
@@ -68,7 +71,8 @@ export default function App() {
       })}
     >
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Explore" component={ExploreScreen} />
+      <Tab.Screen name="Favorites" component={FavoritesScreen} />
+      {/* <Tab.Screen name="Explore" component={ExploreScreen} /> */}
     </Tab.Navigator>
   );
 }
