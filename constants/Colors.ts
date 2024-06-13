@@ -6,6 +6,7 @@ const Colors = {
     border: "#e0e0e0",
     primary: "#f29c1d",
     secondary: "#818189",
+    tint: "#f29c1d",
   },
   dark: {
     background: "#131313",

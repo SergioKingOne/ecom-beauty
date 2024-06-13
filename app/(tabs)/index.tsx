@@ -47,7 +47,7 @@ const HomeScreen: React.FC = () => {
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
       <View style={styles.header}>
-        <Text style={styles.logoText}>D'ALMA</Text>
+        <Text style={styles.logoText}>S'Mode</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity>
             <Image
@@ -85,32 +85,6 @@ const HomeScreen: React.FC = () => {
         numColumns={1}
         contentContainerStyle={styles.flatListContent}
       />
-      <View style={styles.footer}>
-        <TouchableOpacity>
-          <Image
-            source={require("@/assets/icons/home.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={require("@/assets/icons/heart.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={require("@/assets/icons/menu.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-        <TouchableOpacity>
-          <Image
-            source={require("@/assets/icons/user.png")}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-      </View>
     </Animated.View>
   );
 };
