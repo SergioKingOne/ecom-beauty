@@ -50,8 +50,14 @@ const HomeScreen: React.FC = () => {
 
   const handleCategoryPress = (category: string) => {
     setSelectedCategory(category);
-    // Optionally, filter products based on the selected category here
   };
+
+  const filteredProducts =
+    selectedCategory === "All"
+      ? products
+      : products.filter(
+          (product) => product.category === selectedCategory.toLowerCase()
+        );
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
@@ -93,7 +99,7 @@ const HomeScreen: React.FC = () => {
         ))}
       </View>
       <FlatList
-        data={products}
+        data={filteredProducts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <ProductCard
@@ -106,42 +112,44 @@ const HomeScreen: React.FC = () => {
         numColumns={1}
         contentContainerStyle={styles.flatListContent}
         ListHeaderComponent={
-          <>
-            <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
-            <View style={styles.heroImageContainer}>
-              <Image
-                source={{
-                  uri: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/beauty-salon%2C-hair-salon%2C-beauty-parlor%2C-spa-design-template-b60f0b5ad0515a82992e75212468e144_screen.jpg?ts=1698336658",
-                }}
-                style={styles.heroImage}
-              />
-            </View>
-            <View style={styles.featuredSection}>
-              <Image
-                source={{
-                  uri: "https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740",
-                }}
-                style={styles.featuredImage}
-              />
-              <Image
-                source={{
-                  uri: "https://img.freepik.com/free-photo/3d-rendering-personal-care-products-fondant-pink_23-2151053857.jpg?t=st=1718250495~exp=1718254095~hmac=cbdf5cd9ed7b80146d5dbf401478df1ba7816101a18c1eb00211ffebb4acf9c6&w=1380",
-                }}
-                style={styles.featuredImage}
-              />
-              <Image
-                source={{
-                  uri: "https://img.freepik.com/free-photo/3d-rendering-personal-care-products-fondant-pink_23-2151053829.jpg?t=st=1718250592~exp=1718254192~hmac=b0e71aa6a5b5d18ddf2997d75a3beea8980b9497001596340a0a4aac27bfdacf&w=740",
-                }}
-                style={styles.featuredImage}
-              />
-            </View>
-            <Text style={styles.subTitle}>SKINCARE COMBO</Text>
-            <Text style={styles.description}>
-              Explore an unrivaled selection of makeup, skincare, hair,
-              fragrance & more from classic & emerging brands.
-            </Text>
-          </>
+          selectedCategory === "All" || selectedCategory === "Skincare" ? (
+            <>
+              <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
+              <View style={styles.heroImageContainer}>
+                <Image
+                  source={{
+                    uri: "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/beauty-salon%2C-hair-salon%2C-beauty-parlor%2C-spa-design-template-b60f0b5ad0515a82992e75212468e144_screen.jpg?ts=1698336658",
+                  }}
+                  style={styles.heroImage}
+                />
+              </View>
+              <View style={styles.featuredSection}>
+                <Image
+                  source={{
+                    uri: "https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740",
+                  }}
+                  style={styles.featuredImage}
+                />
+                <Image
+                  source={{
+                    uri: "https://img.freepik.com/free-photo/3d-rendering-personal-care-products-fondant-pink_23-2151053857.jpg?t=st=1718250495~exp=1718254095~hmac=cbdf5cd9ed7b80146d5dbf401478df1ba7816101a18c1eb00211ffebb4acf9c6&w=1380",
+                  }}
+                  style={styles.featuredImage}
+                />
+                <Image
+                  source={{
+                    uri: "https://img.freepik.com/free-photo/3d-rendering-personal-care-products-fondant-pink_23-2151053829.jpg?t=st=1718250592~exp=1718254192~hmac=b0e71aa6a5b5d18ddf2997d75a3beea8980b9497001596340a0a4aac27bfdacf&w=740",
+                  }}
+                  style={styles.featuredImage}
+                />
+              </View>
+              <Text style={styles.subTitle}>SKINCARE COMBO</Text>
+              <Text style={styles.description}>
+                Explore an unrivaled selection of makeup, skincare, hair,
+                fragrance & more from classic & emerging brands.
+              </Text>
+            </>
+          ) : null
         }
       />
     </Animated.View>
@@ -183,10 +191,11 @@ const styles = StyleSheet.create({
   categoryButton: {
     padding: 8,
     borderRadius: 20,
-    backgroundColor: "#f0f0f0",
+    borderWidth: 2,
+    borderColor: "transparent",
   },
   selectedCategoryButton: {
-    backgroundColor: "#131313",
+    borderColor: "#131313",
   },
   categoryText: {
     fontSize: 14,
@@ -194,7 +203,7 @@ const styles = StyleSheet.create({
     color: "#131313",
   },
   selectedCategoryText: {
-    color: "#ffffff",
+    color: "#131313",
   },
   sectionTitle: {
     fontSize: 48,
