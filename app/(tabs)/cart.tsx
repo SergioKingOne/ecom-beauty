@@ -5,7 +5,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
-  TextInput,
+  ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
@@ -67,54 +67,53 @@ const CartScreen: React.FC = () => {
         <Text style={styles.backButtonText}>←</Text>
       </TouchableOpacity>
       <Text style={styles.header}>CART</Text>
-      {cartItems.map((item) => (
-        <View key={item.id} style={styles.cartItem}>
-          <Image source={{ uri: item.image }} style={styles.image} />
-          <View style={styles.details}>
-            <Text style={styles.name}>{item.name}</Text>
-            <Text style={styles.description}>{item.description}</Text>
-            <Text style={styles.price}>{item.price}$</Text>
-            <View style={styles.quantityContainer}>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={() => handleQuantityChange(item.id, -1)}
-                disabled={item.quantity === 1}
-              >
-                <Text style={styles.quantityButtonText}>-</Text>
-              </TouchableOpacity>
-              <Text style={styles.quantity}>{item.quantity}</Text>
-              <TouchableOpacity
-                style={styles.quantityButton}
-                onPress={() => handleQuantityChange(item.id, 1)}
-              >
-                <Text style={styles.quantityButtonText}>+</Text>
-              </TouchableOpacity>
+      <ScrollView style={styles.cartItemsContainer}>
+        {cartItems.map((item) => (
+          <View key={item.id} style={styles.cartItem}>
+            <Image source={{ uri: item.image }} style={styles.image} />
+            <View style={styles.details}>
+              <Text style={styles.name}>{item.name}</Text>
+              <Text style={styles.description}>{item.description}</Text>
+              <View style={styles.priceContainer}>
+                <Text style={styles.price}>{item.price}$</Text>
+              </View>
+              <View style={styles.quantityContainer}>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={() => handleQuantityChange(item.id, -1)}
+                  disabled={item.quantity === 1}
+                >
+                  <Text style={styles.quantityButtonText}>-</Text>
+                </TouchableOpacity>
+                <Text style={styles.quantity}>{item.quantity}</Text>
+                <TouchableOpacity
+                  style={styles.quantityButton}
+                  onPress={() => handleQuantityChange(item.id, 1)}
+                >
+                  <Text style={styles.quantityButtonText}>+</Text>
+                </TouchableOpacity>
+              </View>
             </View>
+            <TouchableOpacity
+              style={styles.trashButton}
+              onPress={() => handleRemoveItem(item.id)}
+            >
+              <Image
+                source={require("@/assets/icons/trash-bin.png")}
+                style={styles.trashIcon}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.trashButton}
-            onPress={() => handleRemoveItem(item.id)}
-          >
-            <Image
-              source={require("@/assets/icons/trash-bin.png")}
-              style={styles.trashIcon}
-            />
-          </TouchableOpacity>
-        </View>
-      ))}
-      <View style={styles.promoContainer}>
-        <TextInput
-          style={styles.promoInput}
-          placeholder="Enter promo code"
-          value={promoCode}
-          onChangeText={setPromoCode}
-        />
+        ))}
         <TouchableOpacity style={styles.promoButton}>
-          <Text style={styles.promoButtonText}>→</Text>
+          <Text style={styles.promoButtonText}>Enter promo code</Text>
         </TouchableOpacity>
+      </ScrollView>
+
+      <View style={styles.totalContainer}>
+        <Text style={styles.totalPriceLabel}>Total price:</Text>
+        <Text style={styles.totalPrice}>{totalPrice}$</Text>
       </View>
-      <Text style={styles.totalPriceLabel}>Total price:</Text>
-      <Text style={styles.totalPrice}>{totalPrice}$</Text>
       <TouchableOpacity style={styles.payButton}>
         <Text style={styles.payButtonText}>Pay</Text>
       </TouchableOpacity>
@@ -126,7 +125,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fdfbfb",
-    padding: 16,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   backButton: {
     position: "absolute",
@@ -145,19 +145,22 @@ const styles = StyleSheet.create({
     color: "#131313",
     textAlign: "center",
     marginBottom: 16,
+    marginTop: 16,
+  },
+  cartItemsContainer: {
+    flex: 1,
   },
   cartItem: {
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     borderBottomColor: "#ececec",
-    paddingBottom: 16,
+    paddingBottom: 0,
   },
   image: {
-    width: 80,
-    height: 80,
-    borderRadius: 8,
+    width: 100,
+    height: 100,
   },
   details: {
     flex: 1,
@@ -165,7 +168,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   name: {
-    fontSize: 18,
+    fontSize: 20,
     fontFamily: "Glorious",
     color: "#131313",
   },
@@ -173,11 +176,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#818189",
   },
+  priceContainer: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+  },
   price: {
     fontSize: 16,
     fontFamily: "Glorious",
     color: "#131313",
-    marginTop: 8,
   },
   quantityContainer: {
     flexDirection: "row",
@@ -214,52 +223,38 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
   },
-  promoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+  promoButton: {
+    justifyContent: "center",
+    backgroundColor: "transparent",
+    height: 48,
+    marginVertical: 16,
     borderWidth: 1,
     borderColor: "#131313",
-    borderRadius: 8,
-    marginVertical: 16,
-    height: 48,
-  },
-  promoInput: {
-    flex: 1,
-    padding: 8,
-    fontFamily: "Glorious",
-    color: "#131313",
-    height: "100%",
-  },
-  promoButton: {
-    paddingHorizontal: 16,
-    justifyContent: "center",
-    backgroundColor: "#131313",
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-    height: "100%",
   },
   promoButtonText: {
-    color: "#fdfbfb",
-    fontFamily: "Glorious",
+    color: "#131313",
     fontSize: 18,
+    textAlign: "center",
+  },
+  totalContainer: {
+    marginBottom: 16,
   },
   totalPriceLabel: {
     fontSize: 18,
     color: "#818189",
     textAlign: "center",
-    marginVertical: 8,
   },
   totalPrice: {
     fontSize: 34,
     fontFamily: "Glorious",
     color: "#131313",
     textAlign: "center",
-    marginVertical: 8,
   },
   payButton: {
     backgroundColor: "#131313",
     padding: 16,
     borderRadius: 8,
+    marginBottom: 32,
   },
   payButtonText: {
     color: "#fdfbfb",
