@@ -63,7 +63,7 @@ const HomeScreen: React.FC = () => {
             style={styles.icon}
           />
         </TouchableOpacity>
-        <Text style={styles.logoText}>S'MODE</Text>
+        <Text style={styles.logoText}>D'SANDRA</Text>
         <TouchableOpacity>
           <Image
             source={require("@/assets/icons/shopping-bag.png")}
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     color: "#ffffff",
   },
   sectionTitle: {
-    fontSize: 24,
+    fontSize: 48,
     fontFamily: "Glorious",
     color: "#131313",
     paddingHorizontal: 16,
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   subTitle: {
-    fontSize: 20,
+    fontSize: 32,
     fontFamily: "Glorious",
     color: "#131313",
     paddingHorizontal: 16,
@@ -240,13 +240,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingTop: 8,
     lineHeight: 22,
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    alignItems: "center",
-    padding: 16,
-    backgroundColor: "#ffffff",
   },
 });
 
