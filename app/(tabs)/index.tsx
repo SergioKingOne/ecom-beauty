@@ -22,10 +22,13 @@ type RootStackParamList = {
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
 
+const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
+
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
   const [fadeAnim] = useState(new Animated.Value(0));
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
     const loadProducts = async () => {
@@ -44,6 +47,11 @@ const HomeScreen: React.FC = () => {
 
     loadProducts();
   }, [fadeAnim]);
+
+  const handleCategoryPress = (category: string) => {
+    setSelectedCategory(category);
+    // Optionally, filter products based on the selected category here
+  };
 
   return (
     <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
@@ -64,9 +72,23 @@ const HomeScreen: React.FC = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.categoryContainer}>
-        {["All", "Skincare", "Cosmetics", "Fragrance"].map((category) => (
-          <TouchableOpacity key={category} style={styles.categoryButton}>
-            <Text style={styles.categoryText}>{category}</Text>
+        {categories.map((category) => (
+          <TouchableOpacity
+            key={category}
+            style={[
+              styles.categoryButton,
+              selectedCategory === category && styles.selectedCategoryButton,
+            ]}
+            onPress={() => handleCategoryPress(category)}
+          >
+            <Text
+              style={[
+                styles.categoryText,
+                selectedCategory === category && styles.selectedCategoryText,
+              ]}
+            >
+              {category}
+            </Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -130,7 +152,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fdfbfb",
-    paddingTop: 20, // Added padding to the top
+    paddingTop: 40,
   },
   header: {
     flexDirection: "row",
@@ -163,10 +185,16 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#f0f0f0",
   },
+  selectedCategoryButton: {
+    backgroundColor: "#131313",
+  },
   categoryText: {
     fontSize: 14,
     fontFamily: "Glorious",
     color: "#131313",
+  },
+  selectedCategoryText: {
+    color: "#ffffff",
   },
   sectionTitle: {
     fontSize: 24,
