@@ -70,7 +70,6 @@ const HomeScreen: React.FC = () => {
           </TouchableOpacity>
         ))}
       </View>
-      <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
       <FlatList
         data={products}
         keyExtractor={(item) => item.id}
@@ -86,6 +85,7 @@ const HomeScreen: React.FC = () => {
         contentContainerStyle={styles.flatListContent}
         ListHeaderComponent={
           <>
+            <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
             <View style={styles.heroImageContainer}>
               <Image
                 source={{
