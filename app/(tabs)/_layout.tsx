@@ -34,7 +34,11 @@ function HomeStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
-      <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen
+        name="Cart"
+        component={CartScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }

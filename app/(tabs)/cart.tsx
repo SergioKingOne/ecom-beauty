@@ -130,12 +130,12 @@ const styles = StyleSheet.create({
   },
   backButton: {
     position: "absolute",
-    top: 16,
-    left: 16,
+    top: 34,
+    left: 34,
     zIndex: 1,
   },
   backButtonText: {
-    fontSize: 24,
+    fontSize: 48,
     fontFamily: "Glorious",
     color: "#131313",
   },
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     color: "#131313",
     textAlign: "center",
     marginBottom: 16,
-    marginTop: 16,
+    marginTop: 64,
   },
   cartItemsContainer: {
     flex: 1,
