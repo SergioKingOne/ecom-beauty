@@ -11,6 +11,7 @@ import ExploreScreen from "@/app/(tabs)/explore";
 import FavoritesScreen from "@/app/(tabs)/favorites";
 import MenuScreen from "@/app/(tabs)/menu";
 import UserProfileScreen from "@/app/(tabs)/user";
+import CartScreen from "@/app/(tabs)/cart";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProductDetailsScreen from "./ProductDetails";
 
@@ -19,6 +20,7 @@ const Tab = createBottomTabNavigator();
 type RootStackParamList = {
   Home: undefined;
   ProductDetails: { productId: string };
+  Cart: undefined;
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -32,6 +34,7 @@ function HomeStack() {
         options={{ headerShown: false }}
       />
       <Stack.Screen name="ProductDetails" component={ProductDetailsScreen} />
+      <Stack.Screen name="Cart" component={CartScreen} />
     </Stack.Navigator>
   );
 }
