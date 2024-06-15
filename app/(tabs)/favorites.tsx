@@ -1,15 +1,7 @@
 // app/(tabs)/favorites.tsx
 
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  StyleSheet,
-  FlatList,
-  View,
-  Animated,
-  TouchableOpacity,
-  Text,
-} from "react-native";
+import { StyleSheet, FlatList, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import ProductCard from "@/components/ProductCard";
 import { fetchFavoriteProducts } from "@/services/api";
@@ -26,28 +18,22 @@ type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
 export const Favorites: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [favorites, setFavorites] = useState<Product[]>([]);
-  const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
     const loadFavorites = async () => {
       try {
         const favoriteProducts = await fetchFavoriteProducts();
         setFavorites(favoriteProducts);
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-        }).start();
       } catch (error) {
         console.error("Error loading favorites:", error);
       }
     };
 
     loadFavorites();
-  }, [fadeAnim]);
+  }, []);
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>Favorites</Text>
       </View>
@@ -62,10 +48,11 @@ export const Favorites: React.FC = () => {
             }
           />
         )}
-        numColumns={1}
+        numColumns={2}
+        columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={styles.flatListContent}
       />
-    </Animated.View>
+    </View>
   );
 };
 
@@ -73,19 +60,52 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fdfbfb",
+    paddingTop: 40,
   },
   header: {
     paddingVertical: 16,
     alignItems: "center",
   },
   headerText: {
-    fontSize: 24,
+    fontSize: 28,
     fontFamily: "Glorious",
     color: "#131313",
   },
   flatListContent: {
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
     paddingBottom: 100,
+  },
+  columnWrapper: {
+    justifyContent: "space-between",
+    paddingVertical: 8,
+  },
+  productCard: {
+    flex: 1,
+    margin: 8,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    overflow: "hidden",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  productImage: {
+    width: "100%",
+    height: 150,
+  },
+  productInfo: {
+    padding: 10,
+  },
+  productName: {
+    fontFamily: "Glorious",
+    fontSize: 18,
+    color: "#131313",
+  },
+  productPrice: {
+    fontSize: 16,
+    color: "#f29c1d",
   },
 });
 
