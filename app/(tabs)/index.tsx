@@ -34,7 +34,10 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const productsData = await fetchProducts();
+        // Fetch products based on selected category
+        const productsData = await fetchProducts(
+          selectedCategory !== "All" ? selectedCategory : undefined
+        );
         setProducts(productsData);
         Animated.timing(fadeAnim, {
           toValue: 1,
@@ -47,7 +50,7 @@ const HomeScreen: React.FC = () => {
     };
 
     loadProducts();
-  }, [fadeAnim]);
+  }, [fadeAnim, selectedCategory]);
 
   const handleCategoryPress = (category: string) => {
     setSelectedCategory(category);
@@ -57,7 +60,8 @@ const HomeScreen: React.FC = () => {
     selectedCategory === "All"
       ? products
       : products.filter(
-          (product) => product.category === selectedCategory.toLowerCase()
+          (product) =>
+            product.category.toLowerCase() === selectedCategory.toLowerCase()
         );
 
   return (
@@ -101,7 +105,7 @@ const HomeScreen: React.FC = () => {
       </View>
       <FlatList
         data={filteredProducts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <ProductCard
             product={item}
@@ -113,7 +117,7 @@ const HomeScreen: React.FC = () => {
         numColumns={1}
         contentContainerStyle={styles.flatListContent}
         ListHeaderComponent={
-          selectedCategory === "All" || selectedCategory === "Skincare" ? (
+          selectedCategory === "All" ? (
             <>
               <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
               <View style={styles.heroImageContainer}>
