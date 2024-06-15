@@ -4,7 +4,6 @@ import {
   StyleSheet,
   FlatList,
   View,
-  Animated,
   TouchableOpacity,
   Text,
   StatusBar,
@@ -28,7 +27,6 @@ const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
-  const [fadeAnim] = useState(new Animated.Value(0));
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
@@ -36,18 +34,13 @@ const HomeScreen: React.FC = () => {
       try {
         const productsData = await fetchProducts();
         setProducts(productsData);
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-        }).start();
       } catch (error) {
         console.error("Error loading products:", error);
       }
     };
 
     loadProducts();
-  }, [fadeAnim]);
+  }, []);
 
   const handleCategoryPress = (category: string) => {
     setSelectedCategory(category);
@@ -61,7 +54,7 @@ const HomeScreen: React.FC = () => {
         );
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <View style={styles.header}>
         <TouchableOpacity>
@@ -153,7 +146,7 @@ const HomeScreen: React.FC = () => {
           ) : null
         }
       />
-    </Animated.View>
+    </View>
   );
 };
 
