@@ -18,6 +18,7 @@ import Colors from "@/constants/Colors";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
+  Cart: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
@@ -70,7 +71,7 @@ const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <Text style={styles.logoText}>D'SANDRA</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
           <Image
             source={require("@/assets/icons/shopping-bag.png")}
             style={styles.icon}
