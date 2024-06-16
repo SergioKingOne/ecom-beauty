@@ -5,16 +5,19 @@
       "name": "Product 1",
       "description": "This is product 1",
       "price": 50,
-      "image": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-      "category": "Skincare"
+      "image": "https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740",
+      "category": "Skincare",
+      "rating": "4.5",
+      "discountPrice": "40"
     },
     {
       "id": 2,
       "name": "Product 2",
       "description": "This is product 2",
       "price": 100,
-      "image": "https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png",
-      "category": "Cosmetics"
+      "image": "https://img.freepik.com/free-photo/3d-rendering-personal-care-products-fondant-pink_23-2151053857.jpg?t=st=1718250495~exp=1718254095~hmac=cbdf5cd9ed7b80146d5dbf401478df1ba7816101a18c1eb00211ffebb4acf9c6&w=1380",
+      "category": "Cosmetics",
+      "rating": "4.5"
     }
   ]
 }

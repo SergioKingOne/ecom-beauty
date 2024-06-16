@@ -4,12 +4,12 @@ import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import HomeScreen from "@/app/(tabs)/index";
 import ExploreScreen from "@/app/(tabs)/explore";
 import FavoritesScreen from "@/app/(tabs)/favorites";
-import MenuScreen from "@/app/(tabs)/menu";
+import ProductsScreen from "@/app/(tabs)/products";
 import UserProfileScreen from "@/app/(tabs)/user";
 import CartScreen from "@/app/(tabs)/cart";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -68,7 +68,7 @@ export default function App() {
             iconName = focused ? "search" : "search-outline";
           } else if (route.name === "Favorites") {
             iconName = focused ? "heart" : "heart-outline";
-          } else if (route.name === "Menu") {
+          } else if (route.name === "Products") {
             iconName = focused ? "grid" : "grid-outline";
           } else if (route.name === "User") {
             iconName = focused ? "person" : "person-outline";
@@ -91,7 +91,7 @@ export default function App() {
     >
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Menu" component={MenuScreen} />
+      <Tab.Screen name="Products" component={ProductsScreen} />
       <Tab.Screen name="User" component={UserProfileScreen} />
       {/* <Tab.Screen name="Explore" component={ExploreScreen} /> */}
     </Tab.Navigator>

@@ -13,7 +13,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { fetchProductDetails } from "@/services/api";
 import { Product } from "@/types/product";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
