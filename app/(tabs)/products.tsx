@@ -190,8 +190,8 @@ const styles = StyleSheet.create({
     left: 12,
     backgroundColor: Colors.orange,
     borderRadius: 24,
-    padding: 8,
-    paddingHorizontal: 12,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
   },
   discountText: {
     fontSize: 18,
@@ -256,10 +256,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   ratingCount: {
-    fontSize: 15,
+    fontSize: 12,
     fontFamily: "Glorious",
     color: "#818189",
     marginLeft: 8,
+    marginTop: 3,
   },
   loader: {
     flex: 1,
