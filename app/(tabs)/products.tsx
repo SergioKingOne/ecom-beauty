@@ -77,16 +77,29 @@ const Products: React.FC = () => {
               {renderStars(product.rating)}
               <Text style={styles.ratingCount}>({product.rating})</Text>
             </View>
-            <View style={styles.productInfo}>
+            <View>
               <Text style={styles.productBrand}>{product.category}</Text>
               <Text style={styles.productName}>{product.name}</Text>
               <View style={styles.priceContainer}>
-                {product.discountPrice && (
-                  <Text style={styles.discountPrice}>
-                    ${product.discountPrice}
-                  </Text>
-                )}
-                <Text style={styles.price}>${product.price}</Text>
+                <Text
+                  style={
+                    product.discountPrice &&
+                    parseFloat(product.discountPrice) > 0
+                      ? styles.noDiscountPrice
+                      : styles.price
+                  }
+                >
+                  ${product.price}
+                </Text>
+                {product.discountPrice &&
+                  parseFloat(product.discountPrice) > 0 && (
+                    <Text style={styles.discountPrice}>
+                      $
+                      {parseFloat(product.price) -
+                        parseFloat(product.price) *
+                          parseFloat(product.discountPrice)}
+                    </Text>
+                  )}
               </View>
             </View>
           </View>
@@ -157,96 +170,95 @@ const styles = StyleSheet.create({
   productCard: {
     width: "48%",
     backgroundColor: "transparent",
-    marginVertical: 8,
-    borderRadius: 8,
+    marginVertical: 12,
+    borderRadius: 12,
     shadowColor: "#000",
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 6 },
+    shadowRadius: 12,
     position: "relative",
   },
   productImage: {
     width: "100%",
-    height: 150,
-    borderRadius: 8,
+    height: 220,
+    borderRadius: 12,
   },
   discountBadge: {
     position: "absolute",
-    top: 8,
-    left: 8,
+    top: 12,
+    left: 12,
     backgroundColor: Colors.orange,
-    borderRadius: 4,
-    padding: 4,
+    borderRadius: 24,
+    padding: 8,
+    paddingHorizontal: 12,
   },
   discountText: {
-    fontSize: 12,
+    fontSize: 18,
     fontFamily: "Glorious",
     color: "#fff",
   },
   favoriteButton: {
     position: "absolute",
     right: 0,
-    bottom: -15,
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    bottom: -20,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "#fff",
-    // transparency
     opacity: 0.9,
     justifyContent: "center",
     alignItems: "center",
-    // iOS shadow properties
     shadowColor: "#000",
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 8,
-    // Android shadow property
-    elevation: 4,
-  },
-  productInfo: {
-    paddingTop: 8,
+    shadowOffset: { width: 0, height: 4 }, // Adjusted height
+    shadowRadius: 12,
+    elevation: 6,
   },
   productBrand: {
-    fontSize: 14,
-    fontFamily: "Glorious",
+    fontSize: 18,
     color: "#818189",
   },
   productName: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "Glorious",
     color: "#131313",
-    marginVertical: 4,
+    marginVertical: 8,
   },
   priceContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   discountPrice: {
-    fontSize: 14,
+    fontSize: 20,
+    fontFamily: "Glorious",
+    color: Colors.orange,
+  },
+  noDiscountPrice: {
+    fontSize: 18,
     fontFamily: "Glorious",
     color: "#818189",
     textDecorationLine: "line-through",
-    marginRight: 4,
+    marginRight: 8,
   },
   price: {
-    fontSize: 16,
+    fontSize: 20,
     fontFamily: "Glorious",
-    color: "#f29c1d",
+    color: "#131313",
+    marginRight: 8,
   },
   ratingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 4,
-    marginTop: 8,
+    marginTop: 12,
   },
   stars: {
     flexDirection: "row",
   },
   ratingCount: {
-    fontSize: 14,
+    fontSize: 15,
     fontFamily: "Glorious",
     color: "#818189",
-    marginLeft: 4,
+    marginLeft: 8,
   },
   loader: {
     flex: 1,
