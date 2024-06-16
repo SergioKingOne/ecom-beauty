@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 
 export const UserProfile: React.FC = () => {
   const navigation = useNavigation();
