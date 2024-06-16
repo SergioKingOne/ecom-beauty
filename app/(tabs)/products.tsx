@@ -16,9 +16,14 @@ import Colors from "@/constants/Colors";
 import { fetchAllProducts } from "@/services/api";
 import { Product } from "@/types/product";
 
+const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
+
 const Products: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedCategory, setSelectedCategory] = useState<string>(
+    categories[0]
+  );
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -45,7 +50,41 @@ const Products: React.FC = () => {
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.header}>Explore Catalog</Text>
+      <View style={styles.header}>
+        <Text style={styles.logoText}>EXPLORE CATALOG</Text>
+        <TouchableOpacity>
+          <Image
+            source={require("@/assets/icons/search.png")}
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+      </View>
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        style={styles.categoryScroll}
+      >
+        {categories.map((category) => (
+          <TouchableOpacity
+            key={category}
+            style={[
+              styles.categoryButton,
+              selectedCategory === category && styles.selectedCategoryButton,
+            ]}
+            onPress={() => setSelectedCategory(category)}
+          >
+            <Text
+              style={[
+                styles.categoryButtonText,
+                selectedCategory === category &&
+                  styles.selectedCategoryButtonText,
+              ]}
+            >
+              {category}
+            </Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
       <View style={styles.filters}>
         <TouchableOpacity style={styles.filterButton}>
           <Ionicons name="filter" size={16} color={Colors.black} />
@@ -138,29 +177,59 @@ const styles = StyleSheet.create({
     paddingTop: 40,
   },
   header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#ffffff",
+  },
+  icon: {
+    height: 24,
+    width: 24,
+    marginLeft: 16,
+  },
+  logoText: {
     fontSize: 24,
     fontFamily: "Glorious",
     color: "#131313",
-    paddingVertical: 16,
-    textAlign: "center",
+  },
+  categoryScroll: {
+    flexDirection: "row",
+    marginBottom: 10,
+  },
+  categoryButton: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    backgroundColor: "#e0e0e0",
+    marginHorizontal: 5,
+  },
+  selectedCategoryButton: {
+    backgroundColor: Colors.black,
+  },
+  categoryButtonText: {
+    fontSize: 16,
+    color: Colors.black,
+  },
+  selectedCategoryButtonText: {
+    color: "#fff",
   },
   filters: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 8,
+    marginHorizontal: 10,
+    marginBottom: 10,
   },
   filterButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: Colors.lightGray,
-    padding: 8,
-    borderRadius: 4,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
   },
   filterText: {
-    fontSize: 14,
-    fontFamily: "Glorious",
-    color: "#131313",
-    marginLeft: 4,
+    fontSize: 16,
+    marginLeft: 5,
   },
   productGrid: {
     flexDirection: "row",
