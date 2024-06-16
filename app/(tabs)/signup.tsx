@@ -12,6 +12,8 @@ import {
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { Ionicons } from "@expo/vector-icons";
+import Colors from "@/constants/Colors";
+import { useTheme } from "@react-navigation/native";
 
 const { width } = Dimensions.get("window");
 
@@ -25,9 +27,13 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
   }
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign up</Text>
+      {/* chevron-back-outline */}
+      <TouchableOpacity style={styles.backButton}>
+        <Ionicons name="chevron-back" size={30} color="black" />
+      </TouchableOpacity>
 
-      <View style={styles.inputContainer}>
+      <Text style={styles.title}>Sign up</Text>
+      <View>
         <TextInput
           style={styles.input}
           placeholder="Name"
@@ -45,11 +51,13 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
           placeholderTextColor="#818189"
         />
       </View>
-
+      <TouchableOpacity style={styles.signinContainer}>
+        <Text style={styles.signinText}>Already have an account? </Text>
+        <Text style={styles.signinLink}>Sign in</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.signupButton} onPress={onSignup}>
         <Text style={styles.signupButtonText}>SIGN UP</Text>
       </TouchableOpacity>
-
       <View style={styles.socialContainer}>
         <Text style={styles.socialText}>Or sign up with social account</Text>
         <View style={styles.socialButtons}>
@@ -61,11 +69,6 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
           </TouchableOpacity>
         </View>
       </View>
-
-      <TouchableOpacity style={styles.signinContainer}>
-        <Text style={styles.signinText}>Already have an account? </Text>
-        <Text style={styles.signinLink}>Sign in</Text>
-      </TouchableOpacity>
     </View>
   );
 }
@@ -73,59 +76,76 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 24,
     backgroundColor: "#fdfbfb",
+    paddingTop: 48,
+  },
+  backButton: {
+    marginBottom: 24,
   },
   title: {
     fontFamily: "Glorious",
-    fontSize: 32,
-    marginBottom: 20,
-  },
-  inputContainer: {
-    marginBottom: 20,
+    fontSize: 38,
+    marginBottom: 96,
   },
   input: {
-    backgroundColor: "#fdfbfb",
-    borderColor: "#818189",
-    borderWidth: 1,
-    borderRadius: 8,
-    padding: 10,
-    marginBottom: 15,
-    fontSize: 16,
+    backgroundColor: "white",
+    padding: 12,
+    paddingVertical: 18,
+    marginBottom: 18,
+    fontSize: 19,
+    borderRadius: 3,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.5,
+    elevation: 2,
   },
   signupButton: {
     backgroundColor: "#f29c1d",
-    borderRadius: 8,
-    paddingVertical: 15,
+    paddingVertical: 18,
     alignItems: "center",
+    marginTop: 24,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   signupButtonText: {
     color: "#fff",
-    fontSize: 18,
+    fontSize: 21,
     fontWeight: "bold",
   },
   socialContainer: {
-    marginTop: 30,
+    flex: 1,
+    justifyContent: "flex-end",
     alignItems: "center",
+    marginBottom: 36,
   },
   socialText: {
     color: "#818189",
-    marginBottom: 10,
+    marginTop: 12,
   },
   socialButtons: {
     flexDirection: "row",
+    marginTop: 24,
   },
   socialButton: {
-    marginHorizontal: 10,
+    marginHorizontal: 24,
+    padding: 6,
   },
   socialIcon: {
-    width: 40,
-    height: 40,
+    width: 48,
+    height: 48,
   },
   signinContainer: {
-    marginTop: 20,
+    marginTop: 12,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-end",
   },
   signinText: {
     color: "#818189",
