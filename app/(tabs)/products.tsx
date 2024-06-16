@@ -166,6 +166,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     justifyContent: "space-between",
+    marginBottom: 64,
   },
   productCard: {
     width: "48%",
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     shadowColor: "#000",
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 4 }, // Adjusted height
+    shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 6,
   },
