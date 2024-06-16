@@ -106,7 +106,7 @@ const styles = StyleSheet.create({
   },
   signupButton: {
     backgroundColor: "#f29c1d",
-    paddingVertical: 18,
+    paddingVertical: 16,
     alignItems: "center",
     marginTop: 24,
     shadowColor: "#000",
@@ -129,6 +129,7 @@ const styles = StyleSheet.create({
   socialText: {
     color: "#818189",
     marginTop: 12,
+    fontSize: 16,
   },
   socialButtons: {
     flexDirection: "row",
