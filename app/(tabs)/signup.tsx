@@ -86,7 +86,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "Glorious",
     fontSize: 38,
-    marginBottom: 96,
+    marginBottom: 80,
   },
   input: {
     backgroundColor: "white",
@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   },
   signinText: {
     color: "#818189",
+    fontSize: 16,
   },
   signinLink: {
     color: "#f29c1d",
