@@ -3,27 +3,21 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
 import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import Signup from "@/app/(tabs)/signup";
 import HomeScreen from "@/app/(tabs)/index";
 import ExploreScreen from "@/app/(tabs)/explore";
 import FavoritesScreen from "@/app/(tabs)/favorites";
 import ProductsScreen from "@/app/(tabs)/products";
 import UserProfileScreen from "@/app/(tabs)/user";
 import CartScreen from "@/app/(tabs)/cart";
-import { createStackNavigator } from "@react-navigation/stack";
-import ProductDetailsScreen from "./ProductDetails";
+import ProductDetailsScreen from "@/app/(tabs)/ProductDetails";
 
 const Tab = createBottomTabNavigator();
-
-type RootStackParamList = {
-  Home: undefined;
-  ProductDetails: { productId: string };
-  Cart: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 
 function HomeStack() {
   return (
@@ -43,17 +37,8 @@ function HomeStack() {
   );
 }
 
-export default function App() {
+function MainTabNavigator() {
   const colorScheme = useColorScheme();
-
-  let [fontsLoaded] = useFonts({
-    Glorious: require("@/assets/fonts/GLORIOUS.otf"),
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
   const safeColorScheme = colorScheme ?? "light";
 
   return (
@@ -93,7 +78,37 @@ export default function App() {
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Products" component={ProductsScreen} />
       <Tab.Screen name="User" component={UserProfileScreen} />
-      {/* <Tab.Screen name="Explore" component={ExploreScreen} /> */}
     </Tab.Navigator>
   );
 }
+
+function App() {
+  const [fontsLoaded] = useFonts({
+    Glorious: require("@/assets/fonts/GLORIOUS.otf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Main"
+        component={MainTabNavigator}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function SignupScreen({ navigation }: { navigation: any }) {
+  return <Signup onSignup={() => navigation.replace("Main")} />;
+}
+
+export default App;

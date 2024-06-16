@@ -24,6 +24,7 @@ export default {
   orange: "#f29c1d",
   white: "#fdfbfb",
   lightGray: "#e0e0e0",
+  background: "#ffffff",
 };
 
 export { Colors };
