@@ -20,7 +20,9 @@ export const UserProfile: React.FC = () => {
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={{ uri: "https://example.com/profile-pic.jpg" }} // Replace with actual profile pic URL
+          source={{
+            uri: "https://media.licdn.com/dms/image/D4E03AQF_JeoJnLFjWw/profile-displayphoto-shrink_800_800/0/1714257893682?e=1724284800&v=beta&t=Iyhj90I621uKj5-KI28TOP7Ce-clMl56n-poAKm4gM4",
+          }}
           style={styles.profilePic}
         />
         <Text style={styles.name}>John Doe</Text>
@@ -72,6 +74,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fdfbfb",
+    paddingTop: 40,
   },
   header: {
     alignItems: "center",
