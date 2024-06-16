@@ -1,7 +1,6 @@
 import React from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
@@ -9,12 +8,11 @@ import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import Signup from "@/app/(tabs)/signup";
 import HomeScreen from "@/app/(tabs)/index";
-import ExploreScreen from "@/app/(tabs)/explore";
 import FavoritesScreen from "@/app/(tabs)/favorites";
 import ProductsScreen from "@/app/(tabs)/products";
 import UserProfileScreen from "@/app/(tabs)/user";
 import CartScreen from "@/app/(tabs)/cart";
-import ProductDetailsScreen from "@/app/(tabs)/ProductDetails";
+import ProductDetailsScreen from "@/components/ProductDetails";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
