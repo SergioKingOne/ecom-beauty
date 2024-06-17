@@ -14,6 +14,9 @@ import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Colors from "@/constants/Colors";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedIcon } from "@/components/ThemedIcon";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -60,21 +63,21 @@ const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
+      <ThemedView style={styles.header}>
         <TouchableOpacity>
-          <Image
+          <ThemedIcon
             source={require("@/assets/icons/search.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
-        <Text style={styles.logoText}>D'SANDRA</Text>
+        <ThemedText style={styles.logoText}>D'SANDRA</ThemedText>
         <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-          <Image
+          <ThemedIcon
             source={require("@/assets/icons/shopping-bag.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
-      </View>
+      </ThemedView>
       <View style={styles.categoryContainer}>
         {categories.map((category) => (
           <TouchableOpacity
@@ -165,12 +168,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#ffffff",
   },
   logoText: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   headerIcons: {
     flexDirection: "row",
