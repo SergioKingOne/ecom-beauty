@@ -1,5 +1,3 @@
-// app/(tabs)/favorites.tsx
-
 import React, { useEffect, useState } from "react";
 import { StyleSheet, FlatList, View, Text } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -7,7 +5,8 @@ import ProductCard from "@/components/ProductCard";
 import { fetchFavoriteProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Colors from "@/constants/Colors";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -33,9 +32,9 @@ export const Favorites: React.FC = () => {
   }, []);
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>Favorites</Text>
+        <ThemedText style={styles.headerText}>Favorites</ThemedText>
       </View>
       <FlatList
         data={favorites}
@@ -52,14 +51,13 @@ export const Favorites: React.FC = () => {
         columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={styles.flatListContent}
       />
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
   header: {
@@ -69,7 +67,6 @@ const styles = StyleSheet.create({
   headerText: {
     fontSize: 28,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   flatListContent: {
     paddingHorizontal: 8,
