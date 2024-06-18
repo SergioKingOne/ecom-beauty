@@ -22,8 +22,5 @@ export function ThemedView(props: ViewProps) {
 }
 
 const styles = StyleSheet.create({
-  default: {
-    flex: 1,
-    padding: 16,
-  },
+  default: {},
 });
