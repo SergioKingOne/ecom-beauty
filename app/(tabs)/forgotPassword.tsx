@@ -39,38 +39,19 @@ export default function ForgotPassword({
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
 
-      <ThemedText style={styles.title}>Login</ThemedText>
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#818189"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          placeholderTextColor="#818189"
-        />
-      </View>
-      <TouchableOpacity style={styles.signinContainer}>
-        <Text style={styles.signinText}>Forgot your password? </Text>
-        <Text style={styles.signinLink}>Reset it</Text>
-      </TouchableOpacity>
+      <ThemedText style={styles.title}>Forgot password</ThemedText>
+      <ThemedText>
+        Please, enter your email address. You will receive a link to create a
+        new password
+      </ThemedText>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        placeholderTextColor="#818189"
+      />
       <TouchableOpacity style={styles.signupButton} onPress={onForgotPassword}>
         <Text style={styles.signupButtonText}>SIGN IN</Text>
       </TouchableOpacity>
-      <View style={styles.socialContainer}>
-        <Text style={styles.socialText}>Or sign in with social account</Text>
-        <View style={styles.socialButtons}>
-          <TouchableOpacity style={styles.socialButton}>
-            <ThemedIcon name="logo-google" size={30} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
-            <ThemedIcon name="logo-facebook" size={30} />
-          </TouchableOpacity>
-        </View>
-      </View>
     </ThemedView>
   );
 }
@@ -93,7 +74,8 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 12,
     paddingVertical: 18,
-    marginBottom: 18,
+    marginBottom: 60,
+    marginTop: 18,
     fontSize: 19,
     borderRadius: 3,
     shadowColor: "#000",

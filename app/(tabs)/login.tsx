@@ -15,9 +15,16 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+export type RootStackParamList = {
+  ForgotPassword: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "ForgotPassword">;
 
 export default function Login({ onLogin }: { onLogin: () => void }) {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),
@@ -49,7 +56,10 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           placeholderTextColor="#818189"
         />
       </View>
-      <TouchableOpacity style={styles.signinContainer}>
+      <TouchableOpacity
+        style={styles.signinContainer}
+        onPress={() => navigation.navigate("ForgotPassword")}
+      >
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>
       </TouchableOpacity>

@@ -29,7 +29,6 @@ export function ThemedText(
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
-    fontFamily: "Glorious",
   },
   defaultSemiBold: {
     fontSize: 16,
