@@ -17,6 +17,7 @@ import Colors from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedIcon } from "@/components/ThemedIcon";
+import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -61,7 +62,7 @@ const HomeScreen: React.FC = () => {
         );
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <StatusBar barStyle="dark-content" />
       <ThemedView style={styles.header}>
         <TouchableOpacity>
@@ -78,27 +79,16 @@ const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
       </ThemedView>
-      <View style={styles.categoryContainer}>
+      <ThemedView style={styles.categoryContainer}>
         {categories.map((category) => (
-          <TouchableOpacity
+          <ThemedCategoryButton
             key={category}
-            style={[
-              styles.categoryButton,
-              selectedCategory === category && styles.selectedCategoryButton,
-            ]}
-            onPress={() => handleCategoryPress(category)}
-          >
-            <Text
-              style={[
-                styles.categoryText,
-                selectedCategory === category && styles.selectedCategoryText,
-              ]}
-            >
-              {category}
-            </Text>
-          </TouchableOpacity>
+            category={category}
+            selectedCategory={selectedCategory}
+            handleCategoryPress={handleCategoryPress}
+          />
         ))}
-      </View>
+      </ThemedView>
       <FlatList
         data={filteredProducts}
         keyExtractor={(item) => item.id.toString()}
@@ -115,7 +105,7 @@ const HomeScreen: React.FC = () => {
         ListHeaderComponent={
           selectedCategory === "All" ? (
             <>
-              <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
+              <ThemedText style={styles.sectionTitle}>WHAT'S NEW?</ThemedText>
               <View style={styles.heroImageContainer}>
                 <Image
                   source={{
@@ -153,14 +143,13 @@ const HomeScreen: React.FC = () => {
           ) : null
         }
       />
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
   header: {
@@ -185,7 +174,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 8,
-    backgroundColor: "#ffffff",
   },
   categoryButton: {
     padding: 8,
@@ -199,15 +187,11 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     fontFamily: "Glorious",
-    color: "#131313",
   },
-  selectedCategoryText: {
-    color: "#131313",
-  },
+  selectedCategoryText: {},
   sectionTitle: {
     fontSize: 48,
     fontFamily: "Glorious",
-    color: "#131313",
     paddingHorizontal: 16,
     paddingTop: 16,
   },

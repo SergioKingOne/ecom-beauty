@@ -1,5 +1,3 @@
-// icon
-
 import React from "react";
 import { Image, ImageProps } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
