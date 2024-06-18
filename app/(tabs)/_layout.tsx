@@ -15,6 +15,7 @@ import CartScreen from "@/app/(tabs)/cart";
 import ProductDetailsScreen from "@/components/ProductDetails";
 import Login from "@/app/(tabs)/login";
 import ForgotPassword from "@/app/(tabs)/forgotPassword";
+import ProductsNavigatorScreen from "@/app/(tabs)/ProductsNavigator";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -76,7 +77,7 @@ function MainTabNavigator() {
     >
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Products" component={ProductsScreen} />
+      <Tab.Screen name="Products" component={ProductsNavigatorScreen} />
       <Tab.Screen name="User" component={UserProfileScreen} />
     </Tab.Navigator>
   );

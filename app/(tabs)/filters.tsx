@@ -23,8 +23,8 @@ const FiltersScreen = () => {
       <ScrollView>
         <Text style={styles.header}>Filters</Text>
 
+        <Text style={styles.subHeader}>Price range</Text>
         <View style={styles.section}>
-          <Text style={styles.subHeader}>Price range</Text>
           <View style={styles.sliderContainer}>
             <Text style={styles.price}>${priceRange[0]}</Text>
             <Slider
@@ -47,8 +47,8 @@ const FiltersScreen = () => {
           </View>
         </View>
 
+        <Text style={styles.subHeader}>Colors</Text>
         <View style={styles.section}>
-          <Text style={styles.subHeader}>Colors</Text>
           <View style={styles.optionsContainer}>
             {colors.map((color, index) => (
               <TouchableOpacity
@@ -64,8 +64,8 @@ const FiltersScreen = () => {
           </View>
         </View>
 
+        <Text style={styles.subHeader}>Sizes</Text>
         <View style={styles.section}>
-          <Text style={styles.subHeader}>Sizes</Text>
           <View style={styles.optionsContainer}>
             {sizes.map((size, index) => (
               <TouchableOpacity
@@ -82,8 +82,8 @@ const FiltersScreen = () => {
           </View>
         </View>
 
+        <Text style={styles.subHeader}>Category</Text>
         <View style={styles.section}>
-          <Text style={styles.subHeader}>Category</Text>
           <View style={styles.optionsContainer}>
             {categories.map((category, index) => (
               <TouchableOpacity
@@ -118,6 +118,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fdfbfb",
+    paddingTop: 48,
   },
   header: {
     fontSize: 24,
@@ -127,10 +128,19 @@ const styles = StyleSheet.create({
   },
   section: {
     marginBottom: 24,
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.5,
+    elevation: 2,
+    paddingVertical: 32,
   },
   subHeader: {
     fontSize: 18,
-    fontFamily: "Glorious",
     color: "#131313",
     marginBottom: 8,
   },

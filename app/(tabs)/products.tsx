@@ -14,10 +14,20 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { fetchAllProducts } from "@/services/api";
 import { Product } from "@/types/product";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import ProductsNavigator from "@/app/(tabs)/ProductsNavigator";
+
+export type RootStackParamList = {
+  Filter: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "Filter">;
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 const Products: React.FC = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState<string>(
@@ -85,7 +95,10 @@ const Products: React.FC = () => {
         ))}
       </ScrollView>
       <View style={styles.filters}>
-        <TouchableOpacity style={styles.filterButton}>
+        <TouchableOpacity
+          style={styles.filterButton}
+          onPress={() => navigation.navigate("Filter")}
+        >
           <Ionicons name="filter" size={16} color={Colors.black} />
           <Text style={styles.filterText}>Filters</Text>
         </TouchableOpacity>
