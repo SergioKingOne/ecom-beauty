@@ -13,7 +13,9 @@ import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import { useTheme } from "@react-navigation/native";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedIcon } from "@/components/ThemedIcon";
+import { ThemedText } from "@/components/ThemedText";
 
 const { width } = Dimensions.get("window");
 
@@ -26,13 +28,13 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
     return <AppLoading />;
   }
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       {/* chevron-back-outline */}
       <TouchableOpacity style={styles.backButton}>
-        <Ionicons name="chevron-back" size={30} color="black" />
+        <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Sign up</Text>
+      <ThemedText style={styles.title}>Sign up</ThemedText>
       <View>
         <TextInput
           style={styles.input}
@@ -62,14 +64,14 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
         <Text style={styles.socialText}>Or sign up with social account</Text>
         <View style={styles.socialButtons}>
           <TouchableOpacity style={styles.socialButton}>
-            <Ionicons name="logo-google" size={30} color="black" />
+            <ThemedIcon name="logo-google" size={30} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.socialButton}>
-            <Ionicons name="logo-facebook" size={30} color="black" />
+            <ThemedIcon name="logo-facebook" size={30} />
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </ThemedView>
   );
 }
 
@@ -77,7 +79,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: "#fdfbfb",
     paddingTop: 48,
   },
   backButton: {

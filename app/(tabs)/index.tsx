@@ -16,8 +16,8 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import Colors from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
+import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -66,14 +66,14 @@ const HomeScreen: React.FC = () => {
       <StatusBar barStyle="dark-content" />
       <ThemedView style={styles.header}>
         <TouchableOpacity>
-          <ThemedIcon
+          <ThemedImageIcon
             source={require("@/assets/icons/search.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
         <ThemedText style={styles.logoText}>D'SANDRA</ThemedText>
         <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-          <ThemedIcon
+          <ThemedImageIcon
             source={require("@/assets/icons/shopping-bag.png")}
             style={styles.icon}
           />
