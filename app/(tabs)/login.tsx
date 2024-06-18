@@ -5,6 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Image,
+  Dimensions,
+  Button,
 } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -15,12 +18,12 @@ import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {
-  Login: undefined;
+  ForgotPassword: undefined;
 };
 
-type NavigationProp = StackNavigationProp<RootStackParamList, "Login">;
+type NavigationProp = StackNavigationProp<RootStackParamList, "ForgotPassword">;
 
-export default function Signup({ onSignup }: { onSignup: () => void }) {
+export default function Login({ onLogin }: { onLogin: () => void }) {
   const navigation = useNavigation<NavigationProp>();
 
   const [fontsLoaded] = useFonts({
@@ -32,17 +35,15 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
   }
   return (
     <ThemedView style={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
 
-      <ThemedText style={styles.title}>Sign up</ThemedText>
+      <ThemedText style={styles.title}>Login</ThemedText>
       <View>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor="#818189"
-        />
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -57,16 +58,16 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
       </View>
       <TouchableOpacity
         style={styles.signinContainer}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => navigation.navigate("ForgotPassword")}
       >
-        <Text style={styles.signinText}>Already have an account? </Text>
-        <Text style={styles.signinLink}>Sign in</Text>
+        <Text style={styles.signinText}>Forgot your password? </Text>
+        <Text style={styles.signinLink}>Reset it</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onSignup}>
-        <Text style={styles.signupButtonText}>SIGN UP</Text>
+      <TouchableOpacity style={styles.signupButton} onPress={onLogin}>
+        <Text style={styles.signupButtonText}>SIGN IN</Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>
-        <Text style={styles.socialText}>Or sign up with social account</Text>
+        <Text style={styles.socialText}>Or sign in with social account</Text>
         <View style={styles.socialButtons}>
           <TouchableOpacity style={styles.socialButton}>
             <ThemedIcon name="logo-google" size={30} />

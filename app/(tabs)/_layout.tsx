@@ -13,6 +13,8 @@ import ProductsScreen from "@/app/(tabs)/products";
 import UserProfileScreen from "@/app/(tabs)/user";
 import CartScreen from "@/app/(tabs)/cart";
 import ProductDetailsScreen from "@/components/ProductDetails";
+import Login from "@/app/(tabs)/login";
+import ForgotPassword from "@/app/(tabs)/forgotPassword";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -97,6 +99,16 @@ function App() {
         options={{ headerShown: false }}
       />
       <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
         name="Main"
         component={MainTabNavigator}
         options={{ headerShown: false }}
@@ -107,6 +119,14 @@ function App() {
 
 function SignupScreen({ navigation }: { navigation: any }) {
   return <Signup onSignup={() => navigation.replace("Main")} />;
+}
+
+function LoginScreen({ navigation }: { navigation: any }) {
+  return <Login onLogin={() => navigation.replace("Main")} />;
+}
+
+function ForgotPasswordScreen({ navigation }: { navigation: any }) {
+  return <ForgotPassword onForgotPassword={() => navigation.replace("Main")} />;
 }
 
 export default App;
