@@ -10,6 +10,8 @@ import Slider from "@react-native-community/slider";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useNavigation } from "@react-navigation/native";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
 
 export type RootStackParamList = {
   Products: undefined;
@@ -29,14 +31,14 @@ const FiltersScreen = () => {
   const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.goBack()}
       >
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
-      <Text style={styles.header}>Filters</Text>
+      <ThemedText style={styles.header}>Filters</ThemedText>
       <ScrollView>
         <Text style={styles.subHeader}>Price range</Text>
         <View style={styles.section}>
@@ -124,30 +126,28 @@ const FiltersScreen = () => {
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 90,
   },
   header: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
     marginBottom: 16,
     position: "absolute",
     top: 40,
-    left: 16,
-    backgroundColor: "#fdfbfb",
+    left: 60,
   },
   backButton: {
-    position: "relative",
+    position: "absolute",
     top: 40,
-    left: 40,
+    left: 16,
+    zIndex: 1,
   },
   section: {
     marginBottom: 24,
