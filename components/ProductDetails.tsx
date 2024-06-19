@@ -9,11 +9,11 @@ import {
   ActivityIndicator,
 } from "react-native";
 import { useRoute, RouteProp } from "@react-navigation/native";
-import { fetchProductDetails } from "@/services/api";
+import { fetchAllProducts, fetchProductDetails } from "@/services/api";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Product } from "@/types/product";
-import { Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { ThemedIcon } from "./ThemedIcon";
 
 export type RootStackParamList = {
@@ -42,11 +42,74 @@ const ListItem = ({ label }: { label: string }) => (
   </TouchableOpacity>
 );
 
+const ProductSuggestion = ({ product }: { product: any }) => (
+  <View style={styles.productCard}>
+    <View style={styles.discountContainer}>
+      {product.discount && (
+        <View style={styles.discountBadge}>
+          <Text style={styles.discountText}>{product.discount}</Text>
+        </View>
+      )}
+      {product.new && (
+        <View style={styles.newBadge}>
+          <Text style={styles.newText}>NEW</Text>
+        </View>
+      )}
+    </View>
+    <Image
+      source={{ uri: product.image }}
+      style={styles.suggestionProductImage}
+    />
+    <View style={styles.infoContainer}>
+      <Text style={styles.brand}>{product.brand}</Text>
+      <Text style={styles.productName}>{product.name}</Text>
+      <View style={styles.priceContainer}>
+        {product.oldPrice && (
+          <Text style={styles.oldPrice}>{product.oldPrice}</Text>
+        )}
+        <Text style={styles.suggestionPrice}>{product.price}</Text>
+      </View>
+      <View style={styles.ratingContainer}>
+        {Array(5)
+          .fill(0)
+          .map((_, index) => (
+            <FontAwesome
+              key={index}
+              name="star"
+              size={16}
+              color={index < product.rating ? "#FFA41C" : "#ccc"}
+            />
+          ))}
+        <Text style={styles.suggestionReviewCount}>({product.reviews})</Text>
+      </View>
+    </View>
+    <TouchableOpacity style={styles.favoriteButton}>
+      <Ionicons name="heart-outline" size={24} color="#000" />
+    </TouchableOpacity>
+  </View>
+);
+
 const ProductDetailsScreen: React.FC = () => {
   const route = useRoute<ProductDetailsRouteProp>();
   const { productId } = route.params;
   const [product, setProduct] = useState<Product | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const products = await fetchAllProducts();
+        setProducts(products);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
     const loadProductDetails = async () => {
@@ -126,8 +189,10 @@ const ProductDetailsScreen: React.FC = () => {
       </View>
       <View style={styles.suggestionsContainer}>
         <Text style={styles.suggestionsTitle}>You can also like this</Text>
-        <ScrollView horizontal>
-          {/* Render suggested products here */}
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          {products.map((product, index) => (
+            <ProductSuggestion key={index} product={product} />
+          ))}
         </ScrollView>
       </View>
     </ScrollView>
@@ -281,9 +346,108 @@ const styles = StyleSheet.create({
   },
   suggestionsTitle: {
     fontSize: 18,
-    fontFamily: "Glorious", // Ensure this font is properly linked in your project
+    fontFamily: "Glorious",
     color: "#131313",
     marginBottom: 10,
+  },
+  suggestionContainer: {
+    padding: 10,
+  },
+  suggestionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  productCard: {
+    width: 150,
+    marginRight: 10,
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 2,
+  },
+  discountContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  discountBadge: {
+    backgroundColor: "red",
+    borderRadius: 5,
+    padding: 5,
+  },
+  discountText: {
+    color: "#fff",
+    fontSize: 12,
+  },
+  newBadge: {
+    backgroundColor: "black",
+    borderRadius: 5,
+    padding: 5,
+  },
+  newText: {
+    color: "#fff",
+    fontSize: 12,
+  },
+  suggestionProductImage: {
+    width: "100%",
+    height: 100,
+    resizeMode: "cover",
+    borderRadius: 5,
+    marginVertical: 10,
+  },
+  infoContainer: {
+    alignItems: "flex-start",
+  },
+  brand: {
+    fontSize: 12,
+    color: "#888",
+  },
+  productName: {
+    fontSize: 14,
+    fontWeight: "bold",
+    marginVertical: 5,
+  },
+  priceContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  oldPrice: {
+    fontSize: 12,
+    color: "#888",
+    textDecorationLine: "line-through",
+    marginRight: 5,
+  },
+  suggestionPrice: {
+    fontSize: 14,
+    fontWeight: "bold",
+    color: "#000",
+  },
+  ratingContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 5,
+  },
+  suggestionReviewCount: {
+    fontSize: 12,
+    color: "#888",
+    marginLeft: 5,
+  },
+  favoriteButton: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    elevation: 2,
   },
 });
 
