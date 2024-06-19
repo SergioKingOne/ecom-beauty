@@ -35,6 +35,13 @@ const DropdownButton = ({
   </TouchableOpacity>
 );
 
+const ListItem = ({ label }: { label: string }) => (
+  <TouchableOpacity style={styles.listItem}>
+    <Text style={styles.listItemText}>{label}</Text>
+    <Ionicons name="chevron-forward" size={20} />
+  </TouchableOpacity>
+);
+
 const ProductDetailsScreen: React.FC = () => {
   const route = useRoute<ProductDetailsRouteProp>();
   const { productId } = route.params;
@@ -112,6 +119,10 @@ const ProductDetailsScreen: React.FC = () => {
         <TouchableOpacity style={styles.addButton}>
           <Text style={styles.addButtonText}>ADD TO CART</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.container}>
+        <ListItem label="Shipping info" />
+        <ListItem label="Support" />
       </View>
       <View style={styles.suggestionsContainer}>
         <Text style={styles.suggestionsTitle}>You can also like this</Text>
@@ -250,6 +261,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 1.5,
     elevation: 2,
+  },
+  listItem: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: "#eee",
+  },
+  listItemText: {
+    fontSize: 16,
+    color: "#000",
   },
   suggestionsContainer: {
     paddingHorizontal: 20,
