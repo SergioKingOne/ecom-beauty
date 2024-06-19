@@ -37,7 +37,6 @@ const FiltersScreen = () => {
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
       <Text style={styles.header}>Filters</Text>
-
       <ScrollView>
         <Text style={styles.subHeader}>Price range</Text>
         <View style={styles.section}>
@@ -162,6 +161,7 @@ const styles = StyleSheet.create({
     shadowRadius: 1.5,
     elevation: 2,
     paddingVertical: 32,
+    paddingHorizontal: 16,
   },
   subHeader: {
     fontSize: 18,
@@ -244,6 +244,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 60,
     borderRadius: 4,
     backgroundColor: "#f29c1d",
+    // shadow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.23,
+    shadowRadius: 2.62,
+    elevation: 4,
   },
   buttonText: {
     color: "#fdfbfb",
