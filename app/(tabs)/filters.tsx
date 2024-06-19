@@ -7,8 +7,18 @@ import {
   StyleSheet,
 } from "react-native";
 import Slider from "@react-native-community/slider";
+import { ThemedIcon } from "@/components/ThemedIcon";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+
+export type RootStackParamList = {
+  Products: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "Products">;
 
 const FiltersScreen = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [priceRange, setPriceRange] = useState([78, 143]);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
@@ -20,9 +30,15 @@ const FiltersScreen = () => {
 
   return (
     <View style={styles.container}>
-      <ScrollView>
-        <Text style={styles.header}>Filters</Text>
+      <TouchableOpacity
+        style={styles.backButton}
+        onPress={() => navigation.goBack()}
+      >
+        <ThemedIcon name="chevron-back" size={32} />
+      </TouchableOpacity>
+      <Text style={styles.header}>Filters</Text>
 
+      <ScrollView>
         <Text style={styles.subHeader}>Price range</Text>
         <View style={styles.section}>
           <View style={styles.sliderContainer}>
@@ -116,15 +132,23 @@ const FiltersScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
     backgroundColor: "#fdfbfb",
-    paddingTop: 48,
+    paddingTop: 90,
   },
   header: {
     fontSize: 24,
     fontFamily: "Glorious",
     color: "#131313",
     marginBottom: 16,
+    position: "absolute",
+    top: 40,
+    left: 16,
+    backgroundColor: "#fdfbfb",
+  },
+  backButton: {
+    position: "relative",
+    top: 40,
+    left: 40,
   },
   section: {
     marginBottom: 24,
@@ -143,6 +167,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#131313",
     marginBottom: 8,
+    marginLeft: 16,
   },
   sliderContainer: {
     flexDirection: "row",
@@ -196,15 +221,27 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    backgroundColor: "white",
+    padding: 16,
     marginTop: 16,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 4,
   },
   discardButton: {
     padding: 16,
+    paddingHorizontal: 48,
     borderRadius: 4,
     backgroundColor: "#818189",
   },
   applyButton: {
     padding: 16,
+    paddingHorizontal: 60,
     borderRadius: 4,
     backgroundColor: "#f29c1d",
   },
