@@ -103,10 +103,7 @@ const ProductDetailsScreen: React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.imageContainer}>
-        <Image
-          source={{ uri: product.image }} // Ensure this path points to the correct image URI
-          style={styles.productImage}
-        />
+        <Image source={{ uri: product.image }} style={styles.productImage} />
         <View style={styles.containerOptions}>
           <DropdownButton label="Size" style={styles.sizeButton} />
           <DropdownButton label="Black" />
@@ -145,7 +142,7 @@ const ProductDetailsScreen: React.FC = () => {
         <ListItem label="Shipping info" />
         <ListItem label="Support" />
       </View>
-      <View>
+      <View style={styles.suggestionsContainer}>
         <Text style={styles.suggestionTitle}>You may also like this</Text>
         <ScrollView
           horizontal
@@ -248,7 +245,6 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     alignItems: "center",
-    marginVertical: 20,
   },
   productImage: {
     width: "90%",
@@ -310,8 +306,7 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   suggestionsContainer: {
-    paddingHorizontal: 20,
-    marginVertical: 20,
+    marginBottom: 40,
   },
   suggestionsTitle: {
     fontSize: 18,
