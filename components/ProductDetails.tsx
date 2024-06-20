@@ -14,9 +14,10 @@ import { fetchAllProducts, fetchProductDetails } from "@/services/api";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Product } from "@/types/product";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { Ionicons } from "@expo/vector-icons";
 import { ThemedIcon } from "./ThemedIcon";
 import { ProductCard } from "@/app/(tabs)/products";
+import ThemedScrollView from "./ThemedScrollView";
 
 export type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -32,15 +33,15 @@ const DropdownButton = ({
   style?: object;
 }) => (
   <TouchableOpacity style={[styles.button, style]}>
-    <Text style={styles.buttonText}>{label}</Text>
-    <Ionicons name="chevron-down" size={16} color="#000" />
+    <ThemedText style={styles.buttonText}>{label}</ThemedText>
+    <ThemedIcon name="chevron-down" size={16} />
   </TouchableOpacity>
 );
 
 const ListItem = ({ label }: { label: string }) => (
   <TouchableOpacity style={styles.listItem}>
-    <Text style={styles.listItemText}>{label}</Text>
-    <Ionicons name="chevron-forward" size={20} />
+    <ThemedText style={styles.listItemText}>{label}</ThemedText>
+    <ThemedIcon name="chevron-forward" size={20} />
   </TouchableOpacity>
 );
 
@@ -101,22 +102,22 @@ const ProductDetailsScreen: React.FC = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ThemedScrollView style={styles.container}>
       <View style={styles.imageContainer}>
         <Image source={{ uri: product.image }} style={styles.productImage} />
-        <View style={styles.containerOptions}>
+        <ThemedView style={styles.containerOptions}>
           <DropdownButton label="Size" style={styles.sizeButton} />
           <DropdownButton label="Black" />
           <TouchableOpacity style={styles.iconButton}>
             <ThemedIcon name="heart-outline" size={24} />
           </TouchableOpacity>
-        </View>
+        </ThemedView>
       </View>
       <View style={styles.detailsContainer}>
         <View style={styles.container}>
           <View style={styles.header}>
-            <Text style={styles.title}>{product.name}</Text>
-            <Text style={styles.price}>${product.price}</Text>
+            <ThemedText style={styles.title}>{product.name}</ThemedText>
+            <ThemedText style={styles.price}>${product.price}</ThemedText>
           </View>
           <Text style={styles.description}>{product.description}</Text>
           <View style={styles.rating}>
@@ -143,7 +144,9 @@ const ProductDetailsScreen: React.FC = () => {
         <ListItem label="Support" />
       </View>
       <View style={styles.suggestionsContainer}>
-        <Text style={styles.suggestionTitle}>You may also like this</Text>
+        <ThemedText style={styles.suggestionTitle}>
+          You may also like this
+        </ThemedText>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
@@ -161,20 +164,18 @@ const ProductDetailsScreen: React.FC = () => {
           ))}
         </ScrollView>
       </View>
-    </ScrollView>
+    </ThemedScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
   },
   containerOptions: {
     flexDirection: "row",
     alignItems: "center",
     padding: 10,
-    backgroundColor: "#fdfbfb",
     gap: 10,
   },
   button: {
@@ -193,17 +194,20 @@ const styles = StyleSheet.create({
   buttonText: {
     marginRight: 10,
     fontSize: 16,
-    color: "#000",
   },
   iconButton: {
-    padding: 10,
-    borderRadius: 25,
+    width: 48,
+    height: 48,
+    borderRadius: 24,
     backgroundColor: "#fff",
+    opacity: 0.9,
+    justifyContent: "center",
+    alignItems: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.3,
-    shadowRadius: 1,
-    elevation: 2,
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 0, height: 4 },
+    shadowRadius: 12,
+    elevation: 6,
   },
   header: {
     flexDirection: "row",
@@ -213,12 +217,10 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#000",
   },
   price: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#000",
   },
   description: {
     fontSize: 14,
@@ -303,7 +305,6 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontSize: 16,
-    color: "#000",
   },
   suggestionsContainer: {
     marginBottom: 40,
