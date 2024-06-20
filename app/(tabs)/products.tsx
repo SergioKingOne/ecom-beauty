@@ -109,54 +109,57 @@ const Products: React.FC = () => {
       </View>
       <View style={styles.productGrid}>
         {products.map((product) => (
-          <View key={product.id} style={styles.productCard}>
-            <View>
-              <Image
-                source={{ uri: product.image }}
-                style={styles.productImage}
-              />
-              {product.discountPrice && (
-                <View style={styles.discountBadge}>
-                  <Text style={styles.discountText}>-20%</Text>
-                </View>
-              )}
-              <TouchableOpacity style={styles.favoriteButton}>
-                <Ionicons name="heart-outline" size={16} color={Colors.black} />
-              </TouchableOpacity>
-            </View>
-            <View style={styles.ratingContainer}>
-              {renderStars(product.rating)}
-              <Text style={styles.ratingCount}>({product.rating})</Text>
-            </View>
-            <View>
-              <Text style={styles.productBrand}>{product.category}</Text>
-              <Text style={styles.productName}>{product.name}</Text>
-              <View style={styles.priceContainer}>
-                <Text
-                  style={
-                    product.discountPrice &&
-                    parseFloat(product.discountPrice) > 0
-                      ? styles.noDiscountPrice
-                      : styles.price
-                  }
-                >
-                  ${product.price}
-                </Text>
-                {product.discountPrice &&
-                  parseFloat(product.discountPrice) > 0 && (
-                    <Text style={styles.discountPrice}>
-                      $
-                      {parseFloat(product.price) -
-                        parseFloat(product.price) *
-                          parseFloat(product.discountPrice)}
-                    </Text>
-                  )}
-              </View>
-            </View>
-          </View>
+          <ProductCard key={product.id} product={product} />
         ))}
       </View>
     </ScrollView>
+  );
+};
+
+export const ProductCard: React.FC<{ product: Product; style?: any }> = ({
+  product,
+  style,
+}) => {
+  return (
+    <View style={[styles.productCard, style]} key={product.id}>
+      <View>
+        <Image source={{ uri: product.image }} style={styles.productImage} />
+        {product.discountPrice && (
+          <View style={styles.discountBadge}>
+            <Text style={styles.discountText}>-20%</Text>
+          </View>
+        )}
+        <TouchableOpacity style={styles.favoriteButton}>
+          <Ionicons name="heart-outline" size={16} color={Colors.black} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.ratingContainer}>
+        {renderStars(product.rating)}
+        <Text style={styles.ratingCount}>({product.rating})</Text>
+      </View>
+      <View>
+        <Text style={styles.productBrand}>{product.category}</Text>
+        <Text style={styles.productName}>{product.name}</Text>
+        <View style={styles.priceContainer}>
+          <Text
+            style={
+              product.discountPrice && parseFloat(product.discountPrice) > 0
+                ? styles.noDiscountPrice
+                : styles.price
+            }
+          >
+            ${product.price}
+          </Text>
+          {product.discountPrice && parseFloat(product.discountPrice) > 0 && (
+            <Text style={styles.discountPrice}>
+              $
+              {parseFloat(product.price) -
+                parseFloat(product.price) * parseFloat(product.discountPrice)}
+            </Text>
+          )}
+        </View>
+      </View>
+    </View>
   );
 };
 
