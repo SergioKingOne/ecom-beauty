@@ -28,7 +28,8 @@ export type RootStackParamList = {
 type ProductDetailsRouteProp = RouteProp<RootStackParamList, "ProductDetails">;
 type ProductDetailsNavigationProp = StackNavigationProp<
   RootStackParamList,
-  "ProductDetails"
+  "ProductDetails",
+  "Ratings"
 >;
 
 const DropdownButton = ({
@@ -56,7 +57,7 @@ const productCardWidth = screenWidth / 2.5 - 15;
 
 const ProductDetailsScreen: React.FC = () => {
   const navigation = useNavigation<ProductDetailsNavigationProp>();
-  const route = useRoute<ProductDetailsRouteProp>(); // Use the corrected type here
+  const route = useRoute<ProductDetailsRouteProp>();
   const { productId } = route.params;
   const [product, setProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);

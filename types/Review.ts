@@ -1,4 +1,4 @@
-interface Review {
+export interface Review {
   id: string;
   user: string;
   date: string;

@@ -1,6 +1,7 @@
+import { Review } from "@/types/Review";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
-
+import RatingComponent from "@/components/ratings/RatingComponent";
 // Sample data
 const reviews = [
   {
@@ -27,10 +28,7 @@ const Ratings = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Rating & Reviews</Text>
-      <View style={styles.ratingContainer}>
-        <Text style={styles.ratingText}>4.3</Text>
-        <Text style={styles.ratingSubText}>23 ratings</Text>
-      </View>
+      <RatingComponent />
       <FlatList
         data={reviews}
         renderItem={renderReview}
