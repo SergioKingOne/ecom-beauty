@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   ScrollView,
+  Dimensions,
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
@@ -15,6 +16,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Product } from "@/types/product";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { ThemedIcon } from "./ThemedIcon";
+import { ProductCard } from "@/app/(tabs)/products";
 
 export type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -42,52 +44,8 @@ const ListItem = ({ label }: { label: string }) => (
   </TouchableOpacity>
 );
 
-const ProductSuggestion = ({ product }: { product: any }) => (
-  <View style={styles.productCard}>
-    <View style={styles.discountContainer}>
-      {product.discount && (
-        <View style={styles.discountBadge}>
-          <Text style={styles.discountText}>{product.discount}</Text>
-        </View>
-      )}
-      {product.new && (
-        <View style={styles.newBadge}>
-          <Text style={styles.newText}>NEW</Text>
-        </View>
-      )}
-    </View>
-    <Image
-      source={{ uri: product.image }}
-      style={styles.suggestionProductImage}
-    />
-    <View style={styles.infoContainer}>
-      <Text style={styles.brand}>{product.brand}</Text>
-      <Text style={styles.productName}>{product.name}</Text>
-      <View style={styles.priceContainer}>
-        {product.oldPrice && (
-          <Text style={styles.oldPrice}>{product.oldPrice}</Text>
-        )}
-        <Text style={styles.suggestionPrice}>{product.price}</Text>
-      </View>
-      <View style={styles.ratingContainer}>
-        {Array(5)
-          .fill(0)
-          .map((_, index) => (
-            <FontAwesome
-              key={index}
-              name="star"
-              size={16}
-              color={index < product.rating ? "#FFA41C" : "#ccc"}
-            />
-          ))}
-        <Text style={styles.suggestionReviewCount}>({product.reviews})</Text>
-      </View>
-    </View>
-    <TouchableOpacity style={styles.favoriteButton}>
-      <Ionicons name="heart-outline" size={24} color="#000" />
-    </TouchableOpacity>
-  </View>
-);
+const screenWidth = Dimensions.get("window").width;
+const productCardWidth = screenWidth / 2.5 - 15;
 
 const ProductDetailsScreen: React.FC = () => {
   const route = useRoute<ProductDetailsRouteProp>();
@@ -187,11 +145,22 @@ const ProductDetailsScreen: React.FC = () => {
         <ListItem label="Shipping info" />
         <ListItem label="Support" />
       </View>
-      <View style={styles.suggestionsContainer}>
-        <Text style={styles.suggestionsTitle}>You can also like this</Text>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <View>
+        <Text style={styles.suggestionTitle}>You may also like this</Text>
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{ paddingRight: 20, paddingLeft: 20 }}
+        >
           {products.map((product, index) => (
-            <ProductSuggestion key={index} product={product} />
+            <ProductCard
+              key={index}
+              product={product}
+              style={{
+                marginRight: index !== products.length - 1 ? 15 : 0,
+                width: productCardWidth,
+              }}
+            />
           ))}
         </ScrollView>
       </View>
@@ -357,6 +326,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    marginTop: 20,
+    marginLeft: 20,
   },
   productCard: {
     width: 150,
