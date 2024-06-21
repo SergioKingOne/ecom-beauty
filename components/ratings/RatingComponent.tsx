@@ -1,16 +1,19 @@
 import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
-import { Review } from "@/types/Review";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  Button,
+  TouchableOpacity,
+} from "react-native";
+import { FontAwesome, Ionicons } from "@expo/vector-icons"; // Assuming you're using Expo, otherwise use a compatible icon library
+import { ThemedView } from "../ThemedView";
+import { ThemedText } from "../ThemedText";
 
-interface RatingItem {
-  stars: number;
-  count: number;
-}
-
-const ratingsData = [
+// Sample rating breakdown
+const ratingBreakdown = [
   { stars: 5, count: 12 },
   { stars: 4, count: 5 },
   { stars: 3, count: 4 },
@@ -18,88 +21,146 @@ const ratingsData = [
   { stars: 1, count: 0 },
 ];
 
-const RatingComponent = () => {
-  const [fontsLoaded] = useFonts({
-    Glorious: require("@/assets/fonts/GLORIOUS.otf"),
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
-  const renderRatingRow = ({ item }: { item: RatingItem }) => (
-    <View style={styles.ratingRow}>
-      <Text style={styles.starText}>{"★".repeat(item.stars)}</Text>
-      <View style={styles.bar}>
-        <View
-          style={{ ...styles.filledBar, width: `${(item.count / 23) * 100}%` }}
-        />
-      </View>
-      <Text style={styles.countText}>{item.count}</Text>
+const Ratings = () => {
+  const renderRatingBreakdown = () => (
+    <View style={styles.breakdownContainer}>
+      {ratingBreakdown.map((item) => (
+        <View key={item.stars} style={styles.breakdownRow}>
+          <View style={styles.starsRow}>
+            {[...Array(item.stars)].map((_, i) => (
+              <Ionicons key={i} name="star" size={16} color="#f29c1d" />
+            ))}
+          </View>
+          <View style={styles.barContainer}>
+            <View
+              style={[styles.bar, { width: `${(item.count / 12) * 100}%` }]}
+            />
+          </View>
+          <Text style={styles.ratingCount}>{item.count}</Text>
+        </View>
+      ))}
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.averageRating}>4.3</Text>
-      <Text style={styles.totalRatings}>23 ratings</Text>
-      <FlatList
-        data={ratingsData}
-        renderItem={renderRatingRow}
-        keyExtractor={(item) => item.stars.toString()}
-        style={styles.list}
-      />
-    </View>
+    <ThemedView style={styles.container}>
+      <View style={styles.overallRatingContainer}>
+        <ThemedText style={styles.overallRating}>4.3</ThemedText>
+        <Text style={styles.ratingText}>23 ratings</Text>
+      </View>
+      {renderRatingBreakdown()}
+
+      <TouchableOpacity style={styles.reviewButton}>
+        <Text style={styles.reviewButtonText}>Write a review</Text>
+      </TouchableOpacity>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#131313",
-    padding: 20,
+    padding: 16,
   },
-  averageRating: {
-    fontSize: 48,
-    color: "#f29c1d",
-    fontFamily: "GLORIOUS",
+  header: {
+    fontSize: 24,
+    fontFamily: "Glorious", // Make sure to load this font in your project
+    color: "#131313",
   },
-  totalRatings: {
-    fontSize: 18,
-    color: "#fdfbfb",
-    marginBottom: 20,
-  },
-  list: {
-    width: "100%",
-  },
-  ratingRow: {
+  overallRatingContainer: {
     flexDirection: "row",
     alignItems: "center",
-    marginBottom: 10,
+    marginVertical: 16,
   },
-  starText: {
-    fontSize: 24,
-    color: "#f29c1d",
-    fontFamily: "GLORIOUS",
-    marginRight: 10,
+  overallRating: {
+    fontSize: 48,
+    fontFamily: "Glorious",
+  },
+  ratingText: {
+    fontSize: 16,
+    color: "#818189",
+    marginLeft: 8,
+  },
+  breakdownContainer: {
+    marginBottom: 16,
+  },
+  breakdownRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 4,
+  },
+  starsRow: {
+    flexDirection: "row",
+    width: 80,
+  },
+  barContainer: {
+    flex: 1,
+    height: 8,
+    backgroundColor: "#e0e0e0",
+    borderRadius: 4,
+    marginHorizontal: 8,
   },
   bar: {
-    flex: 1,
-    height: 10,
-    backgroundColor: "#818189",
-    borderRadius: 5,
-    overflow: "hidden",
-    marginRight: 10,
-  },
-  filledBar: {
     height: "100%",
-    backgroundColor: "#f29c1d",
+    backgroundColor: "#f44336",
+    borderRadius: 4,
   },
-  countText: {
+  ratingCount: {
+    width: 24,
+    textAlign: "right",
+    color: "#131313",
+  },
+  reviewsList: {
+    paddingBottom: 16,
+  },
+  reviewContainer: {
+    flexDirection: "row",
+    marginVertical: 8,
+    padding: 16,
+    backgroundColor: "#fff",
+    borderRadius: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 16,
+  },
+  reviewContent: {
+    flex: 1,
+  },
+  userName: {
     fontSize: 16,
-    color: "#fdfbfb",
-    fontFamily: "GLORIOUS",
+    fontWeight: "bold",
+    color: "#131313",
+  },
+  reviewDate: {
+    fontSize: 14,
+    color: "#818189",
+    marginBottom: 8,
+  },
+  reviewText: {
+    fontSize: 14,
+    color: "#131313",
+  },
+  reviewButton: {
+    backgroundColor: "#f29c1d",
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    marginTop: 16,
+  },
+  reviewButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
-export default RatingComponent;
+export default Ratings;

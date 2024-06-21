@@ -16,6 +16,7 @@ import ProductDetailsScreen from "@/components/ProductDetails";
 import Login from "@/app/(tabs)/login";
 import ForgotPassword from "@/app/(tabs)/forgotPassword";
 import ProductsNavigatorScreen from "@/app/(tabs)/ProductsNavigator";
+import RatingsScreen from "@/app/(tabs)/Ratings";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -32,6 +33,11 @@ function HomeStack() {
       <Stack.Screen
         name="Cart"
         component={CartScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Ratings"
+        component={RatingsScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

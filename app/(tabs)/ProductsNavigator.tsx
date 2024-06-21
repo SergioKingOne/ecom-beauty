@@ -19,11 +19,6 @@ const ProductsNavigator = () => {
         component={FiltersScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="Ratings"
-        component={RatingsScreen}
-        options={{ headerShown: false }}
-      />
     </Stack.Navigator>
   );
 };
