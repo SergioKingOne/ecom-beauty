@@ -12,6 +12,39 @@ const reviews = [
     review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
     avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
   },
+  {
+    id: "2",
+    user: "Helene Moore",
+    date: "June 5, 2019",
+    rating: 4,
+    review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
+    avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
+  },
+  {
+    id: "3",
+    user: "Helene Moore",
+    date: "June 5, 2019",
+    rating: 4,
+    review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
+    avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
+  },
+  {
+    id: "4",
+    user: "Helene Moore",
+    date: "June 5, 2019",
+    rating: 4,
+    review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
+    avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
+  },
+  {
+    id: "5",
+    user: "Helene Moore",
+    date: "June 5, 2019",
+    rating: 4,
+    review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and
+    130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
+    avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
+  },
 ];
 
 const Ratings = () => {
@@ -50,6 +83,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     backgroundColor: "#fdfbfb",
+    paddingTop: 40,
   },
   header: {
     fontSize: 24,
