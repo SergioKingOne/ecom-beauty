@@ -60,9 +60,24 @@ const Checkout = () => {
       </View>
 
       <View style={styles.summaryContainer}>
-        <Text style={styles.text}>Order: 112$</Text>
-        <Text style={styles.text}>Delivery: 15$</Text>
-        <Text style={styles.text}>Summary: 127$</Text>
+        <View style={styles.summaryLine}>
+          <Text style={styles.text}>Order:</Text>
+          <Text style={[styles.text, { textAlign: "right", flex: 1 }]}>
+            112$
+          </Text>
+        </View>
+        <View style={styles.summaryLine}>
+          <Text style={styles.text}>Delivery:</Text>
+          <Text style={[styles.text, { textAlign: "right", flex: 1 }]}>
+            15$
+          </Text>
+        </View>
+        <View style={styles.summaryLine}>
+          <Text style={styles.text}>Summary:</Text>
+          <Text style={[styles.text, { textAlign: "right", flex: 1 }]}>
+            127$
+          </Text>
+        </View>
       </View>
 
       <TouchableOpacity style={styles.submitButton}>
@@ -132,6 +147,11 @@ const styles = StyleSheet.create({
   },
   summaryContainer: {
     marginBottom: 24,
+  },
+  summaryLine: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   text: {
     fontSize: 16,
