@@ -131,10 +131,10 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
           </View>
         )}
         <TouchableOpacity style={styles.closeButton}>
-          <Ionicons name="close" size={24} color={Colors.black} />
+          <Ionicons name="close" size={26} color={Colors.black} />
         </TouchableOpacity>
         <TouchableOpacity style={styles.favoriteButton}>
-          <Ionicons name="cart-outline" size={16} color={Colors.black} />
+          <Ionicons name="cart-outline" size={20} color={Colors.white} />
         </TouchableOpacity>
       </View>
       <View style={styles.ratingContainer}>
@@ -301,7 +301,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#fff",
+    backgroundColor: "#f29c1d",
     opacity: 0.9,
     justifyContent: "center",
     alignItems: "center",
