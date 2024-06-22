@@ -12,7 +12,7 @@ const Checkout = () => {
           <Text style={styles.text}>Jane Doe</Text>
           <Text style={styles.text}>3 Newbridge Court</Text>
           <Text style={styles.text}>Chino Hills, CA 91709, United States</Text>
-          <TouchableOpacity>
+          <TouchableOpacity style={styles.changeButton}>
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
         </View>
@@ -26,7 +26,7 @@ const Checkout = () => {
             style={styles.paymentIcon}
           />
           <Text style={styles.text}>**** **** **** 3947</Text>
-          <TouchableOpacity>
+          <TouchableOpacity style={styles.changeButton}>
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
         </View>
@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 40,
     backgroundColor: "#fdfbfb",
   },
   title: {
@@ -136,6 +137,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: "Glorious",
     color: "#131313",
+  },
+  changeButton: {
+    position: "absolute",
+    top: 16,
+    right: 16,
   },
   changeText: {
     color: "#f29c1d",
