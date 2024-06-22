@@ -122,7 +122,14 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
   style,
 }) => {
   return (
-    <View style={[styles.productCard, style]} key={product.id}>
+    <View
+      style={[
+        styles.productCard,
+        style,
+        product.stock == 0 ? { opacity: 0.5 } : {},
+      ]}
+      key={product.id}
+    >
       <View>
         <Image source={{ uri: product.image }} style={styles.productImage} />
         {product.discountPrice && (
@@ -133,9 +140,18 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
         <TouchableOpacity style={styles.closeButton}>
           <Ionicons name="close" size={26} color={Colors.black} />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.favoriteButton}>
-          <Ionicons name="cart-outline" size={20} color={Colors.white} />
-        </TouchableOpacity>
+        {product.stock !== 0 && (
+          <TouchableOpacity style={styles.favoriteButton}>
+            <Ionicons name="cart-outline" size={20} color={Colors.white} />
+          </TouchableOpacity>
+        )}
+        {product.stock === 0 && (
+          <View style={styles.soldOutOverlay}>
+            <Text style={styles.soldOutText}>
+              Sorry, this item is currently sold out
+            </Text>
+          </View>
+        )}
       </View>
       <View style={styles.ratingContainer}>
         {renderStars(product.rating)}
@@ -310,6 +326,19 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 6,
+  },
+  soldOutOverlay: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "rgba(255, 255, 255, 1)",
+    paddingVertical: 5,
+    paddingLeft: 10,
+    paddingRight: 5,
+  },
+  soldOutText: {
+    color: "black",
   },
   productBrand: {
     fontSize: 18,
