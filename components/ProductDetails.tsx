@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { useRoute, RouteProp } from "@react-navigation/native";
+import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
 import { fetchAllProducts, fetchProductDetails } from "@/services/api";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -18,12 +18,18 @@ import { Ionicons } from "@expo/vector-icons";
 import { ThemedIcon } from "./ThemedIcon";
 import { ProductCard } from "@/app/(tabs)/products";
 import ThemedScrollView from "./ThemedScrollView";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {
   ProductDetails: { productId: string };
+  Ratings: undefined;
 };
 
 type ProductDetailsRouteProp = RouteProp<RootStackParamList, "ProductDetails">;
+type ProductDetailsNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "ProductDetails"
+>;
 
 const DropdownButton = ({
   label,
@@ -49,7 +55,8 @@ const screenWidth = Dimensions.get("window").width;
 const productCardWidth = screenWidth / 2.5 - 15;
 
 const ProductDetailsScreen: React.FC = () => {
-  const route = useRoute<ProductDetailsRouteProp>();
+  const navigation = useNavigation<ProductDetailsNavigationProp>();
+  const route = useRoute<ProductDetailsRouteProp>(); // Use the corrected type here
   const { productId } = route.params;
   const [product, setProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -120,20 +127,22 @@ const ProductDetailsScreen: React.FC = () => {
             <ThemedText style={styles.price}>${product.price}</ThemedText>
           </View>
           <Text style={styles.description}>{product.description}</Text>
-          <View style={styles.rating}>
-            {Array(5)
-              .fill(0)
-              .map((_, index) => (
-                <Ionicons
-                  key={index}
-                  name="star"
-                  size={16}
-                  color="#FFA41C"
-                  style={styles.star}
-                />
-              ))}
-            <Text style={styles.reviewCount}>(10)</Text>
-          </View>
+          <TouchableOpacity onPress={() => navigation.navigate("Ratings")}>
+            <View style={styles.rating}>
+              {Array(5)
+                .fill(0)
+                .map((_, index) => (
+                  <Ionicons
+                    key={index}
+                    name="star"
+                    size={16}
+                    color="#FFA41C"
+                    style={styles.star}
+                  />
+                ))}
+              <Text style={styles.reviewCount}>(10)</Text>
+            </View>
+          </TouchableOpacity>
         </View>
         <TouchableOpacity style={styles.addButton}>
           <Text style={styles.addButtonText}>ADD TO CART</Text>
