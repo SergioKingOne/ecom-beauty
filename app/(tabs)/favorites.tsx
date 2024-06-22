@@ -16,7 +16,6 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
-import { ProductCard } from "./products";
 import Colors from "@/constants/Colors";
 
 type RootStackParamList = {
@@ -118,6 +117,77 @@ export const Favorites: React.FC = () => {
   );
 };
 
+const ProductCard: React.FC<{ product: Product; style?: any }> = ({
+  product,
+  style,
+}) => {
+  return (
+    <View style={[styles.productCard, style]} key={product.id}>
+      <View>
+        <Image source={{ uri: product.image }} style={styles.productImage} />
+        {product.discountPrice && (
+          <View style={styles.discountBadge}>
+            <Text style={styles.discountText}>-20%</Text>
+          </View>
+        )}
+        <TouchableOpacity style={styles.closeButton}>
+          <Ionicons name="close" size={24} color={Colors.black} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.favoriteButton}>
+          <Ionicons name="cart-outline" size={16} color={Colors.black} />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.ratingContainer}>
+        {renderStars(product.rating)}
+        <Text style={styles.ratingCount}>({product.rating})</Text>
+      </View>
+      <View>
+        <Text style={styles.productBrand}>{product.category}</Text>
+        <Text style={styles.productName}>{product.name}</Text>
+        <View style={styles.priceContainer}>
+          <Text
+            style={
+              product.discountPrice && parseFloat(product.discountPrice) > 0
+                ? styles.noDiscountPrice
+                : styles.price
+            }
+          >
+            ${product.price}
+          </Text>
+          {product.discountPrice && parseFloat(product.discountPrice) > 0 && (
+            <Text style={styles.discountPrice}>
+              $
+              {parseFloat(product.price) -
+                parseFloat(product.price) * parseFloat(product.discountPrice)}
+            </Text>
+          )}
+        </View>
+      </View>
+    </View>
+  );
+};
+
+const renderStars = (rating: number) => {
+  const fullStars = Math.floor(rating);
+  const emptyStars = 5 - fullStars;
+
+  return (
+    <View style={styles.stars}>
+      {[...Array(fullStars)].map((_, index) => (
+        <Ionicons key={index} name="star" size={14} color={Colors.orange} />
+      ))}
+      {[...Array(emptyStars)].map((_, index) => (
+        <Ionicons
+          key={index}
+          name="star-outline"
+          size={14}
+          color={Colors.orange}
+        />
+      ))}
+    </View>
+  );
+};
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -215,6 +285,14 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontFamily: "Glorious",
     color: "#fff",
+  },
+  closeButton: {
+    position: "absolute",
+    right: 5,
+    top: 5,
+    opacity: 0.5,
+    justifyContent: "center",
+    alignItems: "center",
   },
   favoriteButton: {
     position: "absolute",
