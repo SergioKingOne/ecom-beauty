@@ -1,7 +1,16 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+  PayMethod: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "PayMethod">;
 
 const Checkout = () => {
+  const navigation = useNavigation<NavigationProp>();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Checkout</Text>
@@ -89,7 +98,10 @@ const Checkout = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() => navigation.navigate("PayMethod")}
+      >
         <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
       </TouchableOpacity>
     </View>
