@@ -7,6 +7,9 @@ import {
   TouchableOpacity,
   Image,
   TouchableWithoutFeedback,
+  Modal,
+  TextInput,
+  Button,
 } from "react-native";
 
 const paymentMethods = [
@@ -46,67 +49,143 @@ const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
 
 const PayMethod = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newCard, setNewCard] = useState({
+    cardHolder: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+    isDefault: false,
+  });
+
+  const handleAddCard = () => {
+    setModalVisible(false);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Payment methods</Text>
-      <Text style={styles.subtitle}>Your payment cards</Text>
-      <FlatList
-        data={paymentMethods}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.cardContainer}>
-            <View
-              style={[
-                styles.card,
-                item.cardType === "MasterCard"
-                  ? styles.masterCard
-                  : styles.visa,
-              ]}
-            >
-              <Image
-                source={require("@/assets/icons/chip.png")}
-                style={styles.chip}
-              />
-              <Text style={styles.cardNumber}>{item.cardNumber}</Text>
-              <View style={styles.cardInfo}>
-                <View>
-                  <Text style={[styles.cardHolder, { fontSize: 12 }]}>
-                    Card Holder Name
-                  </Text>
-                  <Text style={styles.cardHolder}>{item.cardHolder}</Text>
-                </View>
-                <View>
-                  <Text style={[styles.expiryDate, { fontSize: 12 }]}>
-                    Expiry Date
-                  </Text>
-                  <Text style={styles.expiryDate}>{item.expiryDate}</Text>
-                </View>
+      <View style={{ opacity: modalVisible ? 0.5 : 1 }}>
+        <Text style={styles.title}>Payment methods</Text>
+        <Text style={styles.subtitle}>Your payment cards</Text>
+        <FlatList
+          data={paymentMethods}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.cardContainer}>
+              <View
+                style={[
+                  styles.card,
+                  item.cardType === "MasterCard"
+                    ? styles.masterCard
+                    : styles.visa,
+                ]}
+              >
                 <Image
-                  style={styles.cardLogo}
-                  source={
-                    item.cardType === "MasterCard"
-                      ? require("@/assets/icons/mastercard.png")
-                      : require("@/assets/icons/visa.png")
-                  }
+                  source={require("@/assets/icons/chip.png")}
+                  style={styles.chip}
                 />
+                <Text style={styles.cardNumber}>{item.cardNumber}</Text>
+                <View style={styles.cardInfo}>
+                  <View>
+                    <Text style={[styles.cardHolder, { fontSize: 12 }]}>
+                      Card Holder Name
+                    </Text>
+                    <Text style={styles.cardHolder}>{item.cardHolder}</Text>
+                  </View>
+                  <View>
+                    <Text style={[styles.expiryDate, { fontSize: 12 }]}>
+                      Expiry Date
+                    </Text>
+                    <Text style={styles.expiryDate}>{item.expiryDate}</Text>
+                  </View>
+                  <Image
+                    style={styles.cardLogo}
+                    source={
+                      item.cardType === "MasterCard"
+                        ? require("@/assets/icons/mastercard.png")
+                        : require("@/assets/icons/visa.png")
+                    }
+                  />
+                </View>
+              </View>
+              <View style={styles.checkboxContainer}>
+                <CustomCheckBox
+                  isChecked={item.id === selectedId}
+                  onPress={() => setSelectedId(item.id)}
+                />
+                <Text style={styles.defaultText}>
+                  Use as default payment method
+                </Text>
               </View>
             </View>
+          )}
+        />
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <View style={styles.modalView}>
+            <Text style={styles.modalTitle}>Add new card</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Name on card"
+              value={newCard.cardHolder}
+              onChangeText={(text) =>
+                setNewCard({ ...newCard, cardHolder: text })
+              }
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Card number"
+              value={newCard.cardNumber}
+              onChangeText={(text) =>
+                setNewCard({ ...newCard, cardNumber: text })
+              }
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Expire Date"
+              value={newCard.expiryDate}
+              onChangeText={(text) =>
+                setNewCard({ ...newCard, expiryDate: text })
+              }
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="CVV"
+              value={newCard.cvv}
+              onChangeText={(text) => setNewCard({ ...newCard, cvv: text })}
+            />
             <View style={styles.checkboxContainer}>
               <CustomCheckBox
-                isChecked={item.id === selectedId}
-                onPress={() => setSelectedId(item.id)}
+                isChecked={newCard.isDefault}
+                onPress={() =>
+                  setNewCard({ ...newCard, isDefault: !newCard.isDefault })
+                }
               />
               <Text style={styles.defaultText}>
-                Use as default payment method
+                Set as default payment method
               </Text>
             </View>
+            <TouchableOpacity
+              style={styles.modalButton}
+              onPress={handleAddCard}
+            >
+              <Text style={styles.modalButtonText}>ADD CARD</Text>
+            </TouchableOpacity>
           </View>
-        )}
-      />
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
+        </Modal>
+      </View>
     </View>
   );
 };
@@ -207,6 +286,50 @@ const styles = StyleSheet.create({
     color: "#fdfbfb",
     fontSize: 40,
     includeFontPadding: false,
+  },
+  modalView: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontFamily: "Glorious",
+    color: "#131313",
+    marginBottom: 16,
+  },
+  input: {
+    height: 40,
+    borderColor: "#818189",
+    borderWidth: 1,
+    borderRadius: 5,
+    marginBottom: 12,
+    paddingHorizontal: 10,
+    width: "100%",
+  },
+  modalButton: {
+    backgroundColor: "#f29c1d",
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: "#fdfbfb",
+    fontSize: 18,
   },
 });
 
