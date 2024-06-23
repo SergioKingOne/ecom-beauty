@@ -61,20 +61,29 @@ const Checkout = () => {
 
       <View style={styles.summaryContainer}>
         <View style={styles.summaryLine}>
-          <Text style={styles.text}>Order:</Text>
-          <Text style={[styles.text, { textAlign: "right", flex: 1 }]}>
+          <Text style={styles.Summarytext}>Order:</Text>
+          <Text
+            style={[styles.SummarytextMoney, { textAlign: "right", flex: 1 }]}
+          >
             112$
           </Text>
         </View>
         <View style={styles.summaryLine}>
-          <Text style={styles.text}>Delivery:</Text>
-          <Text style={[styles.text, { textAlign: "right", flex: 1 }]}>
+          <Text style={styles.Summarytext}>Delivery:</Text>
+          <Text
+            style={[styles.SummarytextMoney, { textAlign: "right", flex: 1 }]}
+          >
             15$
           </Text>
         </View>
         <View style={styles.summaryLine}>
-          <Text style={styles.text}>Summary:</Text>
-          <Text style={[styles.text, { textAlign: "right", flex: 1 }]}>
+          <Text style={styles.SummarytextFinal}>Summary:</Text>
+          <Text
+            style={[
+              styles.SummarytextMoneyFinal,
+              { textAlign: "right", flex: 1 },
+            ]}
+          >
             127$
           </Text>
         </View>
@@ -104,7 +113,6 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontFamily: "Glorious",
     marginBottom: 8,
   },
   addressContainer: {
@@ -152,10 +160,26 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    marginBottom: 8,
+  },
+  Summarytext: {
+    fontSize: 16,
+    color: "#818989",
+  },
+  SummarytextMoney: {
+    fontSize: 16,
+    color: "#131313",
+  },
+  SummarytextFinal: {
+    fontSize: 18,
+    color: "#818989",
+  },
+  SummarytextMoneyFinal: {
+    fontSize: 18,
+    color: "#131313",
   },
   text: {
     fontSize: 16,
-    fontFamily: "Glorious",
     color: "#131313",
   },
   changeButton: {
@@ -176,7 +200,6 @@ const styles = StyleSheet.create({
   submitButtonText: {
     fontSize: 18,
     color: "#ffffff",
-    fontFamily: "Glorious",
   },
 });
 
