@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 16,
+    marginTop: 16,
   },
   checkbox: {
     width: 20,
@@ -204,7 +205,8 @@ const styles = StyleSheet.create({
   },
   addButtonText: {
     color: "#fdfbfb",
-    fontSize: 24,
+    fontSize: 40,
+    includeFontPadding: false,
   },
 });
 
