@@ -12,7 +12,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 
 type RootStackParamList = {
   Cart: undefined;
-  // other screens can be added here
+  Checkout: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "Cart">;
@@ -114,8 +114,11 @@ const CartScreen: React.FC = () => {
         <Text style={styles.totalPriceLabel}>Total price:</Text>
         <Text style={styles.totalPrice}>{totalPrice}$</Text>
       </View>
-      <TouchableOpacity style={styles.payButton}>
-        <Text style={styles.payButtonText}>Pay</Text>
+      <TouchableOpacity
+        style={styles.payButton}
+        onPress={() => navigation.navigate("Checkout")}
+      >
+        <Text style={styles.payButtonText}>CHECK OUT</Text>
       </TouchableOpacity>
     </View>
   );
