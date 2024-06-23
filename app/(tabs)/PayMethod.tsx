@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import CheckBox from "@react-native-community/checkbox";
 
 const paymentMethods = [
   {
@@ -52,12 +51,11 @@ const PayMethod = () => {
                 style={styles.cardLogo}
                 source={
                   item.cardType === "MasterCard"
-                    ? require("./assets/mastercard.png")
-                    : require("./assets/visa.png")
+                    ? require("@/assets/icons/mastercard.png")
+                    : require("@/assets/icons/visa.png")
                 }
               />
             </View>
-            <CheckBox value={item.isDefault} onValueChange={() => {}} />
             <Text style={styles.defaultText}>
               Use as default payment method
             </Text>
