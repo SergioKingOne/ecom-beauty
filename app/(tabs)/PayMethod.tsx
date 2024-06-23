@@ -50,6 +50,7 @@ const PayMethod = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Payment methods</Text>
+      <Text style={styles.subtitle}>Your payment cards</Text>
       <FlatList
         data={paymentMethods}
         keyExtractor={(item) => item.id}
@@ -63,17 +64,33 @@ const PayMethod = () => {
                   : styles.visa,
               ]}
             >
-              <Text style={styles.cardNumber}>{item.cardNumber}</Text>
-              <Text style={styles.cardHolder}>{item.cardHolder}</Text>
-              <Text style={styles.expiryDate}>{item.expiryDate}</Text>
               <Image
-                style={styles.cardLogo}
-                source={
-                  item.cardType === "MasterCard"
-                    ? require("@/assets/icons/mastercard.png")
-                    : require("@/assets/icons/visa.png")
-                }
+                source={require("@/assets/icons/chip.png")}
+                style={styles.chip}
               />
+              <Text style={styles.cardNumber}>{item.cardNumber}</Text>
+              <View style={styles.cardInfo}>
+                <View>
+                  <Text style={[styles.cardHolder, { fontSize: 12 }]}>
+                    Card Holder Name
+                  </Text>
+                  <Text style={styles.cardHolder}>{item.cardHolder}</Text>
+                </View>
+                <View>
+                  <Text style={[styles.expiryDate, { fontSize: 12 }]}>
+                    Expiry Date
+                  </Text>
+                  <Text style={styles.expiryDate}>{item.expiryDate}</Text>
+                </View>
+                <Image
+                  style={styles.cardLogo}
+                  source={
+                    item.cardType === "MasterCard"
+                      ? require("@/assets/icons/mastercard.png")
+                      : require("@/assets/icons/visa.png")
+                  }
+                />
+              </View>
             </View>
             <View style={styles.checkboxContainer}>
               <CustomCheckBox
@@ -98,6 +115,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 40,
     backgroundColor: "#fdfbfb",
   },
   title: {
@@ -106,13 +124,24 @@ const styles = StyleSheet.create({
     color: "#131313",
     marginBottom: 16,
   },
+  subtitle: {
+    fontSize: 16,
+    color: "#131313",
+    marginBottom: 16,
+  },
   cardContainer: {
     marginBottom: 16,
   },
   card: {
-    padding: 16,
+    padding: 32,
     borderRadius: 8,
     marginBottom: 8,
+  },
+  chip: {
+    width: 32,
+    height: 32,
+    marginBottom: 16,
+    marginTop: 8,
   },
   masterCard: {
     backgroundColor: "#131313",
@@ -121,9 +150,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#818189",
   },
   cardNumber: {
-    fontSize: 18,
+    fontSize: 32,
     color: "#fdfbfb",
-    marginBottom: 8,
+    marginBottom: 40,
+  },
+  cardInfo: {
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   cardHolder: {
     fontSize: 14,
@@ -132,18 +165,15 @@ const styles = StyleSheet.create({
   expiryDate: {
     fontSize: 14,
     color: "#fdfbfb",
-    marginBottom: 8,
   },
   cardLogo: {
-    position: "absolute",
-    bottom: 16,
-    right: 16,
     width: 32,
     height: 32,
   },
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginBottom: 16,
   },
   checkbox: {
     width: 20,
@@ -170,7 +200,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 50,
     height: 50,
-    alignSelf: "center",
+    alignSelf: "flex-end",
   },
   addButtonText: {
     color: "#fdfbfb",
