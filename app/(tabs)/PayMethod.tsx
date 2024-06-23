@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   FlatList,
   TouchableOpacity,
   Image,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 const paymentMethods = [
@@ -27,7 +28,25 @@ const paymentMethods = [
   },
 ];
 
+type CustomCheckBoxProps = {
+  isChecked: boolean;
+  onPress: () => void;
+};
+
+const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
+  isChecked,
+  onPress,
+}) => (
+  <TouchableWithoutFeedback onPress={onPress}>
+    <View style={styles.checkbox}>
+      {isChecked && <View style={styles.checkboxInner} />}
+    </View>
+  </TouchableWithoutFeedback>
+);
+
 const PayMethod = () => {
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Payment methods</Text>
@@ -56,9 +75,15 @@ const PayMethod = () => {
                 }
               />
             </View>
-            <Text style={styles.defaultText}>
-              Use as default payment method
-            </Text>
+            <View style={styles.checkboxContainer}>
+              <CustomCheckBox
+                isChecked={item.id === selectedId}
+                onPress={() => setSelectedId(item.id)}
+              />
+              <Text style={styles.defaultText}>
+                Use as default payment method
+              </Text>
+            </View>
           </View>
         )}
       />
@@ -116,9 +141,27 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
   },
+  checkboxContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderWidth: 1,
+    borderColor: "#818189",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxInner: {
+    width: 12,
+    height: 12,
+    backgroundColor: "#131313",
+  },
   defaultText: {
     fontSize: 14,
     color: "#131313",
+    marginLeft: 8,
   },
   addButton: {
     backgroundColor: "#f29c1d",
