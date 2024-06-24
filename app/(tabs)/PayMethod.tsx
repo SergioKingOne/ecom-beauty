@@ -64,7 +64,7 @@ const PayMethod = () => {
 
   return (
     <View style={styles.container}>
-      <View style={{ opacity: modalVisible ? 0.5 : 1 }}>
+      <View>
         <Text style={styles.title}>Payment methods</Text>
         <Text style={styles.subtitle}>Your payment cards</Text>
         <FlatList
@@ -134,56 +134,67 @@ const PayMethod = () => {
             setModalVisible(!modalVisible);
           }}
         >
-          <View style={styles.modalView}>
-            <Text style={styles.modalTitle}>Add new card</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Name on card"
-              value={newCard.cardHolder}
-              onChangeText={(text) =>
-                setNewCard({ ...newCard, cardHolder: text })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Card number"
-              value={newCard.cardNumber}
-              onChangeText={(text) =>
-                setNewCard({ ...newCard, cardNumber: text })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Expire Date"
-              value={newCard.expiryDate}
-              onChangeText={(text) =>
-                setNewCard({ ...newCard, expiryDate: text })
-              }
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="CVV"
-              value={newCard.cvv}
-              onChangeText={(text) => setNewCard({ ...newCard, cvv: text })}
-            />
-            <View style={styles.checkboxContainer}>
-              <CustomCheckBox
-                isChecked={newCard.isDefault}
-                onPress={() =>
-                  setNewCard({ ...newCard, isDefault: !newCard.isDefault })
-                }
-              />
-              <Text style={styles.defaultText}>
-                Set as default payment method
-              </Text>
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalTitle}>Add new card</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Name on card"
+                    value={newCard.cardHolder}
+                    onChangeText={(text) =>
+                      setNewCard({ ...newCard, cardHolder: text })
+                    }
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Card number"
+                    value={newCard.cardNumber}
+                    onChangeText={(text) =>
+                      setNewCard({ ...newCard, cardNumber: text })
+                    }
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Expire Date"
+                    value={newCard.expiryDate}
+                    onChangeText={(text) =>
+                      setNewCard({ ...newCard, expiryDate: text })
+                    }
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="CVV"
+                    value={newCard.cvv}
+                    onChangeText={(text) =>
+                      setNewCard({ ...newCard, cvv: text })
+                    }
+                  />
+                  <View style={styles.checkboxContainer}>
+                    <CustomCheckBox
+                      isChecked={newCard.isDefault}
+                      onPress={() =>
+                        setNewCard({
+                          ...newCard,
+                          isDefault: !newCard.isDefault,
+                        })
+                      }
+                    />
+                    <Text style={styles.defaultText}>
+                      Set as default payment method
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={handleAddCard}
+                  >
+                    <Text style={styles.modalButtonText}>ADD CARD</Text>
+                  </TouchableOpacity>
+                </View>
+              </TouchableWithoutFeedback>
             </View>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleAddCard}
-            >
-              <Text style={styles.modalButtonText}>ADD CARD</Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableWithoutFeedback>
         </Modal>
       </View>
     </View>
@@ -286,6 +297,12 @@ const styles = StyleSheet.create({
     color: "#fdfbfb",
     fontSize: 40,
     includeFontPadding: false,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalView: {
     position: "absolute",
