@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Image,
   TouchableWithoutFeedback,
+  Modal,
+  TextInput,
 } from "react-native";
 
 const paymentMethods = [
@@ -46,67 +48,183 @@ const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
 
 const PayMethod = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [newCard, setNewCard] = useState({
+    cardHolder: "",
+    cardNumber: "",
+    expiryDate: "",
+    cvv: "",
+    isDefault: false,
+  });
+
+  const handleAddCard = () => {
+    setModalVisible(false);
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Payment methods</Text>
-      <Text style={styles.subtitle}>Your payment cards</Text>
-      <FlatList
-        data={paymentMethods}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <View style={styles.cardContainer}>
-            <View
-              style={[
-                styles.card,
-                item.cardType === "MasterCard"
-                  ? styles.masterCard
-                  : styles.visa,
-              ]}
-            >
-              <Image
-                source={require("@/assets/icons/chip.png")}
-                style={styles.chip}
-              />
-              <Text style={styles.cardNumber}>{item.cardNumber}</Text>
-              <View style={styles.cardInfo}>
-                <View>
-                  <Text style={[styles.cardHolder, { fontSize: 12 }]}>
-                    Card Holder Name
-                  </Text>
-                  <Text style={styles.cardHolder}>{item.cardHolder}</Text>
-                </View>
-                <View>
-                  <Text style={[styles.expiryDate, { fontSize: 12 }]}>
-                    Expiry Date
-                  </Text>
-                  <Text style={styles.expiryDate}>{item.expiryDate}</Text>
-                </View>
+      <View>
+        <Text style={styles.title}>Payment methods</Text>
+        <Text style={styles.subtitle}>Your payment cards</Text>
+        <FlatList
+          data={paymentMethods}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (
+            <View style={styles.cardContainer}>
+              <View
+                style={[
+                  styles.card,
+                  item.cardType === "MasterCard"
+                    ? styles.masterCard
+                    : styles.visa,
+                ]}
+              >
                 <Image
-                  style={styles.cardLogo}
-                  source={
-                    item.cardType === "MasterCard"
-                      ? require("@/assets/icons/mastercard.png")
-                      : require("@/assets/icons/visa.png")
-                  }
+                  source={require("@/assets/icons/chip.png")}
+                  style={styles.chip}
                 />
+                <Text style={styles.cardNumber}>{item.cardNumber}</Text>
+                <View style={styles.cardInfo}>
+                  <View>
+                    <Text style={[styles.cardHolder, { fontSize: 12 }]}>
+                      Card Holder Name
+                    </Text>
+                    <Text style={styles.cardHolder}>{item.cardHolder}</Text>
+                  </View>
+                  <View>
+                    <Text style={[styles.expiryDate, { fontSize: 12 }]}>
+                      Expiry Date
+                    </Text>
+                    <Text style={styles.expiryDate}>{item.expiryDate}</Text>
+                  </View>
+                  <Image
+                    style={styles.cardLogo}
+                    source={
+                      item.cardType === "MasterCard"
+                        ? require("@/assets/icons/mastercard.png")
+                        : require("@/assets/icons/visa.png")
+                    }
+                  />
+                </View>
+              </View>
+              <View style={styles.checkboxContainer}>
+                <CustomCheckBox
+                  isChecked={item.id === selectedId}
+                  onPress={() => setSelectedId(item.id)}
+                />
+                <Text style={styles.defaultText}>
+                  Use as default payment method
+                </Text>
               </View>
             </View>
-            <View style={styles.checkboxContainer}>
-              <CustomCheckBox
-                isChecked={item.id === selectedId}
-                onPress={() => setSelectedId(item.id)}
-              />
-              <Text style={styles.defaultText}>
-                Use as default payment method
-              </Text>
+          )}
+        />
+        <TouchableOpacity
+          style={styles.addButton}
+          onPress={() => setModalVisible(true)}
+        >
+          <Text style={styles.addButtonText}>+</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+        >
+          <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+            <View style={styles.modalOverlay}>
+              <TouchableWithoutFeedback>
+                <View style={styles.modalView}>
+                  <Text style={styles.modalTitle}>Add new card</Text>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="Name on card"
+                    placeholderTextColor={"#BDBDBD"}
+                    value={newCard.cardHolder}
+                    onChangeText={(text) =>
+                      setNewCard({ ...newCard, cardHolder: text })
+                    }
+                  />
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Card number"
+                      placeholderTextColor={"#BDBDBD"}
+                      value={newCard.cardNumber}
+                      onChangeText={(text) => {
+                        const numericText = text.replace(/\D/g, "");
+
+                        const formattedText = numericText.replace(
+                          /(\d{4})(?=\d)/g,
+                          "$1 "
+                        );
+                        setNewCard({ ...newCard, cardNumber: formattedText });
+                      }}
+                      maxLength={19}
+                    />
+                    <Image
+                      style={styles.cardInput}
+                      source={require("@/assets/icons/mastercard.png")}
+                    />
+                  </View>
+                  <TextInput
+                    style={styles.input}
+                    placeholder="MM/YY"
+                    placeholderTextColor={"#BDBDBD"}
+                    value={newCard.expiryDate}
+                    onChangeText={(text) => {
+                      const numericText = text.replace(/\D/g, "");
+                      const formattedText =
+                        numericText.length > 2
+                          ? `${numericText.slice(0, 2)}/${numericText.slice(
+                              2,
+                              4
+                            )}`
+                          : numericText;
+                      setNewCard({ ...newCard, expiryDate: formattedText });
+                    }}
+                    maxLength={5}
+                  />
+                  <TextInput
+                    style={styles.input}
+                    placeholder="CVV"
+                    placeholderTextColor={"#BDBDBD"}
+                    value={newCard.cvv}
+                    onChangeText={(text) => {
+                      const numericText = text.replace(/\D/g, "");
+                      const formattedText = numericText.slice(0, 4);
+                      setNewCard({ ...newCard, cvv: formattedText });
+                    }}
+                    maxLength={4}
+                  />
+                  <View style={styles.checkboxContainer}>
+                    <CustomCheckBox
+                      isChecked={newCard.isDefault}
+                      onPress={() =>
+                        setNewCard({
+                          ...newCard,
+                          isDefault: !newCard.isDefault,
+                        })
+                      }
+                    />
+                    <Text style={styles.defaultText}>
+                      Set as default payment method
+                    </Text>
+                  </View>
+                  <TouchableOpacity
+                    style={styles.modalButton}
+                    onPress={handleAddCard}
+                  >
+                    <Text style={styles.modalButtonText}>ADD CARD</Text>
+                  </TouchableOpacity>
+                </View>
+              </TouchableWithoutFeedback>
             </View>
-          </View>
-        )}
-      />
-      <TouchableOpacity style={styles.addButton}>
-        <Text style={styles.addButtonText}>+</Text>
-      </TouchableOpacity>
+          </TouchableWithoutFeedback>
+        </Modal>
+      </View>
     </View>
   );
 };
@@ -172,7 +290,8 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     marginBottom: 16,
     marginTop: 16,
   },
@@ -207,6 +326,72 @@ const styles = StyleSheet.create({
     color: "#fdfbfb",
     fontSize: 40,
     includeFontPadding: false,
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalView: {
+    position: "absolute",
+    bottom: 0,
+    width: "100%",
+    backgroundColor: "white",
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 35,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalTitle: {
+    fontSize: 24,
+    fontFamily: "Glorious",
+    color: "#131313",
+    marginBottom: 16,
+    alignSelf: "center",
+  },
+  input: {
+    backgroundColor: "white",
+    paddingHorizontal: 12,
+    paddingVertical: 18,
+    marginBottom: 26,
+    fontSize: 18,
+    borderRadius: 3,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.5,
+    elevation: 2,
+  },
+  cardInput: {
+    position: "absolute",
+    right: 16,
+    top: 11,
+    width: 40,
+    height: 40,
+  },
+  modalButton: {
+    backgroundColor: "#f29c1d",
+    borderRadius: 5,
+    padding: 10,
+    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
+  },
+  modalButtonText: {
+    color: "#fdfbfb",
+    fontSize: 18,
   },
 });
 
