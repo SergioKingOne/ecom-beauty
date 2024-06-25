@@ -9,7 +9,6 @@ import {
   TouchableWithoutFeedback,
   Modal,
   TextInput,
-  Button,
 } from "react-native";
 
 const paymentMethods = [
