@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { CustomCheckBox } from "./PayMethod";
 
-const addresses = [
+const initialAddresses = [
   {
     id: "1",
     name: "Jane Doe",
@@ -30,6 +30,16 @@ const addresses = [
 ];
 
 const Shipping = () => {
+  const [addresses, setAddresses] = useState(initialAddresses);
+
+  const toggleDefaultAddress = (selectedId: string) => {
+    const updatedAddresses = addresses.map((address) => ({
+      ...address,
+      isDefault: address.id === selectedId,
+    }));
+    setAddresses(updatedAddresses);
+  };
+
   const renderAddressItem = ({ item }: { item: (typeof addresses)[0] }) => (
     <View
       style={[styles.addressContainer, item.isDefault && styles.defaultAddress]}
@@ -42,7 +52,10 @@ const Shipping = () => {
       </View>
       <Text style={styles.address}>{item.address}</Text>
       <View style={styles.checkboxContainer}>
-        <CustomCheckBox isChecked={item.isDefault} onPress={() => {}} />
+        <CustomCheckBox
+          isChecked={item.isDefault}
+          onPress={() => toggleDefaultAddress(item.id)}
+        />
         <Text style={styles.checkboxLabel}>Use as the shipping address</Text>
       </View>
     </View>
@@ -50,6 +63,7 @@ const Shipping = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.title}>Shipping Addresses</Text>
       <FlatList
         data={addresses}
         renderItem={renderAddressItem}
@@ -66,14 +80,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 40,
     backgroundColor: "#fdfbfb",
+  },
+  title: {
+    fontSize: 24,
+    fontFamily: "Glorious",
+    marginBottom: 16,
   },
   addressContainer: {
     borderWidth: 1,
     borderColor: "#ddd",
     borderRadius: 8,
     padding: 16,
-    marginBottom: 16,
+    marginBottom: 28,
   },
   defaultAddress: {
     borderColor: "#f29c1d",
@@ -97,6 +117,7 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: 8,
   },
   checkboxLabel: {
     marginLeft: 8,
@@ -104,18 +125,17 @@ const styles = StyleSheet.create({
   },
   addButton: {
     backgroundColor: "#f29c1d",
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    justifyContent: "center",
+    borderRadius: 50,
     alignItems: "center",
-    position: "absolute",
-    bottom: 16,
-    right: 16,
+    justifyContent: "center",
+    width: 50,
+    height: 50,
+    alignSelf: "flex-end",
   },
   addButtonText: {
-    fontSize: 32,
     color: "#fdfbfb",
+    fontSize: 40,
+    includeFontPadding: false,
   },
 });
 
