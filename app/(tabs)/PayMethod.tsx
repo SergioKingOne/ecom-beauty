@@ -172,21 +172,33 @@ const PayMethod = () => {
                   </View>
                   <TextInput
                     style={styles.input}
-                    placeholder="Expire Date"
+                    placeholder="MM/YY"
                     placeholderTextColor={"#BDBDBD"}
                     value={newCard.expiryDate}
-                    onChangeText={(text) =>
-                      setNewCard({ ...newCard, expiryDate: text })
-                    }
+                    onChangeText={(text) => {
+                      const numericText = text.replace(/\D/g, "");
+                      const formattedText =
+                        numericText.length > 2
+                          ? `${numericText.slice(0, 2)}/${numericText.slice(
+                              2,
+                              4
+                            )}`
+                          : numericText;
+                      setNewCard({ ...newCard, expiryDate: formattedText });
+                    }}
+                    maxLength={5}
                   />
                   <TextInput
                     style={styles.input}
                     placeholder="CVV"
                     placeholderTextColor={"#BDBDBD"}
                     value={newCard.cvv}
-                    onChangeText={(text) =>
-                      setNewCard({ ...newCard, cvv: text })
-                    }
+                    onChangeText={(text) => {
+                      const numericText = text.replace(/\D/g, "");
+                      const formattedText = numericText.slice(0, 4);
+                      setNewCard({ ...newCard, cvv: formattedText });
+                    }}
+                    maxLength={4}
                   />
                   <View style={styles.checkboxContainer}>
                     <CustomCheckBox
