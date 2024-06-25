@@ -142,22 +142,34 @@ const PayMethod = () => {
                   <TextInput
                     style={styles.input}
                     placeholder="Name on card"
-                    // placeholder color #BDBDBD
                     placeholderTextColor={"#BDBDBD"}
                     value={newCard.cardHolder}
                     onChangeText={(text) =>
                       setNewCard({ ...newCard, cardHolder: text })
                     }
                   />
-                  <TextInput
-                    style={styles.input}
-                    placeholder="Card number"
-                    placeholderTextColor={"#BDBDBD"}
-                    value={newCard.cardNumber}
-                    onChangeText={(text) =>
-                      setNewCard({ ...newCard, cardNumber: text })
-                    }
-                  />
+                  <View>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Card number"
+                      placeholderTextColor={"#BDBDBD"}
+                      value={newCard.cardNumber}
+                      onChangeText={(text) => {
+                        const numericText = text.replace(/\D/g, "");
+
+                        const formattedText = numericText.replace(
+                          /(\d{4})(?=\d)/g,
+                          "$1 "
+                        );
+                        setNewCard({ ...newCard, cardNumber: formattedText });
+                      }}
+                      maxLength={19}
+                    />
+                    <Image
+                      style={styles.cardInput}
+                      source={require("@/assets/icons/mastercard.png")}
+                    />
+                  </View>
                   <TextInput
                     style={styles.input}
                     placeholder="Expire Date"
@@ -350,6 +362,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 1.5,
     elevation: 2,
+  },
+  cardInput: {
+    position: "absolute",
+    right: 16,
+    top: 11,
+    width: 40,
+    height: 40,
   },
   modalButton: {
     backgroundColor: "#f29c1d",
