@@ -35,7 +35,7 @@ type CustomCheckBoxProps = {
   onPress: () => void;
 };
 
-const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
+export const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
   isChecked,
   onPress,
 }) => (
