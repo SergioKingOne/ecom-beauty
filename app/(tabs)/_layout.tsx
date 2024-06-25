@@ -18,6 +18,7 @@ import ForgotPassword from "@/app/(tabs)/forgotPassword";
 import ProductsNavigatorScreen from "@/app/(tabs)/ProductsNavigator";
 import CheckoutScreen from "@/app/(tabs)/Checkout";
 import PayMethodScreen from "@/app/(tabs)/PayMethod";
+import ShippingScreen from "@/app/(tabs)/Shipping";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -44,6 +45,11 @@ function HomeStack() {
       <Stack.Screen
         name="PayMethod"
         component={PayMethodScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Shipping"
+        component={ShippingScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
