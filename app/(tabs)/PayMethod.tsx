@@ -142,6 +142,8 @@ const PayMethod = () => {
                   <TextInput
                     style={styles.input}
                     placeholder="Name on card"
+                    // placeholder color #BDBDBD
+                    placeholderTextColor={"#BDBDBD"}
                     value={newCard.cardHolder}
                     onChangeText={(text) =>
                       setNewCard({ ...newCard, cardHolder: text })
@@ -150,6 +152,7 @@ const PayMethod = () => {
                   <TextInput
                     style={styles.input}
                     placeholder="Card number"
+                    placeholderTextColor={"#BDBDBD"}
                     value={newCard.cardNumber}
                     onChangeText={(text) =>
                       setNewCard({ ...newCard, cardNumber: text })
@@ -158,6 +161,7 @@ const PayMethod = () => {
                   <TextInput
                     style={styles.input}
                     placeholder="Expire Date"
+                    placeholderTextColor={"#BDBDBD"}
                     value={newCard.expiryDate}
                     onChangeText={(text) =>
                       setNewCard({ ...newCard, expiryDate: text })
@@ -166,6 +170,7 @@ const PayMethod = () => {
                   <TextInput
                     style={styles.input}
                     placeholder="CVV"
+                    placeholderTextColor={"#BDBDBD"}
                     value={newCard.cvv}
                     onChangeText={(text) =>
                       setNewCard({ ...newCard, cvv: text })
@@ -310,7 +315,8 @@ const styles = StyleSheet.create({
     width: "100%",
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
+    paddingHorizontal: 20,
+    paddingVertical: 35,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -328,13 +334,22 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   input: {
-    height: 40,
-    borderColor: "#818189",
-    borderWidth: 1,
-    borderRadius: 5,
-    marginBottom: 12,
-    paddingHorizontal: 10,
+    backgroundColor: "white",
+    // light gray color
+    paddingHorizontal: 12,
+    paddingVertical: 18,
+    marginBottom: 26,
+    fontSize: 18,
+    borderRadius: 3,
     width: "100%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.5,
+    elevation: 2,
   },
   modalButton: {
     backgroundColor: "#f29c1d",
