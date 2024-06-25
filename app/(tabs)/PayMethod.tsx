@@ -267,7 +267,8 @@ const styles = StyleSheet.create({
   },
   checkboxContainer: {
     flexDirection: "row",
-    alignItems: "center",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
     marginBottom: 16,
     marginTop: 16,
   },
@@ -317,7 +318,6 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 35,
-    alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -332,10 +332,10 @@ const styles = StyleSheet.create({
     fontFamily: "Glorious",
     color: "#131313",
     marginBottom: 16,
+    alignSelf: "center",
   },
   input: {
     backgroundColor: "white",
-    // light gray color
     paddingHorizontal: 12,
     paddingVertical: 18,
     marginBottom: 26,
