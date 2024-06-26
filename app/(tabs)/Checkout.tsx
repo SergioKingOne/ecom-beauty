@@ -6,6 +6,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 type RootStackParamList = {
   PayMethod: undefined;
   Shipping: undefined;
+  OrderSuccess: undefined;
 };
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "PayMethod">;
@@ -105,7 +106,10 @@ const Checkout = () => {
         </View>
       </View>
 
-      <TouchableOpacity style={styles.submitButton}>
+      <TouchableOpacity
+        style={styles.submitButton}
+        onPress={() => navigation.navigate("OrderSuccess")}
+      >
         <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
       </TouchableOpacity>
     </View>
