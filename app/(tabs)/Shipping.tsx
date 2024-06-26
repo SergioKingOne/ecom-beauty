@@ -7,6 +7,14 @@ import {
   FlatList,
 } from "react-native";
 import { CustomCheckBox } from "./PayMethod";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+  AddShipping: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "AddShipping">;
 
 const initialAddresses = [
   {
@@ -30,6 +38,7 @@ const initialAddresses = [
 ];
 
 const Shipping = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [addresses, setAddresses] = useState(initialAddresses);
 
   const toggleDefaultAddress = (selectedId: string) => {
@@ -69,7 +78,7 @@ const Shipping = () => {
         renderItem={renderAddressItem}
         keyExtractor={(item) => item.id}
       />
-      <TouchableOpacity style={styles.addButton}>
+      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate("AddShipping")}>
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
     </View>
