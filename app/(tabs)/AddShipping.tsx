@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     padding: 20,
     backgroundColor: "#fdfbfb",
     flex: 1,
+    paddingTop: 40,
   },
   title: {
     fontSize: 24,
@@ -81,12 +82,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    height: 40,
-    borderColor: "#818189",
-    borderWidth: 1,
-    marginBottom: 15,
-    paddingHorizontal: 10,
-    borderRadius: 5,
+    backgroundColor: "white",
+    paddingHorizontal: 12,
+    paddingVertical: 18,
+    marginBottom: 26,
+    fontSize: 18,
+    borderRadius: 3,
+    width: "100%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.5,
+    elevation: 2,
   },
 });
 
