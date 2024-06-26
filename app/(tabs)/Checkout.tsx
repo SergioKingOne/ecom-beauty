@@ -39,7 +39,10 @@ const Checkout = () => {
             style={styles.paymentIcon}
           />
           <Text style={styles.text}>**** **** **** 3947</Text>
-          <TouchableOpacity style={styles.changeButton}>
+          <TouchableOpacity
+            style={styles.changeButton}
+            onPress={() => navigation.navigate("PayMethod")}
+          >
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
         </View>
@@ -102,10 +105,7 @@ const Checkout = () => {
         </View>
       </View>
 
-      <TouchableOpacity
-        style={styles.submitButton}
-        onPress={() => navigation.navigate("PayMethod")}
-      >
+      <TouchableOpacity style={styles.submitButton}>
         <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
       </TouchableOpacity>
     </View>
