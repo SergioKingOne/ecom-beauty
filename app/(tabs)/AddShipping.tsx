@@ -6,7 +6,11 @@ import {
   Button,
   StyleSheet,
   ScrollView,
+  TouchableOpacity,
 } from "react-native";
+import { Picker } from "@react-native-picker/picker";
+
+const countries = ["United States", "Canada", "Australia"];
 
 const AddShipping = () => {
   const [fullName, setFullName] = useState("");
@@ -14,7 +18,7 @@ const AddShipping = () => {
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState("");
-  const [country, setCountry] = useState("");
+  const [country, setCountry] = useState(countries[0]);
 
   const handleSaveAddress = () => {
     // Handle saving address logic here
@@ -53,17 +57,21 @@ const AddShipping = () => {
         value={zipCode}
         onChangeText={setZipCode}
       />
-      <TextInput
+      <Picker
+        selectedValue={country}
         style={styles.input}
-        placeholder="Country"
-        value={country}
-        onChangeText={setCountry}
-      />
-      <Button
-        title="SAVE ADDRESS"
-        onPress={handleSaveAddress}
-        color="#f29c1d"
-      />
+        onValueChange={(itemValue, itemIndex) => setCountry(itemValue)}
+      >
+        {countries.map((country, index) => (
+          <Picker.Item key={index} label={country} value={country} />
+        ))}
+      </Picker>
+      <TouchableOpacity
+        style={styles.addressButton}
+        onPress={() => handleSaveAddress()}
+      >
+        <Text style={styles.addressButtonText}>SAVE ADDRESS</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
@@ -97,6 +105,16 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.18,
     shadowRadius: 1.5,
     elevation: 2,
+  },
+  addressButton: {
+    backgroundColor: "#f29c1d",
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  addressButtonText: {
+    fontSize: 18,
+    color: "#ffffff",
   },
 });
 
