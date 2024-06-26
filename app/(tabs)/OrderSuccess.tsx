@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 import { NavigationProp } from "@react-navigation/native";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
 
 type RootStackParamList = {
   Home: undefined;
@@ -13,22 +15,22 @@ type OrderSuccessProps = {
 
 const OrderSuccess: React.FC<OrderSuccessProps> = ({ navigation }) => {
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <Image
-        source={require("@/assets/icons/success.jpeg")}
+        source={require("@/assets/images/success.jpeg")}
         style={styles.image}
       />
-      <Text style={styles.title}>Success!</Text>
-      <Text style={styles.subtitle}>
+      <ThemedText style={styles.title}>Success!</ThemedText>
+      <ThemedText style={styles.subtitle}>
         Your order will be delivered soon. Thank you for choosing our app!
-      </Text>
+      </ThemedText>
       <TouchableOpacity
         style={styles.button}
         onPress={() => navigation.navigate("Home")}
       >
         <Text style={styles.buttonText}>CONTINUE SHOPPING</Text>
       </TouchableOpacity>
-    </View>
+    </ThemedView>
   );
 };
 
@@ -37,36 +39,43 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
   },
   image: {
-    width: 150,
-    height: 150,
-    marginBottom: 30,
+    width: 200,
+    height: 200,
+    marginBottom: 40,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 10,
-    color: "#000",
+    fontSize: 28,
+    fontFamily: "Glorious",
+    marginBottom: 20,
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: 20,
     textAlign: "center",
     marginHorizontal: 20,
-    color: "#000",
-    marginBottom: 30,
+    marginBottom: 40,
   },
   button: {
-    backgroundColor: "#FF3B30",
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderRadius: 25,
+    backgroundColor: "#f29c1d",
+    position: "absolute",
+    bottom: 20,
+    padding: 16,
+    borderRadius: 8,
+    alignItems: "center",
+    width: "90%",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.0,
+    elevation: 1,
   },
   buttonText: {
-    color: "#fff",
-    fontSize: 16,
-    fontWeight: "bold",
+    fontSize: 18,
+    color: "#ffffff",
   },
 });
 

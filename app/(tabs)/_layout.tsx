@@ -20,6 +20,7 @@ import CheckoutScreen from "@/app/(tabs)/Checkout";
 import PayMethodScreen from "@/app/(tabs)/PayMethod";
 import ShippingScreen from "@/app/(tabs)/Shipping";
 import AddShippingScreen from "@/app/(tabs)/AddShipping";
+import OrderSuccessScreen from "@/app/(tabs)/OrderSuccess";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -56,6 +57,11 @@ function HomeStack() {
       <Stack.Screen
         name="AddShipping"
         component={AddShippingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OrderSuccess"
+        component={OrderSuccessScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
