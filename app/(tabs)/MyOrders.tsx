@@ -25,13 +25,15 @@ const MyOrders = () => {
 
   const renderOrder = ({ item } = { item: orders[0] }) => (
     <View style={styles.orderContainer}>
-      <Text style={styles.orderTitle}>Order №{item.orderNumber}</Text>
+      <View style={styles.orderHeader}>
+        <Text style={styles.orderTitle}>Order №{item.orderNumber}</Text>
+        <Text style={styles.orderDate}>{item.date}</Text>
+      </View>
       <Text style={styles.orderDetails}>
         Tracking number: {item.trackingNumber}
       </Text>
       <Text style={styles.orderDetails}>Quantity: {item.quantity}</Text>
       <Text style={styles.orderDetails}>Total Amount: {item.totalAmount}$</Text>
-      <Text style={styles.orderDate}>{item.date}</Text>
       <TouchableOpacity style={styles.detailsButton}>
         <Text style={styles.detailsButtonText}>Details</Text>
       </TouchableOpacity>
@@ -74,7 +76,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fdfbfb",
-    paddingTop: 20,
+    paddingTop: 40,
   },
   header: {
     fontSize: 24,
@@ -120,23 +122,25 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 2,
   },
+  orderHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 10,
+  },
   orderTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#131313",
-    fontFamily: "Glorious",
   },
   orderDetails: {
     fontSize: 14,
     color: "#818189",
     marginBottom: 5,
-    fontFamily: "Glorious",
   },
   orderDate: {
-    fontSize: 12,
+    fontSize: 16,
     color: "#818189",
     marginBottom: 10,
-    fontFamily: "Glorious",
   },
   detailsButton: {
     backgroundColor: "#fdfbfb",
