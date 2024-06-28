@@ -38,19 +38,32 @@ const OrderDetails = () => {
         />
         {/* Repeat for other items */}
       </View>
+
       <View style={styles.orderInfo}>
-        <Text style={styles.infoText}>Shipping Address:</Text>
-        <Text style={styles.infoValue}>
-          3 Newbridge Court ,Chino Hills, CA 91709, United States
-        </Text>
-        <Text style={styles.infoText}>Payment method:</Text>
-        <Text style={styles.infoValue}>**** **** **** 3947</Text>
-        <Text style={styles.infoText}>Delivery method:</Text>
-        <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
-        <Text style={styles.infoText}>Discount:</Text>
-        <Text style={styles.infoValue}>10%, Personal promo code</Text>
-        <Text style={styles.infoText}>Total Amount:</Text>
-        <Text style={styles.infoValue}>133$</Text>
+        {/* order info subtitle */}
+        <Text style={styles.infoText}>Order Information</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>Shipping Address: </Text>
+          <Text style={styles.infoValue}>
+            3 Newbridge Court ,Chino Hills, CA 91709, United States
+          </Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>Payment method:</Text>
+          <Text style={styles.infoValue}>**** **** **** 3947</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>Delivery method:</Text>
+          <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>Discount:</Text>
+          <Text style={styles.infoValue}>10%, Personal promo code</Text>
+        </View>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoText}>Total Amount:</Text>
+          <Text style={styles.infoValue}>133$</Text>
+        </View>
       </View>
       <View style={styles.actions}>
         <TouchableOpacity style={styles.button}>
@@ -124,6 +137,10 @@ const styles = StyleSheet.create({
     color: "#131313",
     marginTop: 5,
   },
+  infoContainer: {
+    flexDirection: "row",
+    marginBottom: 10,
+  },
   orderInfo: {
     padding: 20,
     borderTopWidth: 1,
@@ -131,13 +148,12 @@ const styles = StyleSheet.create({
   },
   infoText: {
     fontSize: 14,
-    color: "#131313",
-    marginTop: 10,
+    color: "#818189",
   },
   infoValue: {
     fontSize: 14,
-    color: "#818189",
-    marginTop: 5,
+    color: "#131313",
+    flexShrink: 1,
   },
   actions: {
     flexDirection: "row",
