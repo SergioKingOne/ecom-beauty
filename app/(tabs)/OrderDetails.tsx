@@ -43,26 +43,47 @@ const OrderDetails = () => {
         {/* order info subtitle */}
         <Text style={styles.infoText}>Order Information</Text>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Shipping Address: </Text>
-          <Text style={styles.infoValue}>
-            3 Newbridge Court ,Chino Hills, CA 91709, United States
-          </Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.infoText}>Shipping Address:</Text>
+          </View>
+          <View style={styles.valueContainer}>
+            <Text style={styles.infoValue}>
+              3 Newbridge Court, Chino Hills, CA 91709, United States
+            </Text>
+          </View>
+        </View>
+
+        <View style={styles.infoContainer}>
+          <View style={styles.labelContainer}>
+            <Text style={styles.infoText}>Payment Method:</Text>
+          </View>
+          <View style={styles.valueContainer}>
+            <Text style={styles.infoValue}>**** **** **** 3947</Text>
+          </View>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Payment method:</Text>
-          <Text style={styles.infoValue}>**** **** **** 3947</Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.infoText}>Delivery method:</Text>
+          </View>
+          <View style={styles.valueContainer}>
+            <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
+          </View>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Delivery method:</Text>
-          <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.infoText}>Discount:</Text>
+          </View>
+          <View style={styles.valueContainer}>
+            <Text style={styles.infoValue}>10%, Personal promo code</Text>
+          </View>
         </View>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Discount:</Text>
-          <Text style={styles.infoValue}>10%, Personal promo code</Text>
-        </View>
-        <View style={styles.infoContainer}>
-          <Text style={styles.infoText}>Total Amount:</Text>
-          <Text style={styles.infoValue}>133$</Text>
+          <View style={styles.labelContainer}>
+            <Text style={styles.infoText}>Total Amount:</Text>
+          </View>
+          <View style={styles.valueContainer}>
+            <Text style={styles.infoValue}>133$</Text>
+          </View>
         </View>
       </View>
       <View style={styles.actions}>
@@ -139,7 +160,16 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     flexDirection: "row",
-    marginBottom: 10,
+    alignItems: "flex-start",
+    justifyContent: "space-between", // Adjusts children to each end
+    marginBottom: 5,
+    width: "100%", // Ensures the container uses the full width
+  },
+  labelContainer: {
+    flex: 1, // Adjusts based on content, you can also use a fixed width
+  },
+  valueContainer: {
+    flex: 2, // Gives more space to the value, adjust as needed
   },
   orderInfo: {
     padding: 20,
