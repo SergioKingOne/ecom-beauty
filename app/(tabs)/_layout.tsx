@@ -22,6 +22,7 @@ import ShippingScreen from "@/app/(tabs)/Shipping";
 import AddShippingScreen from "@/app/(tabs)/AddShipping";
 import OrderSuccessScreen from "@/app/(tabs)/OrderSuccess";
 import MyOrdersScreen from "@/app/(tabs)/MyOrders";
+import OrderDetailsScreen from "@/app/(tabs)/OrderDetails";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -74,6 +75,28 @@ function HomeStack() {
   );
 }
 
+function UserStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyOrders"
+        component={MyOrdersScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OrderDetails"
+        component={OrderDetailsScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
 function MainTabNavigator() {
   const colorScheme = useColorScheme();
   const safeColorScheme = colorScheme ?? "light";
@@ -114,7 +137,7 @@ function MainTabNavigator() {
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
       <Tab.Screen name="Products" component={ProductsNavigatorScreen} />
-      <Tab.Screen name="User" component={UserProfileScreen} />
+      <Tab.Screen name="User" component={UserStack} />
     </Tab.Navigator>
   );
 }

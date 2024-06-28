@@ -1,3 +1,5 @@
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import React, { useState } from "react";
 import {
   View,
@@ -7,7 +9,15 @@ import {
   TouchableOpacity,
 } from "react-native";
 
+type RootStackParamList = {
+  MyOrders: undefined;
+  OrderDetails: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "MyOrders">;
+
 const MyOrders = () => {
+  const navigation = useNavigation<NavigationProp>();
   const [activeTab, setActiveTab] = useState("Delivered");
 
   const orders = [
@@ -75,7 +85,10 @@ const MyOrders = () => {
           alignItems: "center",
         }}
       >
-        <TouchableOpacity style={styles.detailsButton}>
+        <TouchableOpacity
+          style={styles.detailsButton}
+          onPress={() => navigation.navigate("OrderDetails")}
+        >
           <Text style={styles.detailsButtonText}>Details</Text>
         </TouchableOpacity>
         <Text style={styles.orderStatus}>{item.status}</Text>
