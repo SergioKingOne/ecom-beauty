@@ -21,6 +21,7 @@ import PayMethodScreen from "@/app/(tabs)/PayMethod";
 import ShippingScreen from "@/app/(tabs)/Shipping";
 import AddShippingScreen from "@/app/(tabs)/AddShipping";
 import OrderSuccessScreen from "@/app/(tabs)/OrderSuccess";
+import MyOrdersScreen from "@/app/(tabs)/MyOrders";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -62,6 +63,11 @@ function HomeStack() {
       <Stack.Screen
         name="OrderSuccess"
         component={OrderSuccessScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyOrders"
+        component={MyOrdersScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>

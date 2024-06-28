@@ -12,9 +12,17 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { Colors } from "@/constants/Colors";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+  MyOrders: undefined;
+  Settings: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "MyOrders">;
 
 export const UserProfile: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <ScrollView style={styles.container}>
@@ -31,7 +39,6 @@ export const UserProfile: React.FC = () => {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Recent Activity</Text>
-        {/* List of recent activities or orders */}
         <View style={styles.activityItem}>
           <Text style={styles.activityText}>Order #1234 - Delivered</Text>
         </View>
@@ -41,6 +48,19 @@ export const UserProfile: React.FC = () => {
       </View>
 
       <View style={styles.section}>
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => {
+            navigation.navigate("MyOrders");
+          }}
+        >
+          <Ionicons
+            name="receipt-outline"
+            size={24}
+            color={Colors.light.tint}
+          />
+          <Text style={styles.settingsText}>My Orders</Text>
+        </TouchableOpacity>
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={() => {
