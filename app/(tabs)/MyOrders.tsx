@@ -20,6 +20,33 @@ const MyOrders = () => {
       date: "05-12-2019",
       status: "Delivered",
     },
+    {
+      id: "2",
+      orderNumber: "1947035",
+      trackingNumber: "IW3475453456",
+      quantity: 2,
+      totalAmount: 75,
+      date: "06-12-2019",
+      status: "Processing",
+    },
+    {
+      id: "3",
+      orderNumber: "1947036",
+      trackingNumber: "IW3475453457",
+      quantity: 1,
+      totalAmount: 45,
+      date: "07-12-2019",
+      status: "Cancelled",
+    },
+    {
+      id: "4",
+      orderNumber: "1947037",
+      trackingNumber: "IW3475453458",
+      quantity: 4,
+      totalAmount: 180,
+      date: "08-12-2019",
+      status: "Delivered",
+    },
     // Add more orders as needed
   ];
 
