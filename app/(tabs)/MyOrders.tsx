@@ -32,12 +32,27 @@ const MyOrders = () => {
       <Text style={styles.orderDetails}>
         Tracking number: {item.trackingNumber}
       </Text>
-      <Text style={styles.orderDetails}>Quantity: {item.quantity}</Text>
-      <Text style={styles.orderDetails}>Total Amount: {item.totalAmount}$</Text>
-      <TouchableOpacity style={styles.detailsButton}>
-        <Text style={styles.detailsButtonText}>Details</Text>
-      </TouchableOpacity>
-      <Text style={styles.orderStatus}>{item.status}</Text>
+      <View style={styles.orderHeader}>
+        <Text style={styles.orderDetails}>
+          Quantity: <Text style={styles.orderTitle}>{item.quantity}</Text>
+        </Text>
+        <Text style={styles.orderDetails}>
+          Total Amount:{" "}
+          <Text style={styles.orderTitle}>${item.totalAmount}</Text>
+        </Text>
+      </View>
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <TouchableOpacity style={styles.detailsButton}>
+          <Text style={styles.detailsButtonText}>Details</Text>
+        </TouchableOpacity>
+        <Text style={styles.orderStatus}>{item.status}</Text>
+      </View>
     </View>
   );
 
@@ -145,7 +160,8 @@ const styles = StyleSheet.create({
   detailsButton: {
     backgroundColor: "#fdfbfb",
     padding: 10,
-    borderRadius: 20,
+    paddingHorizontal: 25,
+    borderRadius: 25,
     alignItems: "center",
     marginBottom: 10,
     borderWidth: 1,
@@ -153,14 +169,11 @@ const styles = StyleSheet.create({
   },
   detailsButtonText: {
     color: "#f29c1d",
-    fontSize: 14,
-    fontFamily: "Glorious",
+    fontSize: 16,
   },
   orderStatus: {
-    fontSize: 14,
+    fontSize: 16,
     color: "#f29c1d",
-    alignSelf: "flex-end",
-    fontFamily: "Glorious",
   },
 });
 
