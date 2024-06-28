@@ -103,8 +103,9 @@ const styles = StyleSheet.create({
   },
   tabsContainer: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     marginBottom: 20,
+    padding: 15,
   },
   tab: {
     padding: 10,
@@ -114,11 +115,11 @@ const styles = StyleSheet.create({
   },
   activeTab: {
     backgroundColor: "#f29c1d",
+    paddingHorizontal: 20,
   },
   tabText: {
     fontSize: 16,
     color: "#818189",
-    fontFamily: "Glorious",
   },
   activeTabText: {
     color: "#fdfbfb",
