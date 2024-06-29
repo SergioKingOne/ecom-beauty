@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import ProductOrder from "@/components/ProductOrder";
+import { Order } from "@/types/Order";
 
 const OrderDetails = () => {
   return (
