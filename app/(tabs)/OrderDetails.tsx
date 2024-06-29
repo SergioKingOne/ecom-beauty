@@ -61,6 +61,7 @@ const OrderDetails = () => {
             <Text style={styles.infoValue}>**** **** **** 3947</Text>
           </View>
         </View>
+
         <View style={styles.infoContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.infoText}>Delivery method:</Text>
@@ -69,6 +70,7 @@ const OrderDetails = () => {
             <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
           </View>
         </View>
+
         <View style={styles.infoContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.infoText}>Discount:</Text>
@@ -77,6 +79,7 @@ const OrderDetails = () => {
             <Text style={styles.infoValue}>10%, Personal promo code</Text>
           </View>
         </View>
+
         <View style={styles.infoContainer}>
           <View style={styles.labelContainer}>
             <Text style={styles.infoText}>Total Amount:</Text>
@@ -161,15 +164,15 @@ const styles = StyleSheet.create({
   infoContainer: {
     flexDirection: "row",
     alignItems: "flex-start",
-    justifyContent: "space-between", // Adjusts children to each end
-    marginBottom: 5,
-    width: "100%", // Ensures the container uses the full width
+    justifyContent: "space-between",
+    marginBottom: 15,
+    width: "100%",
   },
   labelContainer: {
-    flex: 1, // Adjusts based on content, you can also use a fixed width
+    flex: 1,
   },
   valueContainer: {
-    flex: 2, // Gives more space to the value, adjust as needed
+    flex: 2,
   },
   orderInfo: {
     padding: 20,
