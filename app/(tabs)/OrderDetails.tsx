@@ -104,7 +104,7 @@ const OrderDetails = () => {
             <Text style={styles.buttonText}>Reorder</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.button, styles.feedbackButton]}>
-            <Text style={styles.buttonText}>Leave feedback</Text>
+            <Text style={styles.feedbackText}>Leave feedback</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
@@ -210,17 +210,33 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   button: {
-    backgroundColor: "#f29c1d",
+    flex: 1,
     paddingVertical: 10,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 50,
+    borderWidth: 1,
+    marginHorizontal: 15,
+    alignItems: "center",
   },
   feedbackButton: {
-    backgroundColor: "#f44336",
+    backgroundColor: "#f29c1d",
+    borderWidth: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
   },
   buttonText: {
     fontSize: 16,
+  },
+  feedbackText: {
+    textAlign: "center",
     color: "#fff",
+    fontSize: 16,
   },
 });
 
