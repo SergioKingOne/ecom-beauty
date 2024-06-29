@@ -3,7 +3,6 @@ import {
   View,
   Text,
   StyleSheet,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
@@ -11,93 +10,105 @@ import ProductOrder from "@/components/ProductOrder";
 
 const OrderDetails = () => {
   return (
-    <ScrollView style={styles.container}>
-      <View style={styles.header}>
-        <View style={styles.textContainer}>
-          <Text style={styles.headerText}>Order №1947034</Text>
-          <Text style={styles.headerTextSmall}>05-12-2019</Text>
-        </View>
-        <View style={styles.textContainer}>
-          <Text style={styles.headerTextSmall}>
-            Tracking number: <Text style={styles.infoText}>IW3475453455</Text>
-          </Text>
-          <Text style={styles.delivered}>Delivered</Text>
-        </View>
-        <Text style={styles.textContainer}>3 items</Text>
-      </View>
-      {/* TODO: Number of items */}
-      <View style={styles.items}>
-        {/* Replace with dynamic item rendering */}
-
-        <ProductOrder
-          imageUrl="https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740"
-          name="Perfume"
-          brand="Esika"
-          units={1}
-          price={51}
-        />
-        {/* Repeat for other items */}
-      </View>
-
-      <View style={styles.orderInfo}>
-        {/* order info subtitle */}
-        <Text style={styles.infoText}>Order Information</Text>
-        <View style={styles.infoContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.infoText}>Shipping Address:</Text>
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.header}>
+          <View style={styles.textContainer}>
+            <Text style={styles.headerText}>Order №1947034</Text>
+            <Text style={styles.headerTextSmall}>05-12-2019</Text>
           </View>
-          <View style={styles.valueContainer}>
-            <Text style={styles.infoValue}>
-              3 Newbridge Court, Chino Hills, CA 91709, United States
+          <View style={styles.textContainer}>
+            <Text style={styles.headerTextSmall}>
+              Tracking number: <Text style={styles.infoText}>IW3475453455</Text>
             </Text>
+            <Text style={styles.delivered}>Delivered</Text>
           </View>
+          <Text style={styles.textContainer}>3 items</Text>
         </View>
 
-        <View style={styles.infoContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.infoText}>Payment Method:</Text>
-          </View>
-          <View style={styles.valueContainer}>
-            <Text style={styles.infoValue}>**** **** **** 3947</Text>
-          </View>
+        <View style={styles.items}>
+          <ProductOrder
+            imageUrl="https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740"
+            name="Perfume"
+            brand="Esika"
+            units={1}
+            price={51}
+          />
+          <ProductOrder
+            imageUrl="https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740"
+            name="Perfume"
+            brand="Esika"
+            units={1}
+            price={51}
+          />
+          <ProductOrder
+            imageUrl="https://img.freepik.com/free-photo/selfcare-products-flowers-arrangement_23-2149249576.jpg?t=st=1718250433~exp=1718254033~hmac=0368cf1ed7d61001bb58993ba0338f7d89b9a5c352f67875c15b2187a5ef7405&w=740"
+            name="Perfume"
+            brand="Esika"
+            units={1}
+            price={51}
+          />
         </View>
 
-        <View style={styles.infoContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.infoText}>Delivery method:</Text>
+        <View style={styles.orderInfo}>
+          <Text style={styles.orderInfoTitle}>Order Information</Text>
+          <View style={styles.infoContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.infoText}>Shipping Address:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text style={styles.infoValue}>
+                3 Newbridge Court, Chino Hills, CA 91709, United States
+              </Text>
+            </View>
           </View>
-          <View style={styles.valueContainer}>
-            <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
-          </View>
-        </View>
 
-        <View style={styles.infoContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.infoText}>Discount:</Text>
+          <View style={styles.infoContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.infoText}>Payment Method:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text style={styles.infoValue}>**** **** **** 3947</Text>
+            </View>
           </View>
-          <View style={styles.valueContainer}>
-            <Text style={styles.infoValue}>10%, Personal promo code</Text>
-          </View>
-        </View>
 
-        <View style={styles.infoContainer}>
-          <View style={styles.labelContainer}>
-            <Text style={styles.infoText}>Total Amount:</Text>
+          <View style={styles.infoContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.infoText}>Delivery method:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
+            </View>
           </View>
-          <View style={styles.valueContainer}>
-            <Text style={styles.infoValue}>133$</Text>
+
+          <View style={styles.infoContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.infoText}>Discount:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text style={styles.infoValue}>10%, Personal promo code</Text>
+            </View>
+          </View>
+
+          <View style={styles.infoContainer}>
+            <View style={styles.labelContainer}>
+              <Text style={styles.infoText}>Total Amount:</Text>
+            </View>
+            <View style={styles.valueContainer}>
+              <Text style={styles.infoValue}>133$</Text>
+            </View>
           </View>
         </View>
-      </View>
-      <View style={styles.actions}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>Reorder</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.button, styles.feedbackButton]}>
-          <Text style={styles.buttonText}>Leave feedback</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        <View style={styles.actions}>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Reorder</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={[styles.button, styles.feedbackButton]}>
+            <Text style={styles.buttonText}>Leave feedback</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -107,10 +118,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
-  header: {
+  scrollContainer: {
+    flexGrow: 1,
     padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: "#dcdcdc",
+  },
+  header: {
+    marginBottom: 20,
   },
   textContainer: {
     flexDirection: "row",
@@ -132,7 +145,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   items: {
-    padding: 20,
+    marginBottom: 20,
   },
   item: {
     flexDirection: "row",
@@ -175,9 +188,12 @@ const styles = StyleSheet.create({
     flex: 2,
   },
   orderInfo: {
-    padding: 20,
-    borderTopWidth: 1,
-    borderTopColor: "#dcdcdc",
+    marginBottom: 20,
+  },
+  orderInfoTitle: {
+    fontSize: 18,
+    color: "#131313",
+    marginBottom: 20,
   },
   infoText: {
     fontSize: 14,

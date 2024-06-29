@@ -34,15 +34,8 @@ const ProductOrder: React.FC<ProductOrderProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#fff",
-    borderRadius: 15,
     overflow: "hidden",
     marginBottom: 15,
-    shadowColor: "#000",
-    shadowOpacity: 0.02,
-    shadowOffset: { width: 0, height: 2 },
-    shadowRadius: 3,
-    elevation: 2,
   },
   image: {
     width: 120,
@@ -52,7 +45,8 @@ const styles = StyleSheet.create({
   details: {
     flex: 1,
     justifyContent: "space-between",
-    padding: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
   },
   name: {
     fontSize: 20,
@@ -75,8 +69,8 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold",
     alignSelf: "flex-end",
-    marginRight: 20,
-    marginBottom: 20,
+    marginRight: 0,
+    marginBottom: 10,
   },
 });
 
