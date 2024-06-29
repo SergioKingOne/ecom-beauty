@@ -64,7 +64,7 @@ export const UserProfile: React.FC = () => {
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={() => {
-            /* navigation.navigate("Settings") */
+            navigation.navigate("Settings");
           }}
         >
           <Ionicons
