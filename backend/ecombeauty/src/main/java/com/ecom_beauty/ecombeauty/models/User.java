@@ -1,5 +1,12 @@
 package com.ecom_beauty.ecombeauty.models;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,7 +18,7 @@ import lombok.Data;
 
 @Data
 @Entity
-public class User
+public class User implements UserDetails
 {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,9 +46,10 @@ public class User
     @Enumerated(EnumType.STRING)
     @Column(length = 20)
     private Role role;
-    
-    public enum Role {
-        ROLE_USER,
-        ROLE_ADMIN
-    }
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		// TODO Auto-generated method stub
+		return List.of(new SimpleGrantedAuthority(role.name()));
+	}
 }
