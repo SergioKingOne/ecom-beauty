@@ -23,6 +23,7 @@ import AddShippingScreen from "@/app/(tabs)/AddShipping";
 import OrderSuccessScreen from "@/app/(tabs)/OrderSuccess";
 import MyOrdersScreen from "@/app/(tabs)/MyOrders";
 import OrderDetailsScreen from "@/app/(tabs)/OrderDetails";
+import SettingsScreen from "@/app/(tabs)/Settings";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -91,6 +92,11 @@ function UserStack() {
       <Stack.Screen
         name="OrderDetails"
         component={OrderDetailsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
         options={{ headerShown: false }}
       />
     </Stack.Navigator>
