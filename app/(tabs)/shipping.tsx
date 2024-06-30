@@ -6,7 +6,7 @@ import {
   StyleSheet,
   FlatList,
 } from "react-native";
-import { CustomCheckBox } from "./PayMethod";
+import { CustomCheckBox } from "./payMethod";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 
@@ -78,7 +78,10 @@ const Shipping = () => {
         renderItem={renderAddressItem}
         keyExtractor={(item) => item.id}
       />
-      <TouchableOpacity style={styles.addButton} onPress={() => navigation.navigate("AddShipping")}>
+      <TouchableOpacity
+        style={styles.addButton}
+        onPress={() => navigation.navigate("AddShipping")}
+      >
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
     </View>

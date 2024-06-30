@@ -16,7 +16,7 @@ import { fetchAllProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import ProductsNavigator from "@/app/(tabs)/ProductsNavigator";
+import ProductsNavigator from "@/app/(tabs)/productsNavigator";
 
 export type RootStackParamList = {
   Filter: undefined;

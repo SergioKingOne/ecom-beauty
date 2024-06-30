@@ -2,7 +2,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import ProductsScreen from "@/app/(tabs)/products";
 import FiltersScreen from "@/app/(tabs)/filters";
-import RatingsScreen from "@/app/(tabs)/Ratings";
+import RatingsScreen from "@/app/(tabs)/ratings";
 
 const Stack = createStackNavigator();
 
