@@ -10,14 +10,14 @@ import com.ecom_beauty.ecombeauty.models.User;
 import com.ecom_beauty.ecombeauty.repository.UserRepository;
 
 @Service
-public class AuthenticacionService
+public class AuthenticationService
 {
 	private final UserRepository userRepository;
 	private final PasswordEncoder passwordEncoder;
 	private final JwtService jwtservice;
 	private final AuthenticationManager authenticationManager;
 	
-	public AuthenticacionService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtservice, AuthenticationManager authenticationManager)
+	public AuthenticationService(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtService jwtservice, AuthenticationManager authenticationManager)
 	{
 		this.jwtservice = jwtservice;
 		this.passwordEncoder = passwordEncoder;

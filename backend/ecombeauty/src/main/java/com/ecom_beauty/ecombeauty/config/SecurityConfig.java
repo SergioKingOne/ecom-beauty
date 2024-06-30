@@ -38,7 +38,7 @@ public class SecurityConfig
 				.authorizeHttpRequests(
 					req->req
 					// Public EndPoints
-					.requestMatchers("/login/**", "/register/**").permitAll()
+					.requestMatchers("/api/v1/login/**", "/api/v1/register/**").permitAll()
 					// Protected EndPoints (USER or ADMIN)
 					.requestMatchers("/api/v1/products/**").hasAnyAuthority("USER", "ADMIN")
 					// Protected EndPoints (ADMIN)

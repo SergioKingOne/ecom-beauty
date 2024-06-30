@@ -2,19 +2,21 @@ package com.ecom_beauty.ecombeauty.controllers;
 
 import com.ecom_beauty.ecombeauty.models.AuthenticationResponse;
 import com.ecom_beauty.ecombeauty.models.User;
-import com.ecom_beauty.ecombeauty.service.AuthenticacionService;
+import com.ecom_beauty.ecombeauty.service.AuthenticationService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api/v1")
 public class AuthenticationController
 {
-	private final AuthenticacionService authService;
+	private final AuthenticationService authService;
 	
-	public AuthenticationController(AuthenticacionService authService)
+	public AuthenticationController(AuthenticationService authService)
 	{
 		this.authService = authService;
 	}
