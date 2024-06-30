@@ -1,3 +1,5 @@
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import React from "react";
 import {
   View,
@@ -15,10 +17,10 @@ const Settings = () => {
     React.useState(false);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.sectionTitle}>Settings</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.sectionTitle}>Settings</ThemedText>
       <View style={styles.sectionContainer}>
-        <Text style={styles.subtitle}>Personal Information</Text>
+        <ThemedText style={styles.subtitle}>Personal Information</ThemedText>
       </View>
       <View style={styles.inputContainer}>
         <TextInput style={styles.input} placeholder="Full name" />
@@ -27,7 +29,7 @@ const Settings = () => {
         <TextInput style={styles.input} placeholder="12/12/1989" />
       </View>
       <View style={styles.sectionContainer}>
-        <Text style={styles.subtitle}>Password</Text>
+        <ThemedText style={styles.subtitle}>Password</ThemedText>
         <TouchableOpacity>
           <Text style={styles.changeButtonText}>Change</Text>
         </TouchableOpacity>
@@ -40,10 +42,10 @@ const Settings = () => {
         />
       </View>
       <View style={styles.sectionContainer}>
-        <Text style={styles.subtitle}>Notifications</Text>
+        <ThemedText style={styles.subtitle}>Notifications</ThemedText>
       </View>
       <View style={[styles.switchContainer, { marginTop: 20 }]}>
-        <Text style={styles.switchLabel}>Sales</Text>
+        <ThemedText style={styles.switchLabel}>Sales</ThemedText>
         <Switch
           value={isSalesEnabled}
           onValueChange={(value) => setIsSalesEnabled(value)}
@@ -55,7 +57,7 @@ const Settings = () => {
         />
       </View>
       <View style={styles.switchContainer}>
-        <Text style={styles.switchLabel}>New arrivals</Text>
+        <ThemedText style={styles.switchLabel}>New arrivals</ThemedText>
         <Switch
           value={isNewArrivalsEnabled}
           onValueChange={(value) => setIsNewArrivalsEnabled(value)}
@@ -67,7 +69,9 @@ const Settings = () => {
         />
       </View>
       <View style={styles.switchContainer}>
-        <Text style={styles.switchLabel}>Delivery status changes</Text>
+        <ThemedText style={styles.switchLabel}>
+          Delivery status changes
+        </ThemedText>
         <Switch
           value={isDeliveryStatusChangesEnabled}
           onValueChange={(value) => setIsDeliveryStatusChangesEnabled(value)}
@@ -78,7 +82,7 @@ const Settings = () => {
           }}
         />
       </View>
-    </View>
+    </ThemedView>
   );
 };
 
@@ -87,14 +91,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: "#fdfbfb",
   },
   sectionTitle: {
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   inputContainer: {
     marginBottom: 20,
@@ -103,7 +105,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontFamily: "Glorious",
-    color: "#131313",
     includeFontPadding: false,
   },
   inputLabel: {
@@ -161,7 +162,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     fontFamily: "Glorious",
-    color: "#131313",
   },
 });
 
