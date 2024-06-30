@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -18,6 +19,7 @@ import com.ecom_beauty.ecombeauty.service.ServiceImplements.UserDetailsServiceIm
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig
 {
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
@@ -34,13 +36,18 @@ public class SecurityConfig
 		return http
 				.csrf(AbstractHttpConfigurer::disable)
 				.authorizeHttpRequests(
-					req->req.requestMatchers("/login/**", "/register/**")
-					.permitAll()
-					.anyRequest()
-					.authenticated()
+					req->req
+					// Public EndPoints
+					.requestMatchers("/login/**", "/register/**").permitAll()
+					// Protected EndPoints (USER or ADMIN)
+					.requestMatchers("/api/v1/products/**").hasAnyAuthority("USER", "ADMIN")
+					// Protected EndPoints (ADMIN)
+					.requestMatchers("/api/v1/products/admin/**").hasAuthority("ADMIN")
+					.anyRequest().authenticated()
 				).userDetailsService(userDetailsServiceImpl)
 				.sessionManagement(session->session
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+				)
 				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
 				.build();
 				
