@@ -4,7 +4,6 @@ import {
   StyleSheet,
   FlatList,
   View,
-  Animated,
   TouchableOpacity,
   Text,
   StatusBar,
@@ -15,6 +14,10 @@ import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Colors from "@/constants/Colors";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
+import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 
 type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -28,26 +31,23 @@ const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
-  const [fadeAnim] = useState(new Animated.Value(0));
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        const productsData = await fetchProducts();
+        // Fetch products based on selected category
+        const productsData = await fetchProducts(
+          selectedCategory !== "All" ? selectedCategory : undefined
+        );
         setProducts(productsData);
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 1000,
-          useNativeDriver: true,
-        }).start();
       } catch (error) {
         console.error("Error loading products:", error);
       }
     };
 
     loadProducts();
-  }, [fadeAnim]);
+  }, [selectedCategory]);
 
   const handleCategoryPress = (category: string) => {
     setSelectedCategory(category);
@@ -57,51 +57,41 @@ const HomeScreen: React.FC = () => {
     selectedCategory === "All"
       ? products
       : products.filter(
-          (product) => product.category === selectedCategory.toLowerCase()
+          (product) =>
+            product.category.toLowerCase() === selectedCategory.toLowerCase()
         );
 
   return (
-    <Animated.View style={[styles.container, { opacity: fadeAnim }]}>
+    <ThemedView style={styles.container}>
       <StatusBar barStyle="dark-content" />
-      <View style={styles.header}>
+      <ThemedView style={styles.header}>
         <TouchableOpacity>
-          <Image
+          <ThemedImageIcon
             source={require("@/assets/icons/search.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
-        <Text style={styles.logoText}>D'SANDRA</Text>
+        <ThemedText style={styles.logoText}>D'SANDRA</ThemedText>
         <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
-          <Image
+          <ThemedImageIcon
             source={require("@/assets/icons/shopping-bag.png")}
             style={styles.icon}
           />
         </TouchableOpacity>
-      </View>
-      <View style={styles.categoryContainer}>
+      </ThemedView>
+      <ThemedView style={styles.categoryContainer}>
         {categories.map((category) => (
-          <TouchableOpacity
+          <ThemedCategoryButton
             key={category}
-            style={[
-              styles.categoryButton,
-              selectedCategory === category && styles.selectedCategoryButton,
-            ]}
-            onPress={() => handleCategoryPress(category)}
-          >
-            <Text
-              style={[
-                styles.categoryText,
-                selectedCategory === category && styles.selectedCategoryText,
-              ]}
-            >
-              {category}
-            </Text>
-          </TouchableOpacity>
+            category={category}
+            selectedCategory={selectedCategory}
+            handleCategoryPress={handleCategoryPress}
+          />
         ))}
-      </View>
+      </ThemedView>
       <FlatList
         data={filteredProducts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
           <ProductCard
             product={item}
@@ -113,9 +103,9 @@ const HomeScreen: React.FC = () => {
         numColumns={1}
         contentContainerStyle={styles.flatListContent}
         ListHeaderComponent={
-          selectedCategory === "All" || selectedCategory === "Skincare" ? (
+          selectedCategory === "All" ? (
             <>
-              <Text style={styles.sectionTitle}>WHAT'S NEW?</Text>
+              <ThemedText style={styles.sectionTitle}>WHAT'S NEW?</ThemedText>
               <View style={styles.heroImageContainer}>
                 <Image
                   source={{
@@ -153,14 +143,13 @@ const HomeScreen: React.FC = () => {
           ) : null
         }
       />
-    </Animated.View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
   header: {
@@ -168,12 +157,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#ffffff",
   },
   logoText: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   headerIcons: {
     flexDirection: "row",
@@ -187,7 +174,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     paddingVertical: 8,
-    backgroundColor: "#ffffff",
   },
   categoryButton: {
     padding: 8,
@@ -201,15 +187,11 @@ const styles = StyleSheet.create({
   categoryText: {
     fontSize: 14,
     fontFamily: "Glorious",
-    color: "#131313",
   },
-  selectedCategoryText: {
-    color: "#131313",
-  },
+  selectedCategoryText: {},
   sectionTitle: {
     fontSize: 48,
     fontFamily: "Glorious",
-    color: "#131313",
     paddingHorizontal: 16,
     paddingTop: 16,
   },

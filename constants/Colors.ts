@@ -18,4 +18,13 @@ const Colors = {
   },
 };
 
-export default Colors;
+export default {
+  black: "#131313",
+  gray: "#818189",
+  orange: "#f29c1d",
+  white: "#fdfbfb",
+  lightGray: "#e0e0e0",
+  background: "#ffffff",
+};
+
+export { Colors };

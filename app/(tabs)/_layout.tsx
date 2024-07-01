@@ -1,29 +1,32 @@
 import React from "react";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
 import { Ionicons } from "@expo/vector-icons";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import Signup from "@/app/(tabs)/signup";
 import HomeScreen from "@/app/(tabs)/index";
-import ExploreScreen from "@/app/(tabs)/explore";
 import FavoritesScreen from "@/app/(tabs)/favorites";
-import MenuScreen from "@/app/(tabs)/menu";
+import ProductsScreen from "@/app/(tabs)/products";
 import UserProfileScreen from "@/app/(tabs)/user";
 import CartScreen from "@/app/(tabs)/cart";
-import { createStackNavigator } from "@react-navigation/stack";
-import ProductDetailsScreen from "./ProductDetails";
+import ProductDetailsScreen from "@/components/ProductDetails";
+import Login from "@/app/(tabs)/login";
+import ForgotPassword from "@/app/(tabs)/forgotPassword";
+import ProductsNavigatorScreen from "@/app/(tabs)/ProductsNavigator";
+import CheckoutScreen from "@/app/(tabs)/Checkout";
+import PayMethodScreen from "@/app/(tabs)/PayMethod";
+import ShippingScreen from "@/app/(tabs)/Shipping";
+import AddShippingScreen from "@/app/(tabs)/AddShipping";
+import OrderSuccessScreen from "@/app/(tabs)/OrderSuccess";
+import MyOrdersScreen from "@/app/(tabs)/MyOrders";
+import OrderDetailsScreen from "@/app/(tabs)/OrderDetails";
+import SettingsScreen from "@/app/(tabs)/Settings";
 
 const Tab = createBottomTabNavigator();
-
-type RootStackParamList = {
-  Home: undefined;
-  ProductDetails: { productId: string };
-  Cart: undefined;
-};
-
-const Stack = createStackNavigator<RootStackParamList>();
+const Stack = createStackNavigator();
 
 function HomeStack() {
   return (
@@ -39,21 +42,69 @@ function HomeStack() {
         component={CartScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="Checkout"
+        component={CheckoutScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="PayMethod"
+        component={PayMethodScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Shipping"
+        component={ShippingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddShipping"
+        component={AddShippingScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OrderSuccess"
+        component={OrderSuccessScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyOrders"
+        component={MyOrdersScreen}
+        options={{ headerShown: false }}
+      />
     </Stack.Navigator>
   );
 }
 
-export default function App() {
+function UserStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="UserProfile"
+        component={UserProfileScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="MyOrders"
+        component={MyOrdersScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="OrderDetails"
+        component={OrderDetailsScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsScreen}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function MainTabNavigator() {
   const colorScheme = useColorScheme();
-
-  let [fontsLoaded] = useFonts({
-    Glorious: require("@/assets/fonts/GLORIOUS.otf"),
-  });
-
-  if (!fontsLoaded) {
-    return <AppLoading />;
-  }
-
   const safeColorScheme = colorScheme ?? "light";
 
   return (
@@ -68,7 +119,7 @@ export default function App() {
             iconName = focused ? "search" : "search-outline";
           } else if (route.name === "Favorites") {
             iconName = focused ? "heart" : "heart-outline";
-          } else if (route.name === "Menu") {
+          } else if (route.name === "Products") {
             iconName = focused ? "grid" : "grid-outline";
           } else if (route.name === "User") {
             iconName = focused ? "person" : "person-outline";
@@ -91,9 +142,57 @@ export default function App() {
     >
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Favorites" component={FavoritesScreen} />
-      <Tab.Screen name="Menu" component={MenuScreen} />
-      <Tab.Screen name="User" component={UserProfileScreen} />
-      {/* <Tab.Screen name="Explore" component={ExploreScreen} /> */}
+      <Tab.Screen name="Products" component={ProductsNavigatorScreen} />
+      <Tab.Screen name="User" component={UserStack} />
     </Tab.Navigator>
   );
 }
+
+function App() {
+  const [fontsLoaded] = useFonts({
+    Glorious: require("@/assets/fonts/GLORIOUS.otf"),
+  });
+
+  if (!fontsLoaded) {
+    return <AppLoading />;
+  }
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name="Signup"
+        component={SignupScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Main"
+        component={MainTabNavigator}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+function SignupScreen({ navigation }: { navigation: any }) {
+  return <Signup onSignup={() => navigation.replace("Main")} />;
+}
+
+function LoginScreen({ navigation }: { navigation: any }) {
+  return <Login onLogin={() => navigation.replace("Main")} />;
+}
+
+function ForgotPasswordScreen({ navigation }: { navigation: any }) {
+  return <ForgotPassword onForgotPassword={() => navigation.replace("Main")} />;
+}
+
+export default App;

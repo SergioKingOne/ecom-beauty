@@ -11,16 +11,26 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
+import { StackNavigationProp } from "@react-navigation/stack";
+
+type RootStackParamList = {
+  MyOrders: undefined;
+  Settings: undefined;
+};
+
+type NavigationProp = StackNavigationProp<RootStackParamList, "MyOrders">;
 
 export const UserProfile: React.FC = () => {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Image
-          source={{ uri: "https://example.com/profile-pic.jpg" }} // Replace with actual profile pic URL
+          source={{
+            uri: "https://media.licdn.com/dms/image/D4E03AQF_JeoJnLFjWw/profile-displayphoto-shrink_800_800/0/1714257893682?e=1724284800&v=beta&t=Iyhj90I621uKj5-KI28TOP7Ce-clMl56n-poAKm4gM4",
+          }}
           style={styles.profilePic}
         />
         <Text style={styles.name}>John Doe</Text>
@@ -29,7 +39,6 @@ export const UserProfile: React.FC = () => {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>Recent Activity</Text>
-        {/* List of recent activities or orders */}
         <View style={styles.activityItem}>
           <Text style={styles.activityText}>Order #1234 - Delivered</Text>
         </View>
@@ -42,7 +51,20 @@ export const UserProfile: React.FC = () => {
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={() => {
-            /* navigation.navigate("Settings") */
+            navigation.navigate("MyOrders");
+          }}
+        >
+          <Ionicons
+            name="receipt-outline"
+            size={24}
+            color={Colors.light.tint}
+          />
+          <Text style={styles.settingsText}>My Orders</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.settingsButton}
+          onPress={() => {
+            navigation.navigate("Settings");
           }}
         >
           <Ionicons
@@ -72,6 +94,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fdfbfb",
+    paddingTop: 40,
   },
   header: {
     alignItems: "center",

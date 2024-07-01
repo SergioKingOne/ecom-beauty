@@ -1,7 +1,7 @@
 // components/ThemedView.tsx
 import React from "react";
 import { View, ViewProps, StyleSheet } from "react-native";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme";
 
 type ColorSchemeType = keyof typeof Colors;
@@ -22,8 +22,5 @@ export function ThemedView(props: ViewProps) {
 }
 
 const styles = StyleSheet.create({
-  default: {
-    flex: 1,
-    padding: 16,
-  },
+  default: {},
 });

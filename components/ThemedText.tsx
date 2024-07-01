@@ -1,7 +1,7 @@
 // components/ThemedText.tsx
 import React from "react";
 import { Text, TextProps, StyleSheet } from "react-native";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 import { useColorScheme } from "@/hooks/useColorScheme"; // Fixed import statement
 
 export function ThemedText(
@@ -29,7 +29,6 @@ export function ThemedText(
 const styles = StyleSheet.create({
   default: {
     fontSize: 16,
-    fontFamily: "Glorious",
   },
   defaultSemiBold: {
     fontSize: 16,

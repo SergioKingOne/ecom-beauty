@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { Product } from "@/types/product";
-import Colors from "@/constants/Colors";
+import { Colors } from "@/constants/Colors";
 
 interface ProductCardProps {
   product: Product;
