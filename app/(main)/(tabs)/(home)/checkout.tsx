@@ -2,17 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-
-type RootStackParamList = {
-  PayMethod: undefined;
-  Shipping: undefined;
-  OrderSuccess: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "PayMethod">;
+import { useRouter } from "expo-router";
 
 const Checkout = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Checkout</Text>
@@ -25,7 +18,7 @@ const Checkout = () => {
           <Text style={styles.text}>Chino Hills, CA 91709, United States</Text>
           <TouchableOpacity
             style={styles.changeButton}
-            onPress={() => navigation.navigate("Shipping")}
+            onPress={() => router.push("/shipping")}
           >
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
@@ -42,7 +35,7 @@ const Checkout = () => {
           <Text style={styles.text}>**** **** **** 3947</Text>
           <TouchableOpacity
             style={styles.changeButton}
-            onPress={() => navigation.navigate("PayMethod")}
+            onPress={() => router.push("/payMethod")}
           >
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
@@ -108,7 +101,7 @@ const Checkout = () => {
 
       <TouchableOpacity
         style={styles.submitButton}
-        onPress={() => navigation.navigate("OrderSuccess")}
+        onPress={() => router.push("/orderSuccess")}
       >
         <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
       </TouchableOpacity>

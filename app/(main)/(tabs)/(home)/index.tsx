@@ -8,28 +8,19 @@ import {
   Text,
   StatusBar,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
-import { StackNavigationProp } from "@react-navigation/stack";
-import Colors from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
-
-type RootStackParamList = {
-  ProductDetails: { productId: string };
-  Cart: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
+import { useRouter } from "expo-router";
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
@@ -72,7 +63,7 @@ const HomeScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <ThemedText style={styles.logoText}>D'SANDRA</ThemedText>
-        <TouchableOpacity onPress={() => navigation.navigate("Cart")}>
+        <TouchableOpacity onPress={() => router.push("/cart")}>
           <ThemedImageIcon
             source={require("@/assets/icons/shopping-bag.png")}
             style={styles.icon}
@@ -96,7 +87,10 @@ const HomeScreen: React.FC = () => {
           <ProductCard
             product={item}
             onPress={() =>
-              navigation.navigate("ProductDetails", { productId: item.id })
+              router.push({
+                pathname: "/(main)/product/[productId]",
+                params: { productId: item.id },
+              })
             }
           />
         )}

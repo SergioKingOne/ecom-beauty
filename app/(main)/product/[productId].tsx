@@ -15,10 +15,11 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Product } from "@/types/product";
 import { Ionicons } from "@expo/vector-icons";
-import { ThemedIcon } from "./ThemedIcon";
-import { ProductCard } from "@/app/deprecated/(tabs)/products";
-import ThemedScrollView from "./ThemedScrollView";
+import { ThemedIcon } from "@/components/ThemedIcon";
+import { ProductCard } from "@/app/(main)/(tabs)/(products)/products";
+import ThemedScrollView from "@/components/ThemedScrollView";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useLocalSearchParams } from "expo-router";
 
 export type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -56,8 +57,8 @@ const productCardWidth = screenWidth / 2.5 - 15;
 
 const ProductDetailsScreen: React.FC = () => {
   const navigation = useNavigation<ProductDetailsNavigationProp>();
-  const route = useRoute<ProductDetailsRouteProp>(); // Use the corrected type here
-  const { productId } = route.params;
+  const route = useRoute<ProductDetailsRouteProp>();
+  const { productId } = useLocalSearchParams<{ productId: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -80,8 +81,12 @@ const ProductDetailsScreen: React.FC = () => {
   useEffect(() => {
     const loadProductDetails = async () => {
       try {
-        const productData = await fetchProductDetails(productId);
-        setProduct(productData);
+        if (typeof productId === "string") {
+          const productData = await fetchProductDetails(productId);
+          setProduct(productData);
+        } else {
+          console.error("productId is undefined or not a string");
+        }
       } catch (error) {
         console.error("Error fetching product details:", error);
       } finally {
@@ -89,7 +94,9 @@ const ProductDetailsScreen: React.FC = () => {
       }
     };
 
-    loadProductDetails();
+    if (productId) {
+      loadProductDetails();
+    }
   }, [productId]);
 
   if (loading) {

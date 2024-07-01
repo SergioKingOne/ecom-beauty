@@ -2,7 +2,7 @@ import React from "react";
 import { Colors } from "@/constants/Colors";
 import { StyleSheet, Text } from "react-native";
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity } from "react-native";
 import { ThemedText } from "./ThemedText";
 
 type ColorSchemeType = keyof typeof Colors;

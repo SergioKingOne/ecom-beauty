@@ -7,18 +7,10 @@ import {
   StyleSheet,
   ScrollView,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
-
-type RootStackParamList = {
-  Cart: undefined;
-  Checkout: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "Cart">;
+import { useRouter } from "expo-router";
 
 const CartScreen: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -60,10 +52,7 @@ const CartScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <Text style={styles.backButtonText}>←</Text>
       </TouchableOpacity>
       <Text style={styles.header}>CART</Text>
@@ -116,7 +105,7 @@ const CartScreen: React.FC = () => {
       </View>
       <TouchableOpacity
         style={styles.payButton}
-        onPress={() => navigation.navigate("Checkout")}
+        onPress={() => router.push("/checkout")}
       >
         <Text style={styles.payButtonText}>CHECK OUT</Text>
       </TouchableOpacity>

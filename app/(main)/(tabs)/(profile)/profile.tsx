@@ -10,19 +10,11 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
-import { StackNavigationProp } from "@react-navigation/stack";
-
-type RootStackParamList = {
-  MyOrders: undefined;
-  Settings: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "MyOrders">;
 
 export const UserProfile: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
 
   return (
     <ScrollView style={styles.container}>
@@ -51,7 +43,7 @@ export const UserProfile: React.FC = () => {
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={() => {
-            navigation.navigate("MyOrders");
+            router.push("/myOrders");
           }}
         >
           <Ionicons
@@ -64,7 +56,7 @@ export const UserProfile: React.FC = () => {
         <TouchableOpacity
           style={styles.settingsButton}
           onPress={() => {
-            navigation.navigate("Settings");
+            router.push("/settings");
           }}
         >
           <Ionicons

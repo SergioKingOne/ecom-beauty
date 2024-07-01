@@ -8,27 +8,19 @@ import {
   Image,
   ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { fetchAllProducts, fetchFavoriteProducts } from "@/services/api";
 import { Product } from "@/types/product";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-
-type RootStackParamList = {
-  ProductDetails: { productId: string };
-  Filter: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
+import { useRouter } from "expo-router";
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 export const Favorites: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState<string>(
@@ -98,7 +90,7 @@ export const Favorites: React.FC = () => {
       <View style={styles.filters}>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => navigation.navigate("Filter")}
+          onPress={() => router.push("/filters")}
         >
           <Ionicons name="filter" size={16} color={Colors.black} />
           <Text style={styles.filterText}>Filters</Text>
