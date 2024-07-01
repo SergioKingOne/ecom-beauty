@@ -9,6 +9,7 @@ import {
 import { CustomCheckBox } from "./payMethod";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useRouter } from "expo-router";
 
 type RootStackParamList = {
   AddShipping: undefined;
@@ -38,6 +39,7 @@ const initialAddresses = [
 ];
 
 const Shipping = () => {
+  const router = useRouter();
   const navigation = useNavigation<NavigationProp>();
   const [addresses, setAddresses] = useState(initialAddresses);
 
@@ -80,7 +82,7 @@ const Shipping = () => {
       />
       <TouchableOpacity
         style={styles.addButton}
-        onPress={() => navigation.navigate("AddShipping")}
+        onPress={() => router.push("/addShipping")}
       >
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>

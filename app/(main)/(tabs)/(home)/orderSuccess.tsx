@@ -1,19 +1,12 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
-import { NavigationProp } from "@react-navigation/native";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
+import { useRouter } from "expo-router";
 
-type RootStackParamList = {
-  Home: undefined;
-};
-
-type OrderSuccessProps = {
-  navigation: NavigationProp<RootStackParamList, "Home">;
-};
-
-const OrderSuccess: React.FC<OrderSuccessProps> = ({ navigation }) => {
+const OrderSuccess: React.FC = () => {
+  const router = useRouter();
   return (
     <ThemedView style={styles.container}>
       <Image
@@ -24,10 +17,7 @@ const OrderSuccess: React.FC<OrderSuccessProps> = ({ navigation }) => {
       <ThemedText style={styles.subtitle}>
         Your order will be delivered soon. Thank you for choosing our app!
       </ThemedText>
-      <TouchableOpacity
-        style={styles.button}
-        onPress={() => navigation.navigate("Home")}
-      >
+      <TouchableOpacity style={styles.button} onPress={() => router.push("/")}>
         <Text style={styles.buttonText}>CONTINUE SHOPPING</Text>
       </TouchableOpacity>
     </ThemedView>

@@ -8,28 +8,18 @@ import {
   Text,
   StatusBar,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
 import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 import { useRouter } from "expo-router";
 
-type RootStackParamList = {
-  ProductDetails: { productId: string };
-  Cart: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
-
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<NavigationProp>();
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
