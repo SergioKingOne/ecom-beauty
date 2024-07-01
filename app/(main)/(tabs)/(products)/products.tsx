@@ -16,7 +16,7 @@ import { fetchAllProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import ProductsNavigator from "@/app/deprecated/(tabs)/productsNavigator";
+import { useRouter } from "expo-router";
 
 export type RootStackParamList = {
   Filter: undefined;
@@ -27,6 +27,7 @@ type NavigationProp = StackNavigationProp<RootStackParamList, "Filter">;
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 const Products: React.FC = () => {
+  const router = useRouter();
   const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -97,7 +98,7 @@ const Products: React.FC = () => {
       <View style={styles.filters}>
         <TouchableOpacity
           style={styles.filterButton}
-          onPress={() => navigation.navigate("Filter")}
+          onPress={() => router.push("/filters")}
         >
           <Ionicons name="filter" size={16} color={Colors.black} />
           <Text style={styles.filterText}>Filters</Text>
