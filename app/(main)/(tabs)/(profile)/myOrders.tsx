@@ -1,5 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
   View,
@@ -9,15 +10,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 
-type RootStackParamList = {
-  MyOrders: undefined;
-  OrderDetails: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "MyOrders">;
-
 const MyOrders = () => {
-  const navigation = useNavigation<NavigationProp>();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("Delivered");
 
   const orders = [
@@ -87,7 +81,7 @@ const MyOrders = () => {
       >
         <TouchableOpacity
           style={styles.detailsButton}
-          onPress={() => navigation.navigate("OrderDetails")}
+          onPress={() => router.push("/orderDetails")}
         >
           <Text style={styles.detailsButtonText}>Details</Text>
         </TouchableOpacity>
