@@ -13,6 +13,7 @@ import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { router } from "expo-router";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -57,7 +58,7 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
       </View>
       <TouchableOpacity
         style={styles.signinContainer}
-        onPress={() => navigation.navigate("Login")}
+        onPress={() => router.push("/login")}
       >
         <Text style={styles.signinText}>Already have an account? </Text>
         <Text style={styles.signinLink}>Sign in</Text>

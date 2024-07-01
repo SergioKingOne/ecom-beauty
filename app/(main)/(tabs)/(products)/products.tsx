@@ -1,33 +1,32 @@
+// app/(tabs)/products.tsx
+
 import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
-  FlatList,
   View,
   Text,
   TouchableOpacity,
+  ScrollView,
   Image,
   ActivityIndicator,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { fetchAllProducts, fetchFavoriteProducts } from "@/services/api";
-import { Product } from "@/types/product";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { ThemedView } from "@/components/ThemedView";
-import { ThemedText } from "@/components/ThemedText";
-import { ScrollView } from "react-native-gesture-handler";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
+import { fetchAllProducts } from "@/services/api";
+import { Product } from "@/types/product";
+import { useNavigation } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
+import ProductsNavigator from "@/app/deprecated/(tabs)/productsNavigator";
 
-type RootStackParamList = {
-  ProductDetails: { productId: string };
+export type RootStackParamList = {
   Filter: undefined;
 };
 
-type NavigationProp = StackNavigationProp<RootStackParamList, "ProductDetails">;
+type NavigationProp = StackNavigationProp<RootStackParamList, "Filter">;
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
-export const Favorites: React.FC = () => {
+const Products: React.FC = () => {
   const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -61,7 +60,7 @@ export const Favorites: React.FC = () => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.logoText}>FAVORITES</Text>
+        <Text style={styles.logoText}>EXPLORE CATALOG</Text>
         <TouchableOpacity>
           <Image
             source={require("@/assets/icons/search.png")}
@@ -117,19 +116,12 @@ export const Favorites: React.FC = () => {
   );
 };
 
-const ProductCard: React.FC<{ product: Product; style?: any }> = ({
+export const ProductCard: React.FC<{ product: Product; style?: any }> = ({
   product,
   style,
 }) => {
   return (
-    <View
-      style={[
-        styles.productCard,
-        style,
-        product.stock == 0 ? { opacity: 0.5 } : {},
-      ]}
-      key={product.id}
-    >
+    <View style={[styles.productCard, style]} key={product.id}>
       <View>
         <Image source={{ uri: product.image }} style={styles.productImage} />
         {product.discountPrice && (
@@ -137,21 +129,9 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
             <Text style={styles.discountText}>-20%</Text>
           </View>
         )}
-        <TouchableOpacity style={styles.closeButton}>
-          <Ionicons name="close" size={26} color={Colors.black} />
+        <TouchableOpacity style={styles.favoriteButton}>
+          <Ionicons name="heart-outline" size={16} color={Colors.black} />
         </TouchableOpacity>
-        {product.stock !== 0 && (
-          <TouchableOpacity style={styles.favoriteButton}>
-            <Ionicons name="cart-outline" size={20} color={Colors.white} />
-          </TouchableOpacity>
-        )}
-        {product.stock === 0 && (
-          <View style={styles.soldOutOverlay}>
-            <Text style={styles.soldOutText}>
-              Sorry, this item is currently sold out
-            </Text>
-          </View>
-        )}
       </View>
       <View style={styles.ratingContainer}>
         {renderStars(product.rating)}
@@ -302,14 +282,6 @@ const styles = StyleSheet.create({
     fontFamily: "Glorious",
     color: "#fff",
   },
-  closeButton: {
-    position: "absolute",
-    right: 5,
-    top: 5,
-    opacity: 0.5,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   favoriteButton: {
     position: "absolute",
     right: 0,
@@ -317,7 +289,7 @@ const styles = StyleSheet.create({
     width: 48,
     height: 48,
     borderRadius: 24,
-    backgroundColor: "#f29c1d",
+    backgroundColor: "#fff",
     opacity: 0.9,
     justifyContent: "center",
     alignItems: "center",
@@ -326,19 +298,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 4 },
     shadowRadius: 12,
     elevation: 6,
-  },
-  soldOutOverlay: {
-    position: "absolute",
-    bottom: 0,
-    left: 0,
-    right: 0,
-    backgroundColor: "rgba(255, 255, 255, 1)",
-    paddingVertical: 5,
-    paddingLeft: 10,
-    paddingRight: 5,
-  },
-  soldOutText: {
-    color: "black",
   },
   productBrand: {
     fontSize: 18,
@@ -394,4 +353,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Favorites;
+export default Products;

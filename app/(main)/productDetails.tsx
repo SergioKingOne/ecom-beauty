@@ -15,9 +15,9 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { Product } from "@/types/product";
 import { Ionicons } from "@expo/vector-icons";
-import { ThemedIcon } from "./ThemedIcon";
-import { ProductCard } from "@/app/deprecated/(tabs)/products";
-import ThemedScrollView from "./ThemedScrollView";
+import { ThemedIcon } from "@/components/ThemedIcon";
+import { ProductCard } from "@/app/(main)/(tabs)/(products)/products";
+import ThemedScrollView from "@/components/ThemedScrollView";
 import { StackNavigationProp } from "@react-navigation/stack";
 
 export type RootStackParamList = {

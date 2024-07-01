@@ -13,7 +13,6 @@ import ProductCard from "@/components/ProductCard";
 import { fetchProducts } from "@/services/api";
 import { Product } from "@/types/product";
 import { StackNavigationProp } from "@react-navigation/stack";
-import Colors from "@/constants/Colors";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
