@@ -16,6 +16,9 @@ import { ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { useRouter } from "expo-router";
+import ThemedScrollView from "@/components/ThemedScrollView";
+import { ThemedImageIcon } from "@/components/ThemedImageIcon";
+import { ThemedIcon } from "@/components/ThemedIcon";
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
@@ -51,11 +54,11 @@ export const Favorites: React.FC = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ThemedScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.logoText}>FAVORITES</Text>
+        <ThemedText style={styles.logoText}>FAVORITES</ThemedText>
         <TouchableOpacity>
-          <Image
+          <ThemedImageIcon
             source={require("@/assets/icons/search.png")}
             style={styles.icon}
           />
@@ -92,12 +95,14 @@ export const Favorites: React.FC = () => {
           style={styles.filterButton}
           onPress={() => router.push("/filters")}
         >
-          <Ionicons name="filter" size={16} color={Colors.black} />
-          <Text style={styles.filterText}>Filters</Text>
+          <ThemedIcon name="filter" size={16} />
+          <ThemedText style={styles.filterText}>Filters</ThemedText>
         </TouchableOpacity>
         <TouchableOpacity style={styles.filterButton}>
-          <Ionicons name="swap-vertical" size={16} color={Colors.black} />
-          <Text style={styles.filterText}>Price: lowest to high</Text>
+          <ThemedIcon name="swap-vertical" size={16} />
+          <ThemedText style={styles.filterText}>
+            Price: lowest to high
+          </ThemedText>
         </TouchableOpacity>
       </View>
       <View style={styles.productGrid}>
@@ -105,7 +110,7 @@ export const Favorites: React.FC = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </View>
-    </ScrollView>
+    </ThemedScrollView>
   );
 };
 
@@ -199,7 +204,6 @@ const renderStars = (rating: number) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingHorizontal: 16,
     paddingTop: 40,
   },
@@ -208,7 +212,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#ffffff",
   },
   icon: {
     height: 24,
@@ -218,7 +221,6 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   categoryScroll: {
     flexDirection: "row",

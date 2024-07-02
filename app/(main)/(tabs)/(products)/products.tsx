@@ -17,6 +17,7 @@ import { Product } from "@/types/product";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useRouter } from "expo-router";
+import ThemedScrollView from "@/components/ThemedScrollView";
 
 export type RootStackParamList = {
   Filter: undefined;
@@ -28,7 +29,6 @@ const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 const Products: React.FC = () => {
   const router = useRouter();
-  const navigation = useNavigation<NavigationProp>();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedCategory, setSelectedCategory] = useState<string>(
@@ -59,7 +59,7 @@ const Products: React.FC = () => {
   }
 
   return (
-    <ScrollView style={styles.container}>
+    <ThemedScrollView style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.logoText}>EXPLORE CATALOG</Text>
         <TouchableOpacity>
@@ -113,7 +113,7 @@ const Products: React.FC = () => {
           <ProductCard key={product.id} product={product} />
         ))}
       </View>
-    </ScrollView>
+    </ThemedScrollView>
   );
 };
 
