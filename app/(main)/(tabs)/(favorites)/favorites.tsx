@@ -156,9 +156,9 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
       </View>
       <View>
         <Text style={styles.productBrand}>{product.category}</Text>
-        <Text style={styles.productName}>{product.name}</Text>
+        <ThemedText style={styles.productName}>{product.name}</ThemedText>
         <View style={styles.priceContainer}>
-          <Text
+          <ThemedText
             style={
               product.discountPrice && parseFloat(product.discountPrice) > 0
                 ? styles.noDiscountPrice
@@ -166,7 +166,7 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
             }
           >
             ${product.price}
-          </Text>
+          </ThemedText>
           {product.discountPrice && parseFloat(product.discountPrice) > 0 && (
             <Text style={styles.discountPrice}>
               $
@@ -341,7 +341,6 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 20,
     fontFamily: "Glorious",
-    color: "#131313",
     marginVertical: 8,
   },
   priceContainer: {
@@ -363,7 +362,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 20,
     fontFamily: "Glorious",
-    color: "#131313",
     marginRight: 8,
   },
   ratingContainer: {

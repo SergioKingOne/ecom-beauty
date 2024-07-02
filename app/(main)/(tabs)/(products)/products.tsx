@@ -14,16 +14,11 @@ import { Ionicons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import { fetchAllProducts } from "@/services/api";
 import { Product } from "@/types/product";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useRouter } from "expo-router";
 import ThemedScrollView from "@/components/ThemedScrollView";
-
-export type RootStackParamList = {
-  Filter: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "Filter">;
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedIcon } from "@/components/ThemedIcon";
+import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
@@ -61,9 +56,9 @@ const Products: React.FC = () => {
   return (
     <ThemedScrollView style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.logoText}>EXPLORE CATALOG</Text>
+        <ThemedText style={styles.logoText}>EXPLORE CATALOG</ThemedText>
         <TouchableOpacity>
-          <Image
+          <ThemedImageIcon
             source={require("@/assets/icons/search.png")}
             style={styles.icon}
           />
@@ -100,12 +95,14 @@ const Products: React.FC = () => {
           style={styles.filterButton}
           onPress={() => router.push("/filters")}
         >
-          <Ionicons name="filter" size={16} color={Colors.black} />
-          <Text style={styles.filterText}>Filters</Text>
+          <ThemedIcon name="filter" size={16} />
+          <ThemedText style={styles.filterText}>Filters</ThemedText>
         </TouchableOpacity>
         <TouchableOpacity style={styles.filterButton}>
-          <Ionicons name="swap-vertical" size={16} color={Colors.black} />
-          <Text style={styles.filterText}>Price: lowest to high</Text>
+          <ThemedIcon name="swap-vertical" size={16} />
+          <ThemedText style={styles.filterText}>
+            Price: lowest to high
+          </ThemedText>
         </TouchableOpacity>
       </View>
       <View style={styles.productGrid}>
@@ -140,9 +137,9 @@ export const ProductCard: React.FC<{ product: Product; style?: any }> = ({
       </View>
       <View>
         <Text style={styles.productBrand}>{product.category}</Text>
-        <Text style={styles.productName}>{product.name}</Text>
+        <ThemedText style={styles.productName}>{product.name}</ThemedText>
         <View style={styles.priceContainer}>
-          <Text
+          <ThemedText
             style={
               product.discountPrice && parseFloat(product.discountPrice) > 0
                 ? styles.noDiscountPrice
@@ -150,7 +147,7 @@ export const ProductCard: React.FC<{ product: Product; style?: any }> = ({
             }
           >
             ${product.price}
-          </Text>
+          </ThemedText>
           {product.discountPrice && parseFloat(product.discountPrice) > 0 && (
             <Text style={styles.discountPrice}>
               $
@@ -188,7 +185,6 @@ const renderStars = (rating: number) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingHorizontal: 16,
     paddingTop: 40,
   },
@@ -197,7 +193,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#ffffff",
   },
   icon: {
     height: 24,
@@ -207,7 +202,6 @@ const styles = StyleSheet.create({
   logoText: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   categoryScroll: {
     flexDirection: "row",
@@ -307,7 +301,6 @@ const styles = StyleSheet.create({
   productName: {
     fontSize: 20,
     fontFamily: "Glorious",
-    color: "#131313",
     marginVertical: 8,
   },
   priceContainer: {
@@ -329,7 +322,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 20,
     fontFamily: "Glorious",
-    color: "#131313",
     marginRight: 8,
   },
   ratingContainer: {
