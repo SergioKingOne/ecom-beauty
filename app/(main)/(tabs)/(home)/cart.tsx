@@ -16,7 +16,6 @@ import { useColorScheme } from "@/hooks/useColorScheme";
 const CartScreen: React.FC = () => {
   const router = useRouter();
   const colorScheme = useColorScheme();
-  const safeColorScheme = colorScheme ?? "light";
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
