@@ -1,3 +1,4 @@
+import { useColorScheme } from "@/hooks/useColorScheme";
 import React, { useState } from "react";
 import {
   View,
@@ -38,13 +39,26 @@ type CustomCheckBoxProps = {
 export const CustomCheckBox: React.FC<CustomCheckBoxProps> = ({
   isChecked,
   onPress,
-}) => (
-  <TouchableWithoutFeedback onPress={onPress}>
-    <View style={styles.checkbox}>
-      {isChecked && <View style={styles.checkboxInner} />}
-    </View>
-  </TouchableWithoutFeedback>
-);
+}) => {
+  const colorScheme = useColorScheme();
+  return (
+    <TouchableWithoutFeedback onPress={onPress}>
+      <View style={styles.checkbox}>
+        {isChecked && (
+          <View
+            style={[
+              styles.checkboxInner,
+              {
+                backgroundColor:
+                  colorScheme === "light" ? "#131313" : "#fdfbfb",
+              },
+            ]}
+          />
+        )}
+      </View>
+    </TouchableWithoutFeedback>
+  );
+};
 
 const PayMethod = () => {
   const [selectedId, setSelectedId] = useState<string | null>(null);

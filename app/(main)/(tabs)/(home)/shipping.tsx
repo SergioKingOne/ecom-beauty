@@ -7,9 +7,10 @@ import {
   FlatList,
 } from "react-native";
 import { CustomCheckBox } from "./payMethod";
-import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useRouter } from "expo-router";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
 
 type RootStackParamList = {
   AddShipping: undefined;
@@ -40,7 +41,6 @@ const initialAddresses = [
 
 const Shipping = () => {
   const router = useRouter();
-  const navigation = useNavigation<NavigationProp>();
   const [addresses, setAddresses] = useState(initialAddresses);
 
   const toggleDefaultAddress = (selectedId: string) => {
@@ -56,7 +56,7 @@ const Shipping = () => {
       style={[styles.addressContainer, item.isDefault && styles.defaultAddress]}
     >
       <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-        <Text style={styles.name}>{item.name}</Text>
+        <ThemedText style={styles.name}>{item.name}</ThemedText>
         <TouchableOpacity>
           <Text style={styles.edit}>Edit</Text>
         </TouchableOpacity>
@@ -73,8 +73,8 @@ const Shipping = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Shipping Addresses</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.title}>Shipping Addresses</ThemedText>
       <FlatList
         data={addresses}
         renderItem={renderAddressItem}
@@ -86,7 +86,7 @@ const Shipping = () => {
       >
         <Text style={styles.addButtonText}>+</Text>
       </TouchableOpacity>
-    </View>
+    </ThemedView>
   );
 };
 
@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 40,
-    backgroundColor: "#fdfbfb",
   },
   title: {
     fontSize: 24,
@@ -116,7 +115,6 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 8,
-    color: "#131313",
   },
   edit: {
     fontSize: 16,
