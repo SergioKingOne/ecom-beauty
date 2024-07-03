@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useRouter } from "expo-router";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { ThemedContainer } from "@/components/ThemedContainer";
 import { ThemedOpacity } from "@/components/ThemedOpacity";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
