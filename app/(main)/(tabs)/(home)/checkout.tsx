@@ -1,101 +1,108 @@
 import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useRouter } from "expo-router";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { ThemedContainer } from "@/components/ThemedContainer";
+import { ThemedOpacity } from "@/components/ThemedOpacity";
+import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 
 const Checkout = () => {
   const router = useRouter();
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Checkout</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.title}>Checkout</ThemedText>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Shipping address</Text>
-        <View style={styles.addressContainer}>
-          <Text style={styles.text}>Jane Doe</Text>
-          <Text style={styles.text}>3 Newbridge Court</Text>
-          <Text style={styles.text}>Chino Hills, CA 91709, United States</Text>
+        <ThemedText style={styles.sectionTitle}>Shipping address</ThemedText>
+        <ThemedContainer style={styles.addressContainer}>
+          <ThemedText style={styles.text}>Jane Doe</ThemedText>
+          <ThemedText style={styles.text}>3 Newbridge Court</ThemedText>
+          <ThemedText style={styles.text}>
+            Chino Hills, CA 91709, United States
+          </ThemedText>
           <TouchableOpacity
             style={styles.changeButton}
             onPress={() => router.push("/shipping")}
           >
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
-        </View>
+        </ThemedContainer>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Payment</Text>
-        <View style={styles.paymentContainer}>
+        <ThemedText style={styles.sectionTitle}>Payment</ThemedText>
+        <ThemedContainer style={styles.paymentContainer}>
           <Image
             source={require("@/assets/icons/mastercard.png")}
             style={styles.paymentIcon}
           />
-          <Text style={styles.text}>**** **** **** 3947</Text>
+          <ThemedText style={styles.text}>**** **** **** 3947</ThemedText>
           <TouchableOpacity
             style={styles.changeButton}
             onPress={() => router.push("/payMethod")}
           >
             <Text style={styles.changeText}>Change</Text>
           </TouchableOpacity>
-        </View>
+        </ThemedContainer>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Delivery method</Text>
+        <ThemedText style={styles.sectionTitle}>Delivery method</ThemedText>
         <View style={styles.deliveryMethods}>
-          <TouchableOpacity style={styles.deliveryOption}>
+          <ThemedOpacity style={styles.deliveryOption}>
             <Image
               source={require("@/assets/icons/fedex.png")}
               style={styles.deliveryIcon}
             />
-            <Text style={styles.text}>2-3 days</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.deliveryOption}>
+            <ThemedText style={styles.text}>2-3 days</ThemedText>
+          </ThemedOpacity>
+          <ThemedOpacity style={styles.deliveryOption}>
             <Image
               source={require("@/assets/icons/usps.png")}
               style={styles.deliveryIcon}
             />
-            <Text style={styles.text}>2-3 days</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.deliveryOption}>
-            <Image
+            <ThemedText style={styles.text}>2-3 days</ThemedText>
+          </ThemedOpacity>
+          <ThemedOpacity style={styles.deliveryOption}>
+            <ThemedImageIcon
               source={require("@/assets/icons/dhl.png")}
               style={styles.deliveryIcon}
             />
-            <Text style={styles.text}>2-3 days</Text>
-          </TouchableOpacity>
+            <ThemedText style={styles.text}>2-3 days</ThemedText>
+          </ThemedOpacity>
         </View>
       </View>
 
       <View style={styles.summaryContainer}>
         <View style={styles.summaryLine}>
           <Text style={styles.Summarytext}>Order:</Text>
-          <Text
+          <ThemedText
             style={[styles.SummarytextMoney, { textAlign: "right", flex: 1 }]}
           >
             112$
-          </Text>
+          </ThemedText>
         </View>
         <View style={styles.summaryLine}>
           <Text style={styles.Summarytext}>Delivery:</Text>
-          <Text
+          <ThemedText
             style={[styles.SummarytextMoney, { textAlign: "right", flex: 1 }]}
           >
             15$
-          </Text>
+          </ThemedText>
         </View>
         <View style={styles.summaryLine}>
           <Text style={styles.SummarytextFinal}>Summary:</Text>
-          <Text
+          <ThemedText
             style={[
               styles.SummarytextMoneyFinal,
               { textAlign: "right", flex: 1 },
             ]}
           >
             127$
-          </Text>
+          </ThemedText>
         </View>
       </View>
 
@@ -105,7 +112,7 @@ const Checkout = () => {
       >
         <Text style={styles.submitButtonText}>SUBMIT ORDER</Text>
       </TouchableOpacity>
-    </View>
+    </ThemedView>
   );
 };
 
@@ -114,7 +121,6 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 40,
-    backgroundColor: "#fdfbfb",
   },
   title: {
     fontSize: 24,
@@ -130,18 +136,14 @@ const styles = StyleSheet.create({
   },
   addressContainer: {
     padding: 16,
-    backgroundColor: "#ffffff",
     borderRadius: 8,
-    borderColor: "#f2c1d",
     borderWidth: 1,
   },
   paymentContainer: {
     flexDirection: "row",
     alignItems: "center",
     padding: 16,
-    backgroundColor: "#ffffff",
     borderRadius: 8,
-    borderColor: "#f2c1d",
     borderWidth: 1,
   },
   paymentIcon: {
@@ -156,9 +158,7 @@ const styles = StyleSheet.create({
   deliveryOption: {
     alignItems: "center",
     padding: 8,
-    backgroundColor: "#ffffff",
     borderRadius: 8,
-    borderColor: "#f2c1d",
     borderWidth: 1,
   },
   deliveryIcon: {
@@ -181,7 +181,6 @@ const styles = StyleSheet.create({
   },
   SummarytextMoney: {
     fontSize: 16,
-    color: "#131313",
   },
   SummarytextFinal: {
     fontSize: 18,
@@ -189,11 +188,9 @@ const styles = StyleSheet.create({
   },
   SummarytextMoneyFinal: {
     fontSize: 18,
-    color: "#131313",
   },
   text: {
     fontSize: 16,
-    color: "#131313",
   },
   changeButton: {
     position: "absolute",

@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import {
-  View,
   Text,
   TextInput,
-  Button,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
 } from "react-native";
 import { Picker } from "@react-native-picker/picker";
+import { ThemedText } from "@/components/ThemedText";
+import ThemedScrollView from "@/components/ThemedScrollView";
 
 const countries = ["United States", "Canada", "Australia"];
 
@@ -25,8 +25,8 @@ const AddShipping = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Adding Shipping Address</Text>
+    <ThemedScrollView contentContainerStyle={styles.container}>
+      <ThemedText style={styles.title}>Adding Shipping Address</ThemedText>
       <TextInput
         style={styles.input}
         placeholder="Full name"
@@ -72,21 +72,19 @@ const AddShipping = () => {
       >
         <Text style={styles.addressButtonText}>SAVE ADDRESS</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </ThemedScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "#fdfbfb",
     flex: 1,
     paddingTop: 40,
   },
   title: {
     fontSize: 24,
-    fontFamily: "Glorious", // Ensure you have the font available in your project
-    color: "#131313",
+    fontFamily: "Glorious",
     marginBottom: 20,
   },
   input: {

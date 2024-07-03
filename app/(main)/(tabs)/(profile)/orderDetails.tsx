@@ -8,14 +8,17 @@ import {
 } from "react-native";
 import ProductOrder from "@/components/ProductOrder";
 import { Order } from "@/types/Order";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedOpacity } from "@/components/ThemedOpacity";
 
 const OrderDetails = () => {
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.header}>
           <View style={styles.textContainer}>
-            <Text style={styles.headerText}>Order №1947034</Text>
+            <ThemedText style={styles.headerText}>Order №1947034</ThemedText>
             <Text style={styles.headerTextSmall}>05-12-2019</Text>
           </View>
           <View style={styles.textContainer}>
@@ -24,7 +27,7 @@ const OrderDetails = () => {
             </Text>
             <Text style={styles.delivered}>Delivered</Text>
           </View>
-          <Text style={styles.textContainer}>3 items</Text>
+          <ThemedText style={styles.textContainer}>3 items</ThemedText>
         </View>
 
         <View style={styles.items}>
@@ -52,15 +55,17 @@ const OrderDetails = () => {
         </View>
 
         <View style={styles.orderInfo}>
-          <Text style={styles.orderInfoTitle}>Order Information</Text>
+          <ThemedText style={styles.orderInfoTitle}>
+            Order Information
+          </ThemedText>
           <View style={styles.infoContainer}>
             <View style={styles.labelContainer}>
               <Text style={styles.infoText}>Shipping Address:</Text>
             </View>
             <View style={styles.valueContainer}>
-              <Text style={styles.infoValue}>
+              <ThemedText style={styles.infoValue}>
                 3 Newbridge Court, Chino Hills, CA 91709, United States
-              </Text>
+              </ThemedText>
             </View>
           </View>
 
@@ -69,7 +74,9 @@ const OrderDetails = () => {
               <Text style={styles.infoText}>Payment Method:</Text>
             </View>
             <View style={styles.valueContainer}>
-              <Text style={styles.infoValue}>**** **** **** 3947</Text>
+              <ThemedText style={styles.infoValue}>
+                **** **** **** 3947
+              </ThemedText>
             </View>
           </View>
 
@@ -78,7 +85,9 @@ const OrderDetails = () => {
               <Text style={styles.infoText}>Delivery method:</Text>
             </View>
             <View style={styles.valueContainer}>
-              <Text style={styles.infoValue}>FedEx, 3 days, 15$</Text>
+              <ThemedText style={styles.infoValue}>
+                FedEx, 3 days, 15$
+              </ThemedText>
             </View>
           </View>
 
@@ -87,7 +96,9 @@ const OrderDetails = () => {
               <Text style={styles.infoText}>Discount:</Text>
             </View>
             <View style={styles.valueContainer}>
-              <Text style={styles.infoValue}>10%, Personal promo code</Text>
+              <ThemedText style={styles.infoValue}>
+                10%, Personal promo code
+              </ThemedText>
             </View>
           </View>
 
@@ -96,27 +107,26 @@ const OrderDetails = () => {
               <Text style={styles.infoText}>Total Amount:</Text>
             </View>
             <View style={styles.valueContainer}>
-              <Text style={styles.infoValue}>133$</Text>
+              <ThemedText style={styles.infoValue}>133$</ThemedText>
             </View>
           </View>
         </View>
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttonText}>Reorder</Text>
-          </TouchableOpacity>
+          <ThemedOpacity style={styles.button}>
+            <ThemedText style={styles.buttonText}>Reorder</ThemedText>
+          </ThemedOpacity>
           <TouchableOpacity style={[styles.button, styles.feedbackButton]}>
             <Text style={styles.feedbackText}>Leave feedback</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
   scrollContainer: {
@@ -134,7 +144,6 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 24,
-    color: "#131313",
   },
   headerTextSmall: {
     fontSize: 14,
@@ -193,7 +202,6 @@ const styles = StyleSheet.create({
   },
   orderInfoTitle: {
     fontSize: 18,
-    color: "#131313",
     marginBottom: 20,
   },
   infoText: {
@@ -202,7 +210,6 @@ const styles = StyleSheet.create({
   },
   infoValue: {
     fontSize: 14,
-    color: "#131313",
     flexShrink: 1,
   },
   actions: {

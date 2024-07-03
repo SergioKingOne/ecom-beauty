@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import { useRouter } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -91,8 +91,8 @@ const MyOrders = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>My Orders</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.header}>My Orders</ThemedText>
       <View style={styles.tabsContainer}>
         {["Delivered", "Processing", "Cancelled"].map((tab) => (
           <TouchableOpacity
@@ -117,14 +117,13 @@ const MyOrders = () => {
         keyExtractor={(item) => item.id}
         contentContainerStyle={styles.listContainer}
       />
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
   header: {
@@ -132,7 +131,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginHorizontal: 20,
     marginBottom: 10,
-    color: "#131313",
     fontFamily: "Glorious",
   },
   tabsContainer: {

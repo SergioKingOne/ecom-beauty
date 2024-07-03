@@ -12,12 +12,14 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
+import ThemedScrollView from "@/components/ThemedScrollView";
+import { ThemedText } from "@/components/ThemedText";
 
 export const UserProfile: React.FC = () => {
   const router = useRouter();
 
   return (
-    <ScrollView style={styles.container}>
+    <ThemedScrollView style={styles.container}>
       <View style={styles.header}>
         <Image
           source={{
@@ -25,12 +27,12 @@ export const UserProfile: React.FC = () => {
           }}
           style={styles.profilePic}
         />
-        <Text style={styles.name}>John Doe</Text>
+        <ThemedText style={styles.name}>John Doe</ThemedText>
         <Text style={styles.email}>john.doe@example.com</Text>
       </View>
 
       <View style={styles.section}>
-        <Text style={styles.sectionTitle}>Recent Activity</Text>
+        <ThemedText style={styles.sectionTitle}>Recent Activity</ThemedText>
         <View style={styles.activityItem}>
           <Text style={styles.activityText}>Order #1234 - Delivered</Text>
         </View>
@@ -78,20 +80,18 @@ export const UserProfile: React.FC = () => {
           <Text style={styles.settingsText}>Log Out</Text>
         </TouchableOpacity>
       </View>
-    </ScrollView>
+    </ThemedScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingTop: 40,
   },
   header: {
     alignItems: "center",
     paddingVertical: 20,
-    backgroundColor: "#ffffff",
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
   },
@@ -104,7 +104,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   email: {
     fontSize: 16,
@@ -117,7 +116,6 @@ const styles = StyleSheet.create({
   sectionTitle: {
     fontSize: 20,
     fontFamily: "Glorious",
-    color: "#131313",
     marginBottom: 10,
   },
   activityItem: {

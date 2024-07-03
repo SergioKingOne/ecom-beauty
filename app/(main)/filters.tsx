@@ -40,7 +40,7 @@ const FiltersScreen = () => {
       </TouchableOpacity>
       <ThemedText style={styles.header}>Filters</ThemedText>
       <ScrollView>
-        <Text style={styles.subHeader}>Price range</Text>
+        <ThemedText style={styles.subHeader}>Price range</ThemedText>
         <View style={styles.section}>
           <View style={styles.sliderContainer}>
             <Text style={styles.price}>${priceRange[0]}</Text>
@@ -64,7 +64,7 @@ const FiltersScreen = () => {
           </View>
         </View>
 
-        <Text style={styles.subHeader}>Colors</Text>
+        <ThemedText style={styles.subHeader}>Colors</ThemedText>
         <View style={styles.section}>
           <View style={styles.optionsContainer}>
             {colors.map((color, index) => (
@@ -81,7 +81,7 @@ const FiltersScreen = () => {
           </View>
         </View>
 
-        <Text style={styles.subHeader}>Sizes</Text>
+        <ThemedText style={styles.subHeader}>Sizes</ThemedText>
         <View style={styles.section}>
           <View style={styles.optionsContainer}>
             {sizes.map((size, index) => (
@@ -99,7 +99,7 @@ const FiltersScreen = () => {
           </View>
         </View>
 
-        <Text style={styles.subHeader}>Category</Text>
+        <ThemedText style={styles.subHeader}>Category</ThemedText>
         <View style={styles.section}>
           <View style={styles.optionsContainer}>
             {categories.map((category, index) => (
@@ -165,7 +165,6 @@ const styles = StyleSheet.create({
   },
   subHeader: {
     fontSize: 18,
-    color: "#131313",
     marginBottom: 8,
     marginLeft: 16,
   },

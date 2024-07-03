@@ -8,9 +8,14 @@ import {
   ScrollView,
 } from "react-native";
 import { useRouter } from "expo-router";
+import { ThemedView } from "@/components/ThemedView";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedImageIcon } from "@/components/ThemedImageIcon";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 const CartScreen: React.FC = () => {
   const router = useRouter();
+  const colorScheme = useColorScheme();
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -51,35 +56,45 @@ const CartScreen: React.FC = () => {
   );
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Text style={styles.backButtonText}>←</Text>
+        <ThemedText style={styles.backButtonText}>←</ThemedText>
       </TouchableOpacity>
-      <Text style={styles.header}>CART</Text>
+      <ThemedText style={styles.header}>CART</ThemedText>
       <ScrollView style={styles.cartItemsContainer}>
         {cartItems.map((item) => (
           <View key={item.id} style={styles.cartItem}>
             <Image source={{ uri: item.image }} style={styles.image} />
             <View style={styles.details}>
-              <Text style={styles.name}>{item.name}</Text>
+              <ThemedText style={styles.name}>{item.name}</ThemedText>
               <Text style={styles.description}>{item.description}</Text>
               <View style={styles.priceContainer}>
-                <Text style={styles.price}>{item.price}$</Text>
+                <ThemedText style={styles.price}>{item.price}$</ThemedText>
               </View>
               <View style={styles.quantityContainer}>
                 <TouchableOpacity
-                  style={styles.quantityButton}
+                  style={[
+                    styles.quantityButton,
+                    {
+                      borderColor: colorScheme === "light" ? "#131313" : "#fff",
+                    },
+                  ]}
                   onPress={() => handleQuantityChange(item.id, -1)}
                   disabled={item.quantity === 1}
                 >
-                  <Text style={styles.quantityButtonText}>-</Text>
+                  <ThemedText style={styles.quantityButtonText}>-</ThemedText>
                 </TouchableOpacity>
-                <Text style={styles.quantity}>{item.quantity}</Text>
+                <ThemedText style={styles.quantity}>{item.quantity}</ThemedText>
                 <TouchableOpacity
-                  style={styles.quantityButton}
+                  style={[
+                    styles.quantityButton,
+                    {
+                      borderColor: colorScheme === "light" ? "#131313" : "#fff",
+                    },
+                  ]}
                   onPress={() => handleQuantityChange(item.id, 1)}
                 >
-                  <Text style={styles.quantityButtonText}>+</Text>
+                  <ThemedText style={styles.quantityButtonText}>+</ThemedText>
                 </TouchableOpacity>
               </View>
             </View>
@@ -87,36 +102,49 @@ const CartScreen: React.FC = () => {
               style={styles.trashButton}
               onPress={() => handleRemoveItem(item.id)}
             >
-              <Image
+              <ThemedImageIcon
                 source={require("@/assets/icons/trash-bin.png")}
                 style={styles.trashIcon}
               />
             </TouchableOpacity>
           </View>
         ))}
-        <TouchableOpacity style={styles.promoButton}>
-          <Text style={styles.promoButtonText}>Enter promo code</Text>
+        <TouchableOpacity
+          style={[
+            styles.promoButton,
+            {
+              borderColor: colorScheme === "light" ? "#131313" : "#fff",
+            },
+          ]}
+        >
+          <ThemedText style={styles.promoButtonText}>
+            Enter promo code
+          </ThemedText>
         </TouchableOpacity>
       </ScrollView>
 
       <View style={styles.totalContainer}>
         <Text style={styles.totalPriceLabel}>Total price:</Text>
-        <Text style={styles.totalPrice}>{totalPrice}$</Text>
+        <ThemedText style={styles.totalPrice}>{totalPrice}$</ThemedText>
       </View>
       <TouchableOpacity
-        style={styles.payButton}
+        style={[
+          styles.payButton,
+          {
+            backgroundColor: colorScheme === "light" ? "#131313" : "#f29c1d",
+          },
+        ]}
         onPress={() => router.push("/checkout")}
       >
         <Text style={styles.payButtonText}>CHECK OUT</Text>
       </TouchableOpacity>
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fdfbfb",
     paddingLeft: 16,
     paddingRight: 16,
   },
@@ -129,12 +157,10 @@ const styles = StyleSheet.create({
   backButtonText: {
     fontSize: 48,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   header: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
     textAlign: "center",
     marginBottom: 16,
     marginTop: 64,
@@ -162,7 +188,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 20,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   description: {
     fontSize: 14,
@@ -178,7 +203,6 @@ const styles = StyleSheet.create({
   price: {
     fontSize: 16,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   quantityContainer: {
     flexDirection: "row",
@@ -198,12 +222,10 @@ const styles = StyleSheet.create({
   },
   quantityButtonText: {
     fontSize: 18,
-    color: "#131313",
   },
   quantity: {
     fontSize: 18,
     fontFamily: "Glorious",
-    color: "#131313",
     marginHorizontal: 4,
   },
   trashButton: {
@@ -224,7 +246,6 @@ const styles = StyleSheet.create({
     borderColor: "#131313",
   },
   promoButtonText: {
-    color: "#131313",
     fontSize: 18,
     textAlign: "center",
   },
@@ -239,11 +260,9 @@ const styles = StyleSheet.create({
   totalPrice: {
     fontSize: 34,
     fontFamily: "Glorious",
-    color: "#131313",
     textAlign: "center",
   },
   payButton: {
-    backgroundColor: "#131313",
     padding: 16,
     marginBottom: 32,
   },

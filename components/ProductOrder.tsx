@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
+import { ThemedText } from "./ThemedText";
 
 interface ProductOrderProps {
   imageUrl: string;
@@ -20,13 +21,13 @@ const ProductOrder: React.FC<ProductOrderProps> = ({
     <View style={styles.container}>
       <Image source={{ uri: imageUrl }} style={styles.image} />
       <View style={styles.details}>
-        <Text style={styles.name}>{name}</Text>
+        <ThemedText style={styles.name}>{name}</ThemedText>
         <Text style={styles.brand}>{brand}</Text>
         <Text style={styles.detailText}>
-          Units: <Text style={styles.boldText}>{units}</Text>
+          Units: <ThemedText style={styles.boldText}>{units}</ThemedText>
         </Text>
       </View>
-      <Text style={styles.price}>{price}$</Text>
+      <ThemedText style={styles.price}>{price}$</ThemedText>
     </View>
   );
 };
@@ -62,7 +63,6 @@ const styles = StyleSheet.create({
     color: "#888",
   },
   boldText: {
-    color: "#000",
     fontWeight: "bold",
   },
   price: {
