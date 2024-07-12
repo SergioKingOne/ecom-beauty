@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Product } from "@/types/product";
 
-const API_URL = "http://192.168.0.3:3000";
+const API_URL = "http://192.168.0.5:3000";
 
 export const fetchProducts = async (
   selectedCategory?: string
