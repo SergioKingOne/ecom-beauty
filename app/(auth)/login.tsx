@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { useSignIn } from "@clerk/clerk-expo";
 
 export type RootStackParamList = {
   ForgotPassword: undefined;
@@ -24,6 +25,14 @@ export type RootStackParamList = {
 type NavigationProp = StackNavigationProp<RootStackParamList, "ForgotPassword">;
 
 export default function Login({ onLogin }: { onLogin: () => void }) {
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSignInPress = async () => {
+    console.log("Sign in pressed");
+  };
   const navigation = useNavigation<NavigationProp>();
 
   const [fontsLoaded] = useFonts({
