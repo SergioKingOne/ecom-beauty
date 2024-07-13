@@ -19,10 +19,10 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { useSignIn } from "@clerk/clerk-expo";
 
 export type RootStackParamList = {
-  ForgotPassword: undefined;
+  forgotPassword: undefined;
 };
 
-type NavigationProp = StackNavigationProp<RootStackParamList, "ForgotPassword">;
+type NavigationProp = StackNavigationProp<RootStackParamList, "forgotPassword">;
 
 export default function Login({ onLogin }: { onLogin: () => void }) {
   const { signIn, setActive, isLoaded } = useSignIn();
@@ -67,7 +67,7 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
       </View>
       <TouchableOpacity
         style={styles.signinContainer}
-        onPress={() => navigation.navigate("ForgotPassword")}
+        onPress={() => navigation.navigate("forgotPassword")}
       >
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>

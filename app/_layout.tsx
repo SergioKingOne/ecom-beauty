@@ -11,7 +11,7 @@ import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { AuthProvider } from "./(auth)/authContext";
-import { ClerkProvider, useAuth } from "@clerk/clerk-expo";
+import { ClerkLoaded, ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
@@ -56,7 +56,7 @@ function InitialLayout() {
     if (isSignedIn && !inTabsGroup) {
       router.replace("/index");
     } else if (!isSignedIn) {
-      router.replace("/login");
+      router.replace("/signup");
     }
     console.log("isSignedIn: ", isSignedIn);
   }, [isSignedIn]);
@@ -85,9 +85,13 @@ export default function RootLayoutNav() {
       publishableKey={CLERK_PUBLISHABLE_KEY!}
       tokenCache={tokenCache}
     >
-      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-        <InitialLayout />
-      </ThemeProvider>
+      <ClerkLoaded>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <InitialLayout />
+        </ThemeProvider>
+      </ClerkLoaded>
     </ClerkProvider>
   );
 }

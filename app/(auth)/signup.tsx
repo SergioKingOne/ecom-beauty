@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -14,6 +14,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { router } from "expo-router";
+import { useSignUp } from "@clerk/clerk-expo";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -22,6 +23,52 @@ export type RootStackParamList = {
 type NavigationProp = StackNavigationProp<RootStackParamList, "Login">;
 
 export default function Signup({ onSignup }: { onSignup: () => void }) {
+  const { isLoaded, signUp, setActive } = useSignUp();
+
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [pendingVerification, setPendingVerification] = useState(false);
+  const [code, setCode] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const onSignUpPress = async () => {
+    if (!isLoaded) return;
+    setLoading(true);
+
+    try {
+      await signUp.create({ emailAddress, password });
+
+      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+
+      setPendingVerification(true);
+    } catch (error: any) {
+      console.error("Error signing up:", error.errors[0].message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onVerifyPress = async () => {
+    if (!isLoaded) return;
+    setLoading(true);
+
+    try {
+      const completeSignUp = await signUp.attemptEmailAddressVerification({
+        code,
+      });
+
+      if (completeSignUp.status === "complete") {
+        await setActive({ session: completeSignUp.createdSessionId });
+        router.replace("/");
+      } else {
+        console.error(JSON.stringify(completeSignUp, null, 2));
+      }
+    } catch (error: any) {
+      console.error("Error verifying email:", error.errors[0].message);
+    } finally {
+      setLoading(false);
+    }
+  };
   const navigation = useNavigation<NavigationProp>();
 
   const [fontsLoaded] = useFonts({
@@ -48,13 +95,34 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#818189"
+          value={emailAddress}
+          onChangeText={setEmailAddress}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
           placeholderTextColor="#818189"
+          value={password}
+          onChangeText={setPassword}
         />
+        {pendingVerification && (
+          <>
+            <TextInput
+              style={styles.input}
+              placeholder="Verification code"
+              placeholderTextColor="#818189"
+              value={code}
+              onChangeText={setCode}
+            />
+            <TouchableOpacity
+              style={styles.signupButton}
+              onPress={onVerifyPress}
+            >
+              <Text style={styles.signupButtonText}>VERIFY</Text>
+            </TouchableOpacity>
+          </>
+        )}
       </View>
       <TouchableOpacity
         style={styles.signinContainer}
@@ -63,7 +131,7 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
         <Text style={styles.signinText}>Already have an account? </Text>
         <Text style={styles.signinLink}>Sign in</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onSignup}>
+      <TouchableOpacity style={styles.signupButton} onPress={onSignUpPress}>
         <Text style={styles.signupButtonText}>SIGN UP</Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>
