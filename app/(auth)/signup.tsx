@@ -25,6 +25,8 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
   const [password, setPassword] = useState("");
   const [pendingVerification, setPendingVerification] = useState(false);
   const [code, setCode] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSignUpPress = async () => {
@@ -32,7 +34,7 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
     setLoading(true);
 
     try {
-      await signUp.create({ emailAddress, password });
+      await signUp.create({ emailAddress, password, firstName, lastName });
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
@@ -81,8 +83,17 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
           <View>
             <TextInput
               style={styles.input}
-              placeholder="Name"
+              placeholder="First name"
               placeholderTextColor="#818189"
+              value={firstName}
+              onChangeText={setFirstName}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Last name"
+              placeholderTextColor="#818189"
+              value={lastName}
+              onChangeText={setLastName}
             />
             <TextInput
               style={styles.input}
@@ -110,6 +121,19 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
           <TouchableOpacity style={styles.signupButton} onPress={onSignUpPress}>
             <Text style={styles.signupButtonText}>SIGN UP</Text>
           </TouchableOpacity>
+          <View style={styles.socialContainer}>
+            <Text style={styles.socialText}>
+              Or sign up with social account
+            </Text>
+            <View style={styles.socialButtons}>
+              <TouchableOpacity style={styles.socialButton}>
+                <ThemedIcon name="logo-google" size={30} />
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.socialButton}>
+                <ThemedIcon name="logo-facebook" size={30} />
+              </TouchableOpacity>
+            </View>
+          </View>
         </>
       )}
       {pendingVerification && (
@@ -129,17 +153,6 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
           </TouchableOpacity>
         </>
       )}
-      <View style={styles.socialContainer}>
-        <Text style={styles.socialText}>Or sign up with social account</Text>
-        <View style={styles.socialButtons}>
-          <TouchableOpacity style={styles.socialButton}>
-            <ThemedIcon name="logo-google" size={30} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.socialButton}>
-            <ThemedIcon name="logo-facebook" size={30} />
-          </TouchableOpacity>
-        </View>
-      </View>
     </ThemedView>
   );
 }

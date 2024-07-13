@@ -22,9 +22,7 @@ export const UserProfile: React.FC = () => {
           }}
           style={styles.profilePic}
         />
-        <ThemedText style={styles.name}>
-          {user?.firstName ? user?.firstName : "User"}
-        </ThemedText>
+        <ThemedText style={styles.name}>{user?.fullName}</ThemedText>
         <Text style={styles.email}>{user?.emailAddresses[0].emailAddress}</Text>
       </View>
 
