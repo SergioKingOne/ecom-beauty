@@ -5,9 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  Dimensions,
-  Button,
 } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
@@ -17,7 +14,6 @@ import { ThemedText } from "@/components/ThemedText";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useSignIn } from "@clerk/clerk-expo";
-import { useRouter } from "expo-router";
 
 export type RootStackParamList = {
   forgotPassword: undefined;
@@ -27,11 +23,9 @@ type NavigationProp = StackNavigationProp<RootStackParamList, "forgotPassword">;
 
 export default function Login() {
   const { signIn, setActive, isLoaded } = useSignIn();
-  const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
 
   const onSignInPress = React.useCallback(async () => {
     if (!isLoaded) {

@@ -11,16 +11,12 @@ import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
 
 export type RootStackParamList = {
   Login: undefined;
 };
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "Login">;
 
 export default function Signup({ onSignup }: { onSignup: () => void }) {
   const { isLoaded, signUp, setActive } = useSignUp();
