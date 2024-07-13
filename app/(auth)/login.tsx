@@ -1,30 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
-  Dimensions,
-  Button,
 } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { useSignIn } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
 
-export type RootStackParamList = {
-  ForgotPassword: undefined;
-};
+export default function Login() {
+  const { signIn, setActive, isLoaded } = useSignIn();
+  const router = useRouter();
 
-type NavigationProp = StackNavigationProp<RootStackParamList, "ForgotPassword">;
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
 
-export default function Login({ onLogin }: { onLogin: () => void }) {
-  const navigation = useNavigation<NavigationProp>();
+  const onSignInPress = React.useCallback(async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+      } else {
+        // TODO: See https://clerk.com/docs/custom-flows/error-handling
+        // for more info on error handling
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  }, [isLoaded, emailAddress, password]);
 
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),
@@ -35,10 +53,7 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
   }
   return (
     <ThemedView style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
 
@@ -48,22 +63,26 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#818189"
+          value={emailAddress}
+          onChangeText={setEmailAddress}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
           placeholderTextColor="#818189"
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
       <TouchableOpacity
         style={styles.signinContainer}
-        onPress={() => navigation.navigate("ForgotPassword")}
+        onPress={() => router.push("/reset")}
       >
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onLogin}>
+      <TouchableOpacity style={styles.signupButton} onPress={onSignInPress}>
         <Text style={styles.signupButtonText}>SIGN IN</Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>

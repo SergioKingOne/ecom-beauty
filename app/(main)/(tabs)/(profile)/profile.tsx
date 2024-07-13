@@ -1,21 +1,16 @@
-// app/(tabs)/UserProfile.tsx
-
 import React from "react";
-import {
-  StyleSheet,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
+import { useClerk, useUser } from "@clerk/clerk-expo";
 
 export const UserProfile: React.FC = () => {
+  const { user } = useUser();
+  const { signOut } = useClerk();
+
   const router = useRouter();
 
   return (
@@ -27,8 +22,8 @@ export const UserProfile: React.FC = () => {
           }}
           style={styles.profilePic}
         />
-        <ThemedText style={styles.name}>John Doe</ThemedText>
-        <Text style={styles.email}>john.doe@example.com</Text>
+        <ThemedText style={styles.name}>{user?.fullName}</ThemedText>
+        <Text style={styles.email}>{user?.emailAddresses[0].emailAddress}</Text>
       </View>
 
       <View style={styles.section}>
@@ -70,7 +65,7 @@ export const UserProfile: React.FC = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.settingsButton}
-          onPress={() => console.log("Log out pressed")}
+          onPress={() => signOut()}
         >
           <Ionicons
             name="log-out-outline"
