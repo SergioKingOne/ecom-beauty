@@ -11,18 +11,12 @@ import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useNavigation } from "@react-navigation/native";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { useSignIn } from "@clerk/clerk-expo";
-
-export type RootStackParamList = {
-  forgotPassword: undefined;
-};
-
-type NavigationProp = StackNavigationProp<RootStackParamList, "forgotPassword">;
+import { useRouter } from "expo-router";
 
 export default function Login() {
   const { signIn, setActive, isLoaded } = useSignIn();
+  const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
@@ -50,8 +44,6 @@ export default function Login() {
     }
   }, [isLoaded, emailAddress, password]);
 
-  const navigation = useNavigation<NavigationProp>();
-
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),
   });
@@ -61,10 +53,7 @@ export default function Login() {
   }
   return (
     <ThemedView style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
 
@@ -88,7 +77,7 @@ export default function Login() {
       </View>
       <TouchableOpacity
         style={styles.signinContainer}
-        onPress={() => navigation.navigate("forgotPassword")}
+        onPress={() => router.push("/reset")}
       >
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>

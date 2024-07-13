@@ -11,17 +11,18 @@ import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useNavigation } from "@react-navigation/native";
 import { useSignIn } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
 
 export default function ForgotPassword() {
+  const router = useRouter();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [successfulCreation, setSuccessfulCreation] = useState(false);
   const [secondFactor, setSecondFactor] = useState(false);
   const [error, setError] = useState("");
-  const navigation = useNavigation();
 
   const { isLoaded, signIn, setActive } = useSignIn();
 
@@ -79,10 +80,7 @@ export default function ForgotPassword() {
   }
   return (
     <ThemedView style={styles.container}>
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-      >
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
         <ThemedIcon name="chevron-back" size={32} />
       </TouchableOpacity>
 
