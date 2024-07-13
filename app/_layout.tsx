@@ -10,11 +10,11 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { AuthProvider } from "./(auth)/authContext";
 import { ClerkLoaded, ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 
 const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
+
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
@@ -54,7 +54,7 @@ function InitialLayout() {
     const inTabsGroup = segments[0] === "(main)";
 
     if (isSignedIn && !inTabsGroup) {
-      router.replace("/index");
+      router.replace("/(main)/(tabs)/(home)");
     } else if (!isSignedIn) {
       router.replace("/signup");
     }
@@ -93,32 +93,5 @@ export default function RootLayoutNav() {
         </ThemeProvider>
       </ClerkLoaded>
     </ClerkProvider>
-  );
-}
-
-function _RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    Glorious: require("@/assets/fonts/GLORIOUS.otf"),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
-  return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false, animation: "none" }}>
-        <Stack.Screen name="(main)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
   );
 }

@@ -17,6 +17,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { useNavigation } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { useSignIn } from "@clerk/clerk-expo";
+import { useRouter } from "expo-router";
 
 export type RootStackParamList = {
   forgotPassword: undefined;
@@ -24,15 +25,37 @@ export type RootStackParamList = {
 
 type NavigationProp = StackNavigationProp<RootStackParamList, "forgotPassword">;
 
-export default function Login({ onLogin }: { onLogin: () => void }) {
+export default function Login() {
   const { signIn, setActive, isLoaded } = useSignIn();
+  const router = useRouter();
+
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const onSignInPress = async () => {
-    console.log("Sign in pressed");
-  };
+  const onSignInPress = React.useCallback(async () => {
+    if (!isLoaded) {
+      return;
+    }
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: emailAddress,
+        password,
+      });
+
+      if (signInAttempt.status === "complete") {
+        await setActive({ session: signInAttempt.createdSessionId });
+      } else {
+        // TODO: See https://clerk.com/docs/custom-flows/error-handling
+        // for more info on error handling
+        console.error(JSON.stringify(signInAttempt, null, 2));
+      }
+    } catch (err: any) {
+      console.error(JSON.stringify(err, null, 2));
+    }
+  }, [isLoaded, emailAddress, password]);
+
   const navigation = useNavigation<NavigationProp>();
 
   const [fontsLoaded] = useFonts({
@@ -57,12 +80,16 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
           style={styles.input}
           placeholder="Email"
           placeholderTextColor="#818189"
+          value={emailAddress}
+          onChangeText={setEmailAddress}
         />
         <TextInput
           style={styles.input}
           placeholder="Password"
           secureTextEntry
           placeholderTextColor="#818189"
+          value={password}
+          onChangeText={setPassword}
         />
       </View>
       <TouchableOpacity
@@ -72,7 +99,7 @@ export default function Login({ onLogin }: { onLogin: () => void }) {
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onLogin}>
+      <TouchableOpacity style={styles.signupButton} onPress={onSignInPress}>
         <Text style={styles.signupButtonText}>SIGN IN</Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>

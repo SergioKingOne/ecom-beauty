@@ -69,7 +69,6 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
       setLoading(false);
     }
   };
-  const navigation = useNavigation<NavigationProp>();
 
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),
@@ -80,34 +79,47 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
   }
   return (
     <ThemedView style={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
-        <ThemedIcon name="chevron-back" size={32} />
-      </TouchableOpacity>
-
-      <ThemedText style={styles.title}>Sign up</ThemedText>
-      <View>
-        <TextInput
-          style={styles.input}
-          placeholder="Name"
-          placeholderTextColor="#818189"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#818189"
-          value={emailAddress}
-          onChangeText={setEmailAddress}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          secureTextEntry
-          placeholderTextColor="#818189"
-          value={password}
-          onChangeText={setPassword}
-        />
-        {pendingVerification && (
-          <>
+      {!pendingVerification && (
+        <>
+          <ThemedText style={styles.title}>Sign up</ThemedText>
+          <View>
+            <TextInput
+              style={styles.input}
+              placeholder="Name"
+              placeholderTextColor="#818189"
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#818189"
+              value={emailAddress}
+              onChangeText={setEmailAddress}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              secureTextEntry
+              placeholderTextColor="#818189"
+              value={password}
+              onChangeText={setPassword}
+            />
+          </View>
+          <TouchableOpacity
+            style={styles.signinContainer}
+            onPress={() => router.push("/login")}
+          >
+            <Text style={styles.signinText}>Already have an account? </Text>
+            <Text style={styles.signinLink}>Sign in</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.signupButton} onPress={onSignUpPress}>
+            <Text style={styles.signupButtonText}>SIGN UP</Text>
+          </TouchableOpacity>
+        </>
+      )}
+      {pendingVerification && (
+        <>
+          <ThemedText style={styles.title}>Verify your email</ThemedText>
+          <View>
             <TextInput
               style={styles.input}
               placeholder="Verification code"
@@ -115,25 +127,12 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
               value={code}
               onChangeText={setCode}
             />
-            <TouchableOpacity
-              style={styles.signupButton}
-              onPress={onVerifyPress}
-            >
-              <Text style={styles.signupButtonText}>VERIFY</Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </View>
-      <TouchableOpacity
-        style={styles.signinContainer}
-        onPress={() => router.push("/login")}
-      >
-        <Text style={styles.signinText}>Already have an account? </Text>
-        <Text style={styles.signinLink}>Sign in</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onSignUpPress}>
-        <Text style={styles.signupButtonText}>SIGN UP</Text>
-      </TouchableOpacity>
+          </View>
+          <TouchableOpacity style={styles.signupButton} onPress={onVerifyPress}>
+            <Text style={styles.signupButtonText}>VERIFY</Text>
+          </TouchableOpacity>
+        </>
+      )}
       <View style={styles.socialContainer}>
         <Text style={styles.socialText}>Or sign up with social account</Text>
         <View style={styles.socialButtons}>
@@ -153,10 +152,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    paddingTop: 48,
-  },
-  backButton: {
-    marginBottom: 24,
+    paddingTop: 72,
   },
   title: {
     fontFamily: "Glorious",
