@@ -19,7 +19,7 @@ import { ThemedIcon } from "@/components/ThemedIcon";
 import { ProductCard } from "@/app/(main)/(tabs)/(products)/products";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 
 export type RootStackParamList = {
   ProductDetails: { productId: string };
@@ -57,7 +57,7 @@ const productCardWidth = screenWidth / 2.5 - 15;
 
 const ProductDetailsScreen: React.FC = () => {
   const navigation = useNavigation<ProductDetailsNavigationProp>();
-  const route = useRoute<ProductDetailsRouteProp>();
+  const router = useRouter();
   const { productId } = useLocalSearchParams<{ productId: string }>();
   const [product, setProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -134,7 +134,7 @@ const ProductDetailsScreen: React.FC = () => {
             <ThemedText style={styles.price}>${product.price}</ThemedText>
           </View>
           <Text style={styles.description}>{product.description}</Text>
-          <TouchableOpacity onPress={() => navigation.navigate("Ratings")}>
+          <TouchableOpacity onPress={() => router.push("/ratings")}>
             <View style={styles.rating}>
               {Array(5)
                 .fill(0)

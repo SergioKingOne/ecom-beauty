@@ -1,3 +1,4 @@
+import RatingComponent from "@/components/Ratings";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
 
@@ -9,7 +10,7 @@ const reviews = [
     date: "June 5, 2019",
     rating: 4,
     review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
-    avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
+    avatar: "https://via.placeholder.com/50",
   },
 ];
 
@@ -27,10 +28,11 @@ const Ratings = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Rating & Reviews</Text>
-      <View style={styles.ratingContainer}>
-        <Text style={styles.ratingText}>4.3</Text>
-        <Text style={styles.ratingSubText}>23 ratings</Text>
-      </View>
+      <RatingComponent
+        rating={4.5}
+        totalRatings={100}
+        ratingsBreakdown={[20, 30, 50, 0, 0]}
+      />
       <FlatList
         data={reviews}
         renderItem={renderReview}
@@ -51,11 +53,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
+    paddingTop: 40,
     backgroundColor: "#fdfbfb",
   },
   header: {
     fontSize: 24,
-    fontFamily: "Glorious", // Make sure to load this font in your project
+    fontFamily: "Glorious",
     color: "#131313",
   },
   ratingContainer: {
