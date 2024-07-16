@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
-import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { CheckBox } from "react-native-elements";
 import ReviewComponent from "./Reviews";
 
 interface ReviewListProps {
@@ -21,12 +21,10 @@ const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
       <View style={styles.header}>
         <Text style={styles.reviewCount}>{reviews.length} reviews</Text>
         <View style={styles.checkboxContainer}>
-          <BouncyCheckbox
-            size={25}
-            fillColor="#007BFF"
-            unFillColor="#FFFFFF"
-            iconStyle={{ borderColor: "#007BFF" }}
-            onPress={(isChecked: boolean) => setWithPhoto(isChecked)}
+          <CheckBox
+            checked={withPhoto}
+            onPress={() => setWithPhoto(!withPhoto)}
+            containerStyle={styles.checkbox}
           />
           <Text style={styles.checkboxLabel}>With photo</Text>
         </View>
@@ -43,11 +41,11 @@ const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
   },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 10,
   },
   reviewCount: {
@@ -57,6 +55,10 @@ const styles = StyleSheet.create({
   checkboxContainer: {
     flexDirection: "row",
     alignItems: "center",
+  },
+  checkbox: {
+    padding: 0,
+    margin: 0,
   },
   checkboxLabel: {
     marginLeft: 8,
