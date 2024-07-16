@@ -1,10 +1,8 @@
 import RatingComponent from "@/components/Ratings";
-import ReviewComponent from "@/components/Reviews";
 import ReviewListComponent from "@/components/ReviewsList";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
 
-// Sample data
 const reviews = [
   {
     avatarUrl:
@@ -15,20 +13,28 @@ const reviews = [
     reviewText:
       "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
   },
+  {
+    avatarUrl:
+      "https://media.licdn.com/dms/image/C4D03AQG8b1J2Jv5QzA/profile-displayphoto-shrink_100_100/0/1517506329183?e=1721703600&v=beta&t=1g2J9j9y3Yx5hXv6vKJ0K9L5kPm9w1Y4r3j6tH3jvQc",
+    name: "John Doe",
+    rating: 5,
+    date: "June 3, 2019",
+    reviewText:
+      "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
+  },
+  {
+    avatarUrl:
+      "https://media.licdn.com/dms/image/C4D03AQG8b1J2Jv5QzA/profile-displayphoto-shrink_100_100/0/1517506329183?e=1721703600&v=beta&t=1g2J9j9y3Yx5hXv6vKJ0K9L5kPm9w1Y4r3j6tH3jvQc",
+    name: "Jane Doe",
+    rating: 4.5,
+    date: "June 1, 2019",
+    reviewText:
+      "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
+  },
   // Add more review objects as needed
 ];
 
 const Ratings = () => {
-  const renderReview = ({ item }: { item: Review }) => (
-    <View style={styles.reviewContainer}>
-      <Image source={{ uri: item.avatar }} style={styles.avatar} />
-      <View style={styles.reviewContent}>
-        <Text style={styles.userName}>{item.user}</Text>
-        <Text style={styles.reviewDate}>{item.date}</Text>
-        <Text style={styles.reviewText}>{item.review}</Text>
-      </View>
-    </View>
-  );
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Rating & Reviews</Text>
