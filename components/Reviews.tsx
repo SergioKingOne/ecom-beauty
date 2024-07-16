@@ -55,7 +55,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
         <Button
           title="Helpful"
           type="clear"
-          icon={<FontAwesome name="thumbs-up" size={16} color="#007BFF" />}
+          icon={<FontAwesome name="thumbs-up" size={16} color="#818189" />}
           titleStyle={styles.helpfulText}
           buttonStyle={styles.helpfulButton}
         />
@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   helpfulText: {
-    color: "#007BFF",
+    color: "#818189",
     marginLeft: 5,
   },
 });
