@@ -32,11 +32,11 @@ const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
           <ThemedText style={styles.checkboxLabel}>With photo</ThemedText>
         </View>
       </View>
-      <ScrollView>
+      <View>
         {reviews.map((review, index) => (
           <ReviewComponent key={index} {...review} />
         ))}
-      </ScrollView>
+      </View>
     </View>
   );
 };

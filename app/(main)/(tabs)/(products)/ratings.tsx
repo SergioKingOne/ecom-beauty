@@ -1,5 +1,6 @@
 import RatingComponent from "@/components/Ratings";
 import ReviewListComponent from "@/components/ReviewsList";
+import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
 import React from "react";
@@ -38,7 +39,7 @@ const reviews = [
 
 const Ratings = () => {
   return (
-    <ThemedView style={styles.container}>
+    <ThemedScrollView contentContainerStyle={styles.container}>
       <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
       <RatingComponent
         rating={4.5}
@@ -46,21 +47,24 @@ const Ratings = () => {
         ratingsBreakdown={[20, 30, 50, 0, 0]}
       />
       <ReviewListComponent reviews={reviews} />
-      <Button
-        title="Write a review"
-        onPress={() => {
-          /* Handle review writing */
-        }}
-      />
-    </ThemedView>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="Write a review"
+          onPress={() => {
+            /* Handle review writing */
+          }}
+        />
+      </View>
+    </ThemedScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 16,
     paddingTop: 40,
+    paddingBottom: 40,
   },
   header: {
     fontSize: 24,
@@ -118,6 +122,10 @@ const styles = StyleSheet.create({
   reviewText: {
     fontSize: 14,
     color: "#131313",
+  },
+  buttonContainer: {
+    marginTop: 20,
+    zIndex: 10,
   },
 });
 
