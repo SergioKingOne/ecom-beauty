@@ -1,18 +1,21 @@
 import RatingComponent from "@/components/Ratings";
 import ReviewComponent from "@/components/Reviews";
+import ReviewListComponent from "@/components/ReviewsList";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
 
 // Sample data
 const reviews = [
   {
-    id: "1",
-    user: "Helene Moore",
-    date: "June 5, 2019",
+    avatarUrl:
+      "https://media.licdn.com/dms/image/D4E35AQGvxKJ86UxJDA/profile-framedphoto-shrink_100_100/0/1709308762102?e=1721703600&v=beta&t=mClQUygLhI3OH6SI2c4Q0r5j2VYgUHDdzBv_fd_UUSs",
+    name: "Helene Moore",
     rating: 4,
-    review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
-    avatar: "https://via.placeholder.com/50",
+    date: "June 5, 2019",
+    reviewText:
+      "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
   },
+  // Add more review objects as needed
 ];
 
 const Ratings = () => {
@@ -34,13 +37,7 @@ const Ratings = () => {
         totalRatings={100}
         ratingsBreakdown={[20, 30, 50, 0, 0]}
       />
-      <ReviewComponent
-        avatarUrl="https://media.licdn.com/dms/image/D4E35AQGvxKJ86UxJDA/profile-framedphoto-shrink_100_100/0/1709308762102?e=1721703600&v=beta&t=mClQUygLhI3OH6SI2c4Q0r5j2VYgUHDdzBv_fd_UUSs"
-        name="Helene Moore"
-        rating={4}
-        date="June 5, 2019"
-        reviewText="Some description"
-      />
+      <ReviewListComponent reviews={reviews} />
       <Button
         title="Write a review"
         onPress={() => {

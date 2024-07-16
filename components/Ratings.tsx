@@ -56,7 +56,6 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "#fff",
   },
   header: {
     flexDirection: "row",
