@@ -1,5 +1,7 @@
 import RatingComponent from "@/components/Ratings";
 import ReviewListComponent from "@/components/ReviewsList";
+import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
 
@@ -36,8 +38,8 @@ const reviews = [
 
 const Ratings = () => {
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Rating & Reviews</Text>
+    <ThemedView style={styles.container}>
+      <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
       <RatingComponent
         rating={4.5}
         totalRatings={100}
@@ -50,7 +52,7 @@ const Ratings = () => {
           /* Handle review writing */
         }}
       />
-    </View>
+    </ThemedView>
   );
 };
 
@@ -59,12 +61,10 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 16,
     paddingTop: 40,
-    backgroundColor: "#fdfbfb",
   },
   header: {
     fontSize: 24,
     fontFamily: "Glorious",
-    color: "#131313",
   },
   ratingContainer: {
     flexDirection: "row",

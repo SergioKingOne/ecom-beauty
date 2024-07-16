@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
+import { ThemedText } from "./ThemedText";
 
 interface RatingComponentProps {
   rating: number;
@@ -37,7 +38,7 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
             style={[styles.bar, { width: `${(count / totalRatings) * 100}%` }]}
           />
         </View>
-        <Text style={styles.count}>{count}</Text>
+        <ThemedText style={styles.count}>{count}</ThemedText>
       </View>
     ));
   };
@@ -45,7 +46,7 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.rating}>{rating.toFixed(1)}</Text>
+        <ThemedText style={styles.rating}>{rating.toFixed(1)}</ThemedText>
         <Text style={styles.totalRatings}>{totalRatings} ratings</Text>
       </View>
       {renderRatingBars()}

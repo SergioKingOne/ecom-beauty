@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { CheckBox } from "react-native-elements";
 import ReviewComponent from "./Reviews";
+import { ThemedText } from "./ThemedText";
 
 interface ReviewListProps {
   reviews: {
@@ -19,14 +20,16 @@ const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.reviewCount}>{reviews.length} reviews</Text>
+        <ThemedText style={styles.reviewCount}>
+          {reviews.length} reviews
+        </ThemedText>
         <View style={styles.checkboxContainer}>
           <CheckBox
             checked={withPhoto}
             onPress={() => setWithPhoto(!withPhoto)}
             containerStyle={styles.checkbox}
           />
-          <Text style={styles.checkboxLabel}>With photo</Text>
+          <ThemedText style={styles.checkboxLabel}>With photo</ThemedText>
         </View>
       </View>
       <ScrollView>
