@@ -1,4 +1,5 @@
 import RatingComponent from "@/components/Ratings";
+import ReviewComponent from "@/components/Reviews";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
 
@@ -33,11 +34,12 @@ const Ratings = () => {
         totalRatings={100}
         ratingsBreakdown={[20, 30, 50, 0, 0]}
       />
-      <FlatList
-        data={reviews}
-        renderItem={renderReview}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.reviewsList}
+      <ReviewComponent
+        avatarUrl="https://media.licdn.com/dms/image/D4E35AQGvxKJ86UxJDA/profile-framedphoto-shrink_100_100/0/1709308762102?e=1721703600&v=beta&t=mClQUygLhI3OH6SI2c4Q0r5j2VYgUHDdzBv_fd_UUSs"
+        name="Helene Moore"
+        rating={4}
+        date="June 5, 2019"
+        reviewText="Some description"
       />
       <Button
         title="Write a review"
