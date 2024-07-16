@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Avatar, Button } from "react-native-elements";
+import { ThemedView } from "./ThemedView";
+import { ThemedText } from "./ThemedText";
 
 interface ReviewProps {
   avatarUrl: string;
@@ -34,7 +36,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <ThemedView style={styles.container}>
       <View style={styles.header}>
         <Avatar
           rounded
@@ -43,12 +45,12 @@ const ReviewComponent: React.FC<ReviewProps> = ({
           containerStyle={styles.avatar}
         />
         <View style={styles.headerText}>
-          <Text style={styles.name}>{name}</Text>
+          <ThemedText style={styles.name}>{name}</ThemedText>
           {renderStars(rating)}
           <Text style={styles.date}>{date}</Text>
         </View>
       </View>
-      <Text style={styles.reviewText}>{reviewText}</Text>
+      <ThemedText style={styles.reviewText}>{reviewText}</ThemedText>
       <View style={styles.footer}>
         <Button
           title="Helpful"
@@ -58,14 +60,13 @@ const ReviewComponent: React.FC<ReviewProps> = ({
           buttonStyle={styles.helpfulButton}
         />
       </View>
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     padding: 20,
-    backgroundColor: "#fff",
     borderRadius: 10,
     marginVertical: 10,
     shadowColor: "#000",
@@ -100,7 +101,6 @@ const styles = StyleSheet.create({
   },
   reviewText: {
     fontSize: 14,
-    color: "#333",
     marginBottom: 10,
   },
   footer: {
