@@ -19,14 +19,14 @@ public class ProductController
 	@Autowired
     private ProductService productService;
 
-    // Endpoint para todos los usuarios (USER y ADMIN) - Obtener todos los productos
+	// EndPoint for all users (USER and ADMIN) - Get all products
     @GetMapping
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public List<Product> getAllProducts() {
         return productService.findAll();
     }
 
-    // Endpoint para todos los usuarios (USER y ADMIN) - Obtener un producto por ID
+    // EndPoint for all users (USER and ADMIN) - Get a product by ID
     @GetMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
@@ -35,7 +35,7 @@ public class ProductController
                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
     
-    // Endpoint solo para usuarios ADMIN - Crear un nuevo producto
+    // EndPoint only for ADMIN users - Create a new product
     @PostMapping("/admin")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Product> createProduct(@RequestBody Product product) {
@@ -43,7 +43,7 @@ public class ProductController
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
 
-    // Endpoint solo para usuarios ADMIN - Actualizar un producto por ID
+    // EndPoint only for ADMIN users - Update a product by ID
     @PutMapping("/admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product productDetails) {
@@ -56,7 +56,7 @@ public class ProductController
         }
     }
     
-    // Endpoint solo para usuarios ADMIN - Eliminar un producto por ID
+    // EndPoint only for ADMIN users - Delete a product by ID
     @DeleteMapping("/admin/{id}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
