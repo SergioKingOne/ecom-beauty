@@ -3,9 +3,18 @@ import ReviewListComponent from "@/components/ReviewsList";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { CustomHeader } from "@/components/CustomHeader";
+import { Pencil } from "lucide-react-native";
 import { ThemedView } from "@/components/ThemedView";
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  Image,
+  Button,
+  TouchableOpacity,
+} from "react-native";
 
 const reviews = [
   {
@@ -40,33 +49,41 @@ const reviews = [
 
 const Ratings = () => {
   return (
-    <ThemedScrollView contentContainerStyle={styles.container}>
-      <CustomHeader options={{ title: "" }} />
-      <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
-      <RatingComponent
-        rating={4.5}
-        totalRatings={100}
-        ratingsBreakdown={[20, 30, 50, 0, 0]}
-      />
-      <ReviewListComponent reviews={reviews} />
-      <View style={styles.buttonContainer}>
-        <Button
-          title="Write a review"
-          onPress={() => {
-            /* Handle review writing */
-          }}
+    <ThemedView style={styles.container}>
+      <ThemedScrollView contentContainerStyle={styles.scrollContent}>
+        <CustomHeader options={{ title: "" }} />
+        <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
+        <RatingComponent
+          rating={4.5}
+          totalRatings={100}
+          ratingsBreakdown={[20, 30, 50, 0, 0]}
         />
+        <ReviewListComponent reviews={reviews} />
+      </ThemedScrollView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            // TODO: handle review writing
+          }}
+        >
+          <Pencil color="#131313" size={18} />
+          <Text style={styles.buttonText}>Write a review</Text>
+        </TouchableOpacity>
       </View>
-    </ThemedScrollView>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  scrollContent: {
     flexGrow: 1,
     padding: 16,
     paddingTop: 40,
-    paddingBottom: 40,
+    paddingBottom: 80,
   },
   header: {
     fontSize: 32,
@@ -127,8 +144,30 @@ const styles = StyleSheet.create({
     color: "#131313",
   },
   buttonContainer: {
-    marginTop: 20,
+    position: "absolute",
+    bottom: 24,
+    right: 24,
     zIndex: 10,
+  },
+  button: {
+    backgroundColor: "#f29c1d",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    color: "#131313",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginLeft: 6,
   },
 });
 
