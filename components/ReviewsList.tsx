@@ -1,20 +1,23 @@
-import React, { useState } from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
+import React, { useState, forwardRef } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { CheckBox } from "react-native-elements";
-import ReviewComponent from "./Reviews";
+import Animated, {
+  useAnimatedStyle,
+  interpolate,
+  SharedValue,
+} from "react-native-reanimated";
+import ReviewComponent, { ReviewProps } from "./Reviews";
 import { ThemedText } from "./ThemedText";
 
 interface ReviewListProps {
-  reviews: {
-    avatarUrl: string;
-    name: string;
-    rating: number;
-    date: string;
-    reviewText: string;
-  }[];
+  reviews: ReviewProps[];
+  scrollY: SharedValue<number>;
 }
 
-const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
+const ReviewListComponent: React.FC<ReviewListProps> = ({
+  reviews,
+  scrollY,
+}) => {
   const [withPhoto, setWithPhoto] = useState(false);
 
   return (
@@ -35,11 +38,50 @@ const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
       </View>
       <View>
         {reviews.map((review, index) => (
-          <ReviewComponent key={index} {...review} />
+          <AnimatedReview
+            key={index}
+            {...review}
+            index={index}
+            scrollY={scrollY}
+          />
         ))}
       </View>
     </View>
   );
+};
+
+const AnimatedReviewComponentBase =
+  Animated.createAnimatedComponent(ReviewComponent);
+
+interface AnimatedReviewProps extends ReviewProps {
+  index: number;
+  scrollY: SharedValue<number>;
+}
+
+const AnimatedReviewComponent = forwardRef<View, AnimatedReviewProps>(
+  (props, ref) => {
+    const { index, scrollY, ...rest } = props;
+    const animatedStyle = useAnimatedStyle(() => {
+      const opacity = interpolate(
+        scrollY.value,
+        [index * 200, (index + 1) * 200],
+        [0.3, 1],
+        { extrapolateRight: "clamp" }
+      );
+
+      return {
+        opacity,
+      };
+    });
+
+    return (
+      <AnimatedReviewComponentBase ref={ref} style={animatedStyle} {...rest} />
+    );
+  }
+);
+
+const AnimatedReview: React.FC<AnimatedReviewProps> = (props) => {
+  return <AnimatedReviewComponent {...props} />;
 };
 
 const styles = StyleSheet.create({

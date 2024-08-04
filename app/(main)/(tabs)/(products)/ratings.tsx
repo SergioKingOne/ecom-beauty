@@ -1,20 +1,15 @@
 import RatingComponent from "@/components/Ratings";
 import ReviewListComponent from "@/components/ReviewsList";
-import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { CustomHeader } from "@/components/CustomHeader";
 import { Pencil } from "lucide-react-native";
 import { ThemedView } from "@/components/ThemedView";
 import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  FlatList,
-  Image,
-  Button,
-  TouchableOpacity,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from "react-native-reanimated";
 
 const reviews = [
   {
@@ -48,9 +43,21 @@ const reviews = [
 ];
 
 const Ratings = () => {
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
+
   return (
     <ThemedView style={styles.container}>
-      <ThemedScrollView contentContainerStyle={styles.scrollContent}>
+      <Animated.ScrollView
+        contentContainerStyle={styles.scrollContent}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+      >
         <CustomHeader options={{ title: "" }} />
         <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
         <RatingComponent
@@ -58,8 +65,8 @@ const Ratings = () => {
           totalRatings={100}
           ratingsBreakdown={[20, 30, 50, 0, 0]}
         />
-        <ReviewListComponent reviews={reviews} />
-      </ThemedScrollView>
+        <ReviewListComponent reviews={reviews} scrollY={scrollY} />
+      </Animated.ScrollView>
       <View style={styles.buttonContainer}>
         <TouchableOpacity
           style={styles.button}

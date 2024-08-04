@@ -1,68 +1,67 @@
-import React from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React, { forwardRef } from "react";
+import { View, Text, StyleSheet, Image, ViewStyle } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { Avatar, Button } from "react-native-elements";
 import { ThemedView } from "./ThemedView";
 import { ThemedText } from "./ThemedText";
 
-interface ReviewProps {
+export interface ReviewProps {
   avatarUrl: string;
   name: string;
   rating: number;
   date: string;
   reviewText: string;
+  style?: ViewStyle;
 }
 
-const ReviewComponent: React.FC<ReviewProps> = ({
-  avatarUrl,
-  name,
-  rating,
-  date,
-  reviewText,
-}) => {
-  const renderStars = (count: number) => {
-    let stars = [];
-    for (let i = 0; i < 5; i++) {
-      stars.push(
-        <FontAwesome
-          key={i}
-          name={i < count ? "star" : "star-o"}
-          size={16}
-          color={i < count ? "#f29c1d" : "#ccc"}
-        />
-      );
-    }
-    return <View style={styles.stars}>{stars}</View>;
-  };
+const ReviewComponent = forwardRef<View, ReviewProps>(
+  ({ avatarUrl, name, rating, date, reviewText, style }, ref) => {
+    const renderStars = (count: number) => {
+      let stars = [];
+      for (let i = 0; i < 5; i++) {
+        stars.push(
+          <FontAwesome
+            key={i}
+            name={i < count ? "star" : "star-o"}
+            size={16}
+            color={i < count ? "#f29c1d" : "#ccc"}
+          />
+        );
+      }
+      return <View style={styles.stars}>{stars}</View>;
+    };
 
-  return (
-    <ThemedView style={styles.container}>
-      <View style={styles.header}>
-        <Avatar
-          rounded
-          source={{ uri: avatarUrl }}
-          size="medium"
-          containerStyle={styles.avatar}
-        />
-        <View style={styles.headerText}>
-          <ThemedText style={styles.name}>{name}</ThemedText>
-          {renderStars(rating)}
-          <Text style={styles.date}>{date}</Text>
+    return (
+      <ThemedView style={[styles.container, style]}>
+        <View style={styles.header}>
+          <Avatar
+            rounded
+            source={{ uri: avatarUrl }}
+            size="medium"
+            containerStyle={styles.avatar}
+          />
+          <View style={styles.headerText}>
+            <ThemedText style={styles.name}>{name}</ThemedText>
+            {renderStars(rating)}
+            <Text style={styles.date}>{date}</Text>
+          </View>
         </View>
-      </View>
-      <ThemedText style={styles.reviewText}>{reviewText}</ThemedText>
-      <View style={styles.footer}>
-        <Button
-          title=""
-          type="clear"
-          icon={<FontAwesome name="thumbs-up" size={16} color="#f29c1d" />}
-          titleStyle={styles.helpfulText}
-          buttonStyle={styles.helpfulButton}
-        />
-      </View>
-    </ThemedView>
-  );
-};
+        <ThemedText style={styles.reviewText}>{reviewText}</ThemedText>
+        <View style={styles.footer}>
+          <Button
+            title=""
+            type="clear"
+            icon={<FontAwesome name="thumbs-up" size={16} color="#f29c1d" />}
+            titleStyle={styles.helpfulText}
+            buttonStyle={styles.helpfulButton}
+          />
+        </View>
+      </ThemedView>
+    );
+  }
+);
+
+ReviewComponent.displayName = "ReviewComponent";
 
 const styles = StyleSheet.create({
   container: {
