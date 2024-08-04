@@ -1,36 +1,59 @@
-# Welcome to your Expo app 👋
+# Ecom-Beauty: A React Native E-commerce App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Welcome to Ecom-Beauty, a sophisticated mobile e-commerce application built with React Native and Expo. This project showcases a modern, user-friendly interface for a beauty products online store.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Product Browsing**: Users can view a wide range of beauty products with detailed information.
+- **Category Filtering**: Products can be filtered by categories such as Skincare, Cosmetics, and Fragrance.
+- **Shopping Cart**: Functionality to add products to a cart and manage quantities.
+- **User Authentication**: Secure login and registration system using Clerk.
+- **Order Management**: Users can view their order history and track current orders.
+- **Payment Integration**: Support for multiple payment methods.
+- **Responsive Design**: Optimized for various screen sizes and both light and dark modes.
 
+## Technology Stack
+
+- **Frontend**: React Native with Expo
+- **State Management**: React Hooks
+- **Navigation**: Expo Router
+- **Authentication**: Clerk
+- **Styling**: React Native StyleSheet
+- **Backend**: Spring Boot (Java)
+
+## Getting Started
+
+1. Clone the repository
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. Start the development server:
    ```bash
-    npx expo start
-   ```
+   npx expo start
 
-In the output, you'll find options to open the app in a
+## Color Palette
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+Our application uses a carefully selected color palette to create a cohesive and visually appealing design:
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Primary Text**: `#131313` - A deep, almost-black shade for main text content.
+- **Secondary Text**: `#818189` - A muted gray for less prominent text elements.
+- **Accent**: `#f29c1d` - A warm orange tone used for highlights and call-to-action elements.
+- **Background**: `#fdfbfb` - An off-white color for backgrounds, providing a soft contrast.
 
-## Get a fresh project
+## Project Structure
 
-When you're ready, run:
+- `app/`: Contains the main application code, organized by features and routes.
+- `components/`: Reusable React components.
+- `services/`: API and other service integrations.
+- `types/`: TypeScript type definitions.
+- `constants/`: App-wide constant values and configurations.
+- `hooks/`: Custom React hooks.
 
-```bash
-npm run reset-project
-```
+## Contributing
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+We welcome contributions to Ecom-Beauty! Please read our contributing guidelines before submitting pull requests.
+
+## License
+
+This project is licensed under the MIT License.

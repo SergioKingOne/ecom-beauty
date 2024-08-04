@@ -28,6 +28,7 @@ const ReviewListComponent: React.FC<ReviewListProps> = ({ reviews }) => {
             checked={withPhoto}
             onPress={() => setWithPhoto(!withPhoto)}
             containerStyle={styles.checkbox}
+            checkedColor="#f29c1d"
           />
           <ThemedText style={styles.checkboxLabel}>With photo</ThemedText>
         </View>

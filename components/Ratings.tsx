@@ -22,7 +22,7 @@ const RatingComponent: React.FC<RatingComponentProps> = ({
           key={i}
           name={i < count ? "star" : "star-o"}
           size={20}
-          color={i < count ? "#FFD700" : "#ccc"}
+          color={i < count ? "#f29c1d" : "#ccc"}
         />
       );
     }

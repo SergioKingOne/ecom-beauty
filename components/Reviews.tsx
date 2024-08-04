@@ -28,7 +28,7 @@ const ReviewComponent: React.FC<ReviewProps> = ({
           key={i}
           name={i < count ? "star" : "star-o"}
           size={16}
-          color={i < count ? "#FFD700" : "#ccc"}
+          color={i < count ? "#f29c1d" : "#ccc"}
         />
       );
     }
@@ -53,9 +53,9 @@ const ReviewComponent: React.FC<ReviewProps> = ({
       <ThemedText style={styles.reviewText}>{reviewText}</ThemedText>
       <View style={styles.footer}>
         <Button
-          title="Helpful"
+          title=""
           type="clear"
-          icon={<FontAwesome name="thumbs-up" size={16} color="#818189" />}
+          icon={<FontAwesome name="thumbs-up" size={16} color="#f29c1d" />}
           titleStyle={styles.helpfulText}
           buttonStyle={styles.helpfulButton}
         />

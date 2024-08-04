@@ -41,7 +41,6 @@ const reviews = [
 const Ratings = () => {
   return (
     <ThemedScrollView contentContainerStyle={styles.container}>
-      {/* custom header */}
       <CustomHeader options={{ title: "" }} />
       <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
       <RatingComponent
