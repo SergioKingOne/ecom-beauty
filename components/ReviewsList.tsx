@@ -62,10 +62,15 @@ const AnimatedReviewComponent = forwardRef<View, AnimatedReviewProps>(
   (props, ref) => {
     const { index, scrollY, ...rest } = props;
     const animatedStyle = useAnimatedStyle(() => {
+      if (index === 0) {
+        // First review is always fully visible
+        return { opacity: 1 };
+      }
+
       const opacity = interpolate(
         scrollY.value,
-        [index * 200, (index + 1) * 200],
-        [0.3, 1],
+        [(index - 1) * 250, index * 250], // Increased from 200 to 250 for a slower fade
+        [0.5, 1], // Changed from 0.3 to 0.5 for a less dramatic fade
         { extrapolateRight: "clamp" }
       );
 
