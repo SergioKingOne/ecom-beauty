@@ -2,6 +2,7 @@ import RatingComponent from "@/components/Ratings";
 import ReviewListComponent from "@/components/ReviewsList";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
+import { CustomHeader } from "@/components/CustomHeader";
 import { ThemedView } from "@/components/ThemedView";
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
@@ -40,6 +41,8 @@ const reviews = [
 const Ratings = () => {
   return (
     <ThemedScrollView contentContainerStyle={styles.container}>
+      {/* custom header */}
+      <CustomHeader options={{ title: "" }} />
       <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
       <RatingComponent
         rating={4.5}
@@ -67,8 +70,9 @@ const styles = StyleSheet.create({
     paddingBottom: 40,
   },
   header: {
-    fontSize: 24,
+    fontSize: 32,
     fontFamily: "Glorious",
+    marginTop: 16,
   },
   ratingContainer: {
     flexDirection: "row",
