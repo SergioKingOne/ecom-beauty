@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { useRoute, RouteProp, useNavigation } from "@react-navigation/native";
+import { RouteProp, useNavigation } from "@react-navigation/native";
 import { fetchAllProducts, fetchProductDetails } from "@/services/api";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -134,7 +134,9 @@ const ProductDetailsScreen: React.FC = () => {
             <ThemedText style={styles.price}>${product.price}</ThemedText>
           </View>
           <Text style={styles.description}>{product.description}</Text>
-          <TouchableOpacity onPress={() => router.push("/ratings")}>
+          <TouchableOpacity
+            onPress={() => router.push(`/ratings?productId=${productId}`)}
+          >
             <View style={styles.rating}>
               {Array(5)
                 .fill(0)

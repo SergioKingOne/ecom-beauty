@@ -1,8 +1,8 @@
 import React from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 import { ThemedIcon } from "./ThemedIcon";
 import { ThemedView } from "./ThemedView";
+import { useRouter } from "expo-router";
 
 interface CustomHeaderProps {
   options: {
@@ -11,13 +11,13 @@ interface CustomHeaderProps {
 }
 
 export const CustomHeader: React.FC<CustomHeaderProps> = ({ options }) => {
-  const navigation = useNavigation();
+  const router = useRouter();
 
   return (
     <ThemedView style={styles.header}>
-      {navigation.canGoBack() && (
+      {router.canGoBack() && (
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => router.back()}
           style={styles.backButton}
         >
           <ThemedIcon name="chevron-back" size={32} />
