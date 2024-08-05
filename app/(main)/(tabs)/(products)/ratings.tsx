@@ -1,62 +1,101 @@
+import RatingComponent from "@/components/Ratings";
+import ReviewListComponent from "@/components/ReviewsList";
+import { ThemedText } from "@/components/ThemedText";
+import { CustomHeader } from "@/components/CustomHeader";
+import { Pencil } from "lucide-react-native";
+import { ThemedView } from "@/components/ThemedView";
 import React from "react";
-import { View, Text, StyleSheet, FlatList, Image, Button } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import Animated, {
+  useAnimatedScrollHandler,
+  useSharedValue,
+} from "react-native-reanimated";
 
-// Sample data
 const reviews = [
   {
-    id: "1",
-    user: "Helene Moore",
-    date: "June 5, 2019",
+    avatarUrl:
+      "https://media.licdn.com/dms/image/D4E35AQGvxKJ86UxJDA/profile-framedphoto-shrink_100_100/0/1709308762102?e=1721703600&v=beta&t=mClQUygLhI3OH6SI2c4Q0r5j2VYgUHDdzBv_fd_UUSs",
+    name: "Helene Moore",
     rating: 4,
-    review: `The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7" and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.`,
-    avatar: "https://via.placeholder.com/50", // Placeholder for the avatar image
+    date: "June 5, 2019",
+    reviewText:
+      "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
   },
+  {
+    avatarUrl:
+      "https://media.licdn.com/dms/image/C4D03AQG8b1J2Jv5QzA/profile-displayphoto-shrink_100_100/0/1517506329183?e=1721703600&v=beta&t=1g2J9j9y3Yx5hXv6vKJ0K9L5kPm9w1Y4r3j6tH3jvQc",
+    name: "John Doe",
+    rating: 5,
+    date: "June 3, 2019",
+    reviewText:
+      "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
+  },
+  {
+    avatarUrl:
+      "https://media.licdn.com/dms/image/C4D03AQG8b1J2Jv5QzA/profile-displayphoto-shrink_100_100/0/1517506329183?e=1721703600&v=beta&t=1g2J9j9y3Yx5hXv6vKJ0K9L5kPm9w1Y4r3j6tH3jvQc",
+    name: "Jane Doe",
+    rating: 4.5,
+    date: "June 1, 2019",
+    reviewText:
+      "The dress is great! Very classy and comfortable. It fit perfectly! I'm 5'7'' and 130 pounds. I am a 34B chest. This dress would be too long for those who are shorter but could be hemmed. I wouldn't recommend it for those big chested as I am smaller chested and it fit me perfectly. The underarms were not too wide and the dress was made well.",
+  },
+  // Add more review objects as needed
 ];
 
 const Ratings = () => {
-  const renderReview = ({ item }: { item: Review }) => (
-    <View style={styles.reviewContainer}>
-      <Image source={{ uri: item.avatar }} style={styles.avatar} />
-      <View style={styles.reviewContent}>
-        <Text style={styles.userName}>{item.user}</Text>
-        <Text style={styles.reviewDate}>{item.date}</Text>
-        <Text style={styles.reviewText}>{item.review}</Text>
-      </View>
-    </View>
-  );
+  const scrollY = useSharedValue(0);
+
+  const scrollHandler = useAnimatedScrollHandler({
+    onScroll: (event) => {
+      scrollY.value = event.contentOffset.y;
+    },
+  });
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.header}>Rating & Reviews</Text>
-      <View style={styles.ratingContainer}>
-        <Text style={styles.ratingText}>4.3</Text>
-        <Text style={styles.ratingSubText}>23 ratings</Text>
+    <ThemedView style={styles.container}>
+      <Animated.ScrollView
+        contentContainerStyle={styles.scrollContent}
+        onScroll={scrollHandler}
+        scrollEventThrottle={16}
+      >
+        <CustomHeader options={{ title: "" }} />
+        <ThemedText style={styles.header}>Rating & Reviews</ThemedText>
+        <RatingComponent
+          rating={4.5}
+          totalRatings={100}
+          ratingsBreakdown={[20, 30, 50, 0, 0]}
+        />
+        <ReviewListComponent reviews={reviews} scrollY={scrollY} />
+      </Animated.ScrollView>
+      <View style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            // TODO: handle review writing
+          }}
+        >
+          <Pencil color="#131313" size={18} />
+          <Text style={styles.buttonText}>Write a review</Text>
+        </TouchableOpacity>
       </View>
-      <FlatList
-        data={reviews}
-        renderItem={renderReview}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.reviewsList}
-      />
-      <Button
-        title="Write a review"
-        onPress={() => {
-          /* Handle review writing */
-        }}
-      />
-    </View>
+    </ThemedView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
     padding: 16,
-    backgroundColor: "#fdfbfb",
+    paddingTop: 40,
+    paddingBottom: 80,
   },
   header: {
-    fontSize: 24,
-    fontFamily: "Glorious", // Make sure to load this font in your project
-    color: "#131313",
+    fontSize: 32,
+    fontFamily: "Glorious",
+    marginTop: 16,
   },
   ratingContainer: {
     flexDirection: "row",
@@ -110,6 +149,32 @@ const styles = StyleSheet.create({
   reviewText: {
     fontSize: 14,
     color: "#131313",
+  },
+  buttonContainer: {
+    position: "absolute",
+    bottom: 24,
+    right: 24,
+    zIndex: 10,
+  },
+  button: {
+    backgroundColor: "#f29c1d",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 24,
+    elevation: 3,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  buttonText: {
+    color: "#131313",
+    fontSize: 14,
+    fontWeight: "bold",
+    marginLeft: 6,
   },
 });
 

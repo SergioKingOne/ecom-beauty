@@ -86,12 +86,7 @@ const HomeScreen: React.FC = () => {
         renderItem={({ item }) => (
           <ProductCard
             product={item}
-            onPress={() =>
-              router.push({
-                pathname: "/(main)/product/[productId]",
-                params: { productId: item.id },
-              })
-            }
+            onPress={() => router.push(`/product/${item.id}`)}
           />
         )}
         numColumns={1}
