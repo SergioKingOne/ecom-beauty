@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   ActivityIndicator,
 } from "react-native";
-import { RouteProp, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { fetchAllProducts, fetchProductDetails } from "@/services/api";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
@@ -26,7 +26,6 @@ export type RootStackParamList = {
   Ratings: undefined;
 };
 
-type ProductDetailsRouteProp = RouteProp<RootStackParamList, "ProductDetails">;
 type ProductDetailsNavigationProp = StackNavigationProp<
   RootStackParamList,
   "ProductDetails"
