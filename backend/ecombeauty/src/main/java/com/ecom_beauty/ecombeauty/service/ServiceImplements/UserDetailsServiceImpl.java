@@ -8,12 +8,10 @@ import org.springframework.stereotype.Service;
 import com.ecom_beauty.ecombeauty.repository.UserRepository;
 
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService
-{
+public class UserDetailsServiceImpl implements UserDetailsService {
 	private final UserRepository userRepository;
-	
-	public UserDetailsServiceImpl(UserRepository userRepository)
-	{
+
+	public UserDetailsServiceImpl(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 
@@ -21,7 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// TODO Auto-generated method stub
 		return userRepository.findByUsername(username)
-				.orElseThrow(()-> new UsernameNotFoundException("User not found"));
+				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
 	}
 
 }
