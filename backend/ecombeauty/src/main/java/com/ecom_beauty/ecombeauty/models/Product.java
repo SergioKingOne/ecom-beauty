@@ -1,11 +1,25 @@
 package com.ecom_beauty.ecombeauty.models;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
-import lombok.Data;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Index;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMax;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 @Data
 @Entity
@@ -52,6 +66,12 @@ public class Product {
 
 	@Column(name = "updated_at")
 	private LocalDateTime updatedAt;
+
+	@DecimalMin(value = "0.0", inclusive = true)
+	@DecimalMax(value = "100.0", inclusive = true)
+	@Digits(integer = 3, fraction = 2)
+	@Column(precision = 5, scale = 2)
+	private BigDecimal discountPercentage;
 
 	@PrePersist
 	protected void onCreate() {

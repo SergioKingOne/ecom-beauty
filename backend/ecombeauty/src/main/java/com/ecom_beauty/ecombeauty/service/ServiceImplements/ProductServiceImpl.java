@@ -44,12 +44,10 @@ public class ProductServiceImpl implements ProductService
             existingProduct.setName(productDetails.getName());
             existingProduct.setDescription(productDetails.getDescription());
             existingProduct.setPrice(productDetails.getPrice());
-            existingProduct.setDiscountPrice(productDetails.getDiscountPrice());
-            existingProduct.setImage(productDetails.getImage());
-            existingProduct.setDescription(productDetails.getDescription());
-            existingProduct.setCategory(productDetails.getCategory());
-            existingProduct.setRanking(productDetails.getRanking());
+            existingProduct.setRating(productDetails.getRating());
+            existingProduct.setPhotoUrl(productDetails.getPhotoUrl());
             existingProduct.setStock(productDetails.getStock());
+            existingProduct.setCategory(productDetails.getCategory());
             return productRepository.save(existingProduct);
         } else {
             return null;
