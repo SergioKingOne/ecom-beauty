@@ -9,7 +9,8 @@ public interface UserService {
     List<User> getAllUsers();
     Optional<User> getUserById(Integer id);
     Optional<User> getUserByEmail(String email);
-    Optional<User> getUserByName(String name);
+    Optional<User> getUserByFirstName(String firstName);
+    Optional<User> getUserByLastName(String lastName);
     User saveUser(User user);
     void deleteUser(Integer id);
     boolean existsByEmail(String email);

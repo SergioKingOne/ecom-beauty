@@ -28,14 +28,12 @@ public class AuthenticationService
 	public AuthenticationResponse register(User request)
 	{
 		User user = new User();
-		user.setName(request.getName());
+		user.setFirstName(request.getFirstName());
 		user.setLastName(request.getLastName());
-		user.setUsername(request.getUsername());
 		user.setEmail(request.getEmail());
-		user.setIdentification(request.getIdentification());
 		user.setPassword(passwordEncoder.encode(request.getPassword()));
 		
-		user.setRole(request.getRole());
+		
 		
 		user = userRepository.save(user);
 		

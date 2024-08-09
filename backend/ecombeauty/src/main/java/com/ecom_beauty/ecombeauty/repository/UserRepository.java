@@ -11,5 +11,6 @@ import com.ecom_beauty.ecombeauty.models.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
     boolean existsByEmail(String email);
-    Optional<User> findByName(String name);
+    Optional<User> findByFirstName(String firstName);
+    Optional<User> findByLastName(String lastName);
 }
