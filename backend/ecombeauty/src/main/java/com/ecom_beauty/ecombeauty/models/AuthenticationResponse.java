@@ -2,7 +2,7 @@ package com.ecom_beauty.ecombeauty.models;
 
 public class AuthenticationResponse
 {
-	private String token;
+	private final String token;
 	
 	public AuthenticationResponse(String token)
 	{
