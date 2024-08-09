@@ -1,5 +1,6 @@
 package com.ecom_beauty.ecombeauty.service.ServiceImplements;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,52 +12,68 @@ import com.ecom_beauty.ecombeauty.repository.ProductRepository;
 import com.ecom_beauty.ecombeauty.service.ProductService;
 
 @Service
-public class ProductServiceImpl implements ProductService
-{
-	@Autowired
-	private ProductRepository productRepository;
-	
-	// Get all products
+public class ProductServiceImpl implements ProductService {
+
+    @Autowired
+    private ProductRepository productRepository;
+
     @Override
-    public List<Product> findAll() {
+    public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
-    
-    // Get a product by ID
+
     @Override
-    public Optional<Product> findById(Integer id) {
+    public Optional<Product> getProductById(Integer id) {
         return productRepository.findById(id);
     }
 
-    // Create a new product
     @Override
-    public Product save(Product product) {
+    public List<Product> getProductsByCategoryId(Integer categoryId) {
+        return productRepository.findByCategory_Id(categoryId);
+    }
+
+    @Override
+    public List<Product> searchProductsByName(String name) {
+        return productRepository.findByNameContainingIgnoreCase(name);
+    }
+
+    @Override
+    public List<Product> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        return productRepository.findByPriceBetween(minPrice, maxPrice);
+    }
+
+    @Override
+    public List<Product> getProductsByMinimumRating(BigDecimal rating) {
+        return productRepository.findByAverageRatingGreaterThanEqual(rating);
+    }
+
+    @Override
+    public List<Product> getProductsInStock(Integer minStock) {
+        return productRepository.findByStockGreaterThan(minStock);
+    }
+
+    @Override
+    public List<Product> getDiscountedProducts(BigDecimal minDiscountPercentage) {
+        return productRepository.findByDiscountPercentageGreaterThan(minDiscountPercentage);
+    }
+
+    @Override
+    public List<Product> searchProducts(String keyword) {
+        return productRepository.searchProducts(keyword);
+    }
+
+    @Override
+    public List<Product> getTopRatedProducts() {
+        return productRepository.findTopRatedProducts();
+    }
+
+    @Override
+    public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
-    
-    // Update an existing product
-    @Override
-    public Product update(Integer id, Product productDetails) {
-        Optional<Product> product = productRepository.findById(id);
 
-        if (product.isPresent()) {
-            Product existingProduct = product.get();
-            existingProduct.setName(productDetails.getName());
-            existingProduct.setDescription(productDetails.getDescription());
-            existingProduct.setPrice(productDetails.getPrice());
-            existingProduct.setAverageRating(productDetails.getAverageRating());
-            existingProduct.setPhotoUrl(productDetails.getPhotoUrl());
-            existingProduct.setStock(productDetails.getStock());
-            existingProduct.setCategory(productDetails.getCategory());
-            return productRepository.save(existingProduct);
-        } else {
-            return null;
-        }
-    }
-
-    // Delete a product by ID
     @Override
-    public void deleteById(Integer id) {
+    public void deleteProduct(Integer id) {
         productRepository.deleteById(id);
     }
 }
