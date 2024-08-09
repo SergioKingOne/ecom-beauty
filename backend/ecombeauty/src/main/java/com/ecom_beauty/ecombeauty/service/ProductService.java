@@ -1,24 +1,22 @@
 package com.ecom_beauty.ecombeauty.service;
 
-import com.ecom_beauty.ecombeauty.models.Product;
-
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProductService
-{
-	// Get all products
-    List<Product> findAll();
+import com.ecom_beauty.ecombeauty.models.Product;
 
-    // Get a product by ID
-    Optional<Product> findById(Integer id);
-
-    // Create a new product
-    Product save(Product product);
-    
-    // Update an existing product
-    Product update(Integer id, Product product);
-
-    // Delete a product by ID
-    void deleteById(Integer id);
+public interface ProductService {
+    List<Product> getAllProducts();
+    Optional<Product> getProductById(Integer id);
+    List<Product> getProductsByCategoryId(Integer categoryId);
+    List<Product> searchProductsByName(String name);
+    List<Product> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
+    List<Product> getProductsByMinimumRating(BigDecimal rating);
+    List<Product> getProductsInStock(Integer minStock);
+    List<Product> getDiscountedProducts(BigDecimal minDiscountPercentage);
+    List<Product> searchProducts(String keyword);
+    List<Product> getTopRatedProducts();
+    Product saveProduct(Product product);
+    void deleteProduct(Integer id);
 }

@@ -7,8 +7,10 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "carts")
-public class Cart {
+@Table(name = "favorites", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "user_id", "product_id" })
+})
+public class Favorite {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -17,20 +19,15 @@ public class Cart {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
 
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
-        updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        updatedAt = LocalDateTime.now();
     }
 }

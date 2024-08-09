@@ -18,7 +18,7 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class JwtService
 {
-	private String SECRET_KEY = "3e8f10d8e6dcf6d66e479bbe3a1af3262865d2dde0834e52b8f5d5b4633b03b9";
+	private final String SECRET_KEY = "3e8f10d8e6dcf6d66e479bbe3a1af3262865d2dde0834e52b8f5d5b4633b03b9";
 	
 	public String extractUsername(String token)
 	{
@@ -61,7 +61,7 @@ public class JwtService
 	{
 		String token = Jwts
 				.builder()
-				.subject(user.getUsername())
+				.subject(user.getEmail())
 				.issuedAt(new Date(System.currentTimeMillis()))
 				.expiration(new Date(System.currentTimeMillis() + 24*60*60*1000))
 				.signWith(getSigninkey())

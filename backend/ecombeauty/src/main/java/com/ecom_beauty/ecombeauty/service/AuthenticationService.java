@@ -28,14 +28,10 @@ public class AuthenticationService
 	public AuthenticationResponse register(User request)
 	{
 		User user = new User();
-		user.setName(request.getName());
+		user.setFirstName(request.getFirstName());
 		user.setLastName(request.getLastName());
-		user.setUsername(request.getUsername());
 		user.setEmail(request.getEmail());
-		user.setIdentification(request.getIdentification());
-		user.setPassword(passwordEncoder.encode(request.getPassword()));
-		
-		user.setRole(request.getRole());
+		user.setPasswordHash(passwordEncoder.encode(request.getPasswordHash()));
 		
 		user = userRepository.save(user);
 		
@@ -48,12 +44,12 @@ public class AuthenticationService
 	{
 		authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(
-						request.getUsername(),
-						request.getPassword()
+						request.getEmail(),
+						request.getPasswordHash()
 				)
 		);
 		
-		User user = userRepository.findByUsername(request.getUsername()).orElseThrow();
+		User user = userRepository.findByEmail(request.getEmail()).orElseThrow();
 		String token = jwtservice.generateToken(user);
 		
 		return new AuthenticationResponse(token);

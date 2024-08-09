@@ -1,21 +1,34 @@
 package com.ecom_beauty.ecombeauty.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "carts")
-public class Cart {
+@Table(name = "cart_items", uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "cart_id", "product_id" })
+})
+public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "cart_id")
+    private Cart cart;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @NotNull
+    @Min(1)
+    @Column(nullable = false)
+    private Integer quantity;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
