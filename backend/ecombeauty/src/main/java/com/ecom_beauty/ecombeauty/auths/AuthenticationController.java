@@ -46,9 +46,9 @@ public class AuthenticationController
         return ResponseEntity.ok(jwtResponse);
     }
 	
-	private void auth(String phone, String password) throws Exception {
+	private void auth(String email, String password) throws Exception {
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
         } catch (DisabledException disabledException) {
             throw new Exception("USUARIO DESHABILITADO: " + disabledException.getMessage());
         } catch (BadCredentialsException badCredentialsException) {
