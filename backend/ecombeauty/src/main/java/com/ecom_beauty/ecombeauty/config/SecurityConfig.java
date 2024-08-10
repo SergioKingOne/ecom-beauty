@@ -14,8 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ecom_beauty.ecombeauty.filter.JwtAuthenticationFilter;
-import com.ecom_beauty.ecombeauty.service.ServiceImplements.UserDetailsServiceImpl;
+import com.ecom_beauty.ecombeauty.auths.JwtAuthenticationFilter;
+import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
 
 @Configuration
 @EnableWebSecurity
