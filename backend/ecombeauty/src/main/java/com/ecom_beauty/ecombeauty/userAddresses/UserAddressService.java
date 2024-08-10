@@ -1,4 +1,4 @@
-package com.ecom_beauty.ecombeauty.users;
+package com.ecom_beauty.ecombeauty.userAddresses;
 
 import java.util.List;
 import java.util.Optional;

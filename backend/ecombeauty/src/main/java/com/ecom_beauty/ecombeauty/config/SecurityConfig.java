@@ -1,27 +1,31 @@
 package com.ecom_beauty.ecombeauty.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ecom_beauty.ecombeauty.auths.JwtAuthenticationFilter;
 import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
+
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 public class SecurityConfig
 {
+	@Autowired
+	private JwtAuthenticationEntryPoint unauthorizeHandler;
+	
 	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	
@@ -32,25 +36,26 @@ public class SecurityConfig
 	}
 	
 	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-		return http
-				.csrf(AbstractHttpConfigurer::disable)
-				.authorizeHttpRequests(
-					req->req
-					// Public EndPoints
-					.requestMatchers("/api/v1/login/**", "/api/v1/register/**").permitAll()
-					// Protected EndPoints (USER or ADMIN)
-					.requestMatchers("/api/v1/products/**").hasAnyAuthority("USER", "ADMIN")
-					// Protected EndPoints (ADMIN)
-					.requestMatchers("/api/v1/products/admin/**").hasAuthority("ADMIN")
-					.anyRequest().authenticated()
-				).userDetailsService(userDetailsServiceImpl)
-				.sessionManagement(session->session
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-				)
-				.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-				.build();
-				
+	public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
+		httpSecurity
+			.csrf(csrf -> csrf.disable())
+	        .cors(cors -> cors.disable())
+			.authorizeHttpRequests(authorize -> authorize
+				// Public EndPoints
+				.requestMatchers("/api/v1/generate-token", "/api/v1/users/signup").permitAll()
+				.requestMatchers(HttpMethod.OPTIONS).permitAll()
+				.anyRequest().authenticated()
+			)
+			.exceptionHandling(exception -> exception
+	            .authenticationEntryPoint(unauthorizeHandler)
+	        )
+	        .sessionManagement(session -> session
+	            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+	        );
+		
+		httpSecurity.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return httpSecurity.build();
 	}
 	
 	@Bean

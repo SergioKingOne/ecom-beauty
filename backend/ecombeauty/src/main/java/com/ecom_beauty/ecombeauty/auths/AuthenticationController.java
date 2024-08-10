@@ -1,8 +1,16 @@
 package com.ecom_beauty.ecombeauty.auths;
 
+import com.ecom_beauty.ecombeauty.config.JwtUtils;
 import com.ecom_beauty.ecombeauty.users.User;
+import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,22 +20,39 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class AuthenticationController
 {
-	private final AuthenticationService authService;
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
-	public AuthenticationController(AuthenticationService authService)
-	{
-		this.authService = authService;
-	}
+	@Autowired
+	private UserDetailsServiceImpl userDetailsServiceImpl;
 	
-	@PostMapping("/register")
-	public ResponseEntity<AuthenticationResponse> register(@RequestBody User request)
-	{
-		return ResponseEntity.ok(authService.register(request));
-	}
+	@Autowired
+	private JwtUtils jwtUtils;
 	
-	@PostMapping("/login")
-	public ResponseEntity<AuthenticationResponse> login(@RequestBody User request)
-	{
-		return ResponseEntity.ok(authService.authenticate(request));
-	}
+	@PostMapping("/generate-token")
+    public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+        try {
+            auth(jwtRequest.getEmail(), jwtRequest.getPassword());
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Usuario no encontrado");
+        }
+
+        UserDetails userDetails = this.userDetailsServiceImpl.loadUserByUsername(jwtRequest.getEmail());
+        User user 				= (User) userDetails;
+        String token 			= this.jwtUtils.generateToken(userDetails);
+
+        JwtResponse jwtResponse = new JwtResponse(token);
+        return ResponseEntity.ok(jwtResponse);
+    }
+	
+	private void auth(String phone, String password) throws Exception {
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phone, password));
+        } catch (DisabledException disabledException) {
+            throw new Exception("USUARIO DESHABILITADO: " + disabledException.getMessage());
+        } catch (BadCredentialsException badCredentialsException) {
+            throw new Exception("Credenciales invalidas: " + badCredentialsException.getMessage());
+        }
+    }
 }

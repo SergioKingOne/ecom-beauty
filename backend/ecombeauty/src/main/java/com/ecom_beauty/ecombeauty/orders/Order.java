@@ -7,8 +7,8 @@ import com.ecom_beauty.ecombeauty.deliveryMethods.DeliveryMethod;
 import com.ecom_beauty.ecombeauty.orderStatus.OrderStatus;
 import com.ecom_beauty.ecombeauty.paymentMethods.PaymentMethod;
 import com.ecom_beauty.ecombeauty.promoCodes.PromoCode;
+import com.ecom_beauty.ecombeauty.userAddresses.UserAddress;
 import com.ecom_beauty.ecombeauty.users.User;
-import com.ecom_beauty.ecombeauty.users.UserAddress;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

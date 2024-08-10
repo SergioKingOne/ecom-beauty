@@ -1,6 +1,8 @@
-package com.ecom_beauty.ecombeauty.users;
+package com.ecom_beauty.ecombeauty.userAddresses;
 
 import java.time.LocalDateTime;
+
+import com.ecom_beauty.ecombeauty.users.User;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -6,7 +6,7 @@ import java.util.Optional;
 public interface UserService {
     List<User> getAllUsers();
     Optional<User> getUserById(Integer id);
-    Optional<User> getUserByEmail(String email);
+    public User getUserByEmail(String email);
     Optional<User> getUserByFirstName(String firstName);
     Optional<User> getUserByLastName(String lastName);
     User saveUser(User user);
