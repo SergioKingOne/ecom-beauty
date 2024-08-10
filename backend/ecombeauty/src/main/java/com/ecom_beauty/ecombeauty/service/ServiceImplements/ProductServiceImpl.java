@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ecom_beauty.ecombeauty.models.Product;
@@ -75,5 +76,22 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void deleteProduct(Integer id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public Product updateProduct(Integer id, Product productDetails) {
+        return productRepository.save(productDetails);
+    }
+
+    @Override
+    public Product getProductByName(String name) {
+        return productRepository.findByNameIgnoreCase(name)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with name: " + name));
+    }
+
+    @Override
+    public Product getProductByCategoryId(Integer categoryId) {
+        return productRepository.findFirstByCategory_Id(categoryId)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with category ID: " + categoryId));
     }
 }

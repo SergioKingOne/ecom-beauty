@@ -2,6 +2,7 @@ package com.ecom_beauty.ecombeauty.repository;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,7 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     @Query("SELECT p FROM Product p ORDER BY p.averageRating DESC, p.price ASC")
     List<Product> findTopRatedProducts();
+
+    Optional<Product> findByNameIgnoreCase(String name);
+    Optional<Product> findFirstByCategory_Id(Integer categoryId);
 }

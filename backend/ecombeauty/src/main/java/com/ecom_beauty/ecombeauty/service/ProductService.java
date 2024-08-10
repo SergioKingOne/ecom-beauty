@@ -19,4 +19,7 @@ public interface ProductService {
     List<Product> getTopRatedProducts();
     Product saveProduct(Product product);
     void deleteProduct(Integer id);
+    Product updateProduct(Integer id, Product productDetails);
+    Product getProductByName(String name);
+    Product getProductByCategoryId(Integer categoryId);    
 }
