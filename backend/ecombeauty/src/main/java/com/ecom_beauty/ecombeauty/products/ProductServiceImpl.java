@@ -41,17 +41,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> getProductsByMinimumRating(BigDecimal rating) {
-        return productRepository.findByAverageRatingGreaterThanEqual(rating);
+        return productRepository.findByRatingGreaterThanEqual(rating);
     }
 
     @Override
     public List<Product> getProductsInStock(Integer minStock) {
         return productRepository.findByStockGreaterThan(minStock);
-    }
-
-    @Override
-    public List<Product> getDiscountedProducts(BigDecimal minDiscountPercentage) {
-        return productRepository.findByDiscountPercentageGreaterThan(minDiscountPercentage);
     }
 
     @Override

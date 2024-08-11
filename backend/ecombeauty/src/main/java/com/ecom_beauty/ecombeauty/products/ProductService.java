@@ -12,7 +12,6 @@ public interface ProductService {
     List<Product> getProductsByPriceRange(BigDecimal minPrice, BigDecimal maxPrice);
     List<Product> getProductsByMinimumRating(BigDecimal rating);
     List<Product> getProductsInStock(Integer minStock);
-    List<Product> getDiscountedProducts(BigDecimal minDiscountPercentage);
     List<Product> searchProducts(String keyword);
     List<Product> getTopRatedProducts();
     Product saveProduct(Product product);
