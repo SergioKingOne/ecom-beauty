@@ -48,16 +48,10 @@ public class Product {
     private BigDecimal price;
 
     @DecimalMin(value = "0.0", inclusive = true)
-    @DecimalMax(value = "100.0", inclusive = true)
-    @Digits(integer = 3, fraction = 2)
-    @Column(name = "discount_percentage", precision = 5, scale = 2)
-    private BigDecimal discountPercentage = BigDecimal.ZERO;
-
-    @DecimalMin(value = "0.0", inclusive = true)
     @DecimalMax(value = "5.0", inclusive = true)
     @Digits(integer = 1, fraction = 2)
-    @Column(name = "average_rating", precision = 3, scale = 2)
-    private BigDecimal averageRating;
+    @Column(name = "rating", precision = 3, scale = 2)
+    private BigDecimal rating;
 
     @Column(name = "photo_url")
     private String photoUrl;
@@ -71,7 +65,7 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @Column(name = "created_at")
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")

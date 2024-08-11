@@ -23,33 +23,25 @@ public class ProductController
 	@Autowired
     private ProductService productService;
 
-    // Endpoint para todos los usuarios (USER y ADMIN) - Obtener todos los productos
-    @GetMapping
-    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
+    @GetMapping("/")
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
 
-    // Endpoint para todos los usuarios (USER y ADMIN) - Obtener un producto por ID
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyAuthority('USER', 'ADMIN')")
     public ResponseEntity<Product> getProductById(@PathVariable Integer id) {
         Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok)
                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
     
-    // Endpoint solo para usuarios ADMIN - Crear un nuevo producto
-    @PostMapping("/admin")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/")
     public ResponseEntity<Product> saveProduct(@RequestBody Product product) {
         Product savedProduct = productService.saveProduct(product);
         return new ResponseEntity<>(savedProduct, HttpStatus.CREATED);
     }
 
-    // Endpoint solo para usuarios ADMIN - Actualizar un producto por ID
-    @PutMapping("/admin/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Integer id, @RequestBody Product productDetails) {
         Product updatedProduct = productService.updateProduct(id, productDetails);
 
@@ -60,9 +52,7 @@ public class ProductController
         }
     }
     
-    // Endpoint solo para usuarios ADMIN - Eliminar un producto por ID
-    @DeleteMapping("/admin/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Integer id) {
         if (productService.getProductById(id).isPresent()) {
             productService.deleteProduct(id);

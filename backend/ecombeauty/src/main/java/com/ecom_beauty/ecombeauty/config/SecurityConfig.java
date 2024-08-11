@@ -42,7 +42,7 @@ public class SecurityConfig
 	        .cors(cors -> cors.disable())
 			.authorizeHttpRequests(authorize -> authorize
 				// Public EndPoints
-				.requestMatchers("/api/v1/health/", "/api/v1/generate-token", "/api/v1/users/signup").permitAll()
+				.requestMatchers("/api/v1/health/", "/api/v1/generate-token", "/api/v1/users/signup", "/api/v1/products/", "/api/v1/products/{id}").permitAll()
 				.requestMatchers(
 	                    // Swagger UI v2
 	                    "/v2/api-docs",
