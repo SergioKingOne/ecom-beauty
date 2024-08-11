@@ -34,8 +34,8 @@ public class CategoryController
 	
 	@GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) {
-        Optional<Category> product = categoryService.getCategoryById(id);
-        return product.map(ResponseEntity::ok)
+        Optional<Category> category = categoryService.getCategoryById(id);
+        return category.map(ResponseEntity::ok)
                       .orElseGet(() -> ResponseEntity.notFound().build());
     }
 	
