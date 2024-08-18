@@ -1,6 +1,7 @@
 package com.ecom_beauty.ecombeauty.auths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ecom_beauty.ecombeauty.config.JwtUtils;
-import com.ecom_beauty.ecombeauty.users.User;
 import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
 
 @RestController
@@ -33,17 +33,18 @@ public class AuthenticationController
     public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
         try {
             auth(jwtRequest.getEmail(), jwtRequest.getPassword());
+        } catch (DisabledException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User is disabled");
+        } catch (BadCredentialsException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new Exception("Usuario no encontrado");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Authentication failed");
         }
 
         UserDetails userDetails = this.userDetailsServiceImpl.loadUserByUsername(jwtRequest.getEmail());
-        User user 				= (User) userDetails;
-        String token 			= this.jwtUtils.generateToken(userDetails);
+        String token = this.jwtUtils.generateToken(userDetails);
 
-        JwtResponse jwtResponse = new JwtResponse(token);
-        return ResponseEntity.ok(jwtResponse);
+        return ResponseEntity.ok(new JwtResponse(token));
     }
 	
 	private void auth(String email, String password) throws Exception {
