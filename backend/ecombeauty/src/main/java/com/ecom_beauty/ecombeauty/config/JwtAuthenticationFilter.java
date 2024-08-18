@@ -2,6 +2,8 @@ package com.ecom_beauty.ecombeauty.config;
 
 import java.io.IOException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,8 +30,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+
 	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+	protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
 	        throws ServletException, IOException {
 	    String requestTokenHeader = request.getHeader("Authorization");
 	    String username = null;
@@ -41,12 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
 	        try {
 	            username = this.jwtUtils.extractUsername(jwtToken);
 	        } catch (ExpiredJwtException expiredJwtException) {
-	            System.out.println("El token ha expirado");
+	            LOGGER.warn("El token ha expirado");
 	        } catch (Exception e) {
-	            e.printStackTrace();
+	            LOGGER.error("Error al procesar el token", e);
 	        }
 	    } else {
-	        System.out.println("Token inválido. No empieza con Bearer String. Encabezado: " + requestTokenHeader);
+	        LOGGER.warn("Token inválido. No empieza con Bearer String. Encabezado: {}", requestTokenHeader);
 	    }
 		
 	    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -58,7 +62,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
 	            
 	            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 	        } else {
-	            System.out.println("El token no es válido");
+	            LOGGER.warn("El token no es válido");
 	        }
 	    }
 	    filterChain.doFilter(request, response);
