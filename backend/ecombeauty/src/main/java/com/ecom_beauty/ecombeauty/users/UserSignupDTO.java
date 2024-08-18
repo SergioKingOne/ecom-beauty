@@ -28,7 +28,6 @@ public class UserSignupDTO
     @Column(name = "password_hash")
     private String passwordHash;
     
-    @NotBlank(message = "La imagen no puede estar vacía")
     @Column(name = "profile_photo_url")
     private String profilePhotoUrl;
 }
