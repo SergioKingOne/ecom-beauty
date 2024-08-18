@@ -1,9 +1,5 @@
 package com.ecom_beauty.ecombeauty.auths;
 
-import com.ecom_beauty.ecombeauty.config.JwtUtils;
-import com.ecom_beauty.ecombeauty.users.User;
-import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,6 +11,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.ecom_beauty.ecombeauty.config.JwtUtils;
+import com.ecom_beauty.ecombeauty.users.User;
+import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
 
 @RestController
 @RequestMapping("/api/v1")

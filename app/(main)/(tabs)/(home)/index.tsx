@@ -9,13 +9,14 @@ import {
   StatusBar,
 } from "react-native";
 import ProductCard from "@/components/ProductCard";
-import { fetchProducts } from "@/services/api";
+import axios from 'axios';
 import { Product } from "@/types/product";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 import { useRouter } from "expo-router";
+import { fetchAllProducts } from "@/services/api";
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
@@ -27,10 +28,8 @@ const HomeScreen: React.FC = () => {
   useEffect(() => {
     const loadProducts = async () => {
       try {
-        // Fetch products based on selected category
-        const productsData = await fetchProducts(
-          selectedCategory !== "All" ? selectedCategory : undefined
-        );
+        // Fetch products from the backend API
+        const productsData = await fetchAllProducts();
         setProducts(productsData);
       } catch (error) {
         console.error("Error loading products:", error);
