@@ -13,6 +13,7 @@ import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { router } from "expo-router";
 import { useSignUp } from "@clerk/clerk-expo";
+import axios from "axios";
 
 export type RootStackParamList = {
   Login: undefined;
@@ -34,13 +35,39 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
     setLoading(true);
 
     try {
-      await signUp.create({ emailAddress, password, firstName, lastName });
+      const clerkSignUp = await signUp.create({
+        emailAddress,
+        password,
+        firstName,
+        lastName,
+      });
 
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
 
+      await axios.post("http://192.168.0.11:8080/api/v1/users/signup", {
+        firstName,
+        lastName,
+        email: emailAddress,
+        passwordHash: password,
+        profilePhotoUrl: "",
+      });
+
       setPendingVerification(true);
     } catch (error: any) {
-      console.error("Error signing up:", error.errors[0].message);
+      console.error("Error signing up:", error);
+      if (error.response) {
+        // The request was made and the server responded with a status code
+        // that falls out of the range of 2xx
+        console.error("Response data:", error.response.data);
+        console.error("Response status:", error.response.status);
+        console.error("Response headers:", error.response.headers);
+      } else if (error.request) {
+        // The request was made but no response was received
+        console.error("No response received:", error.request);
+      } else {
+        // Something happened in setting up the request that triggered an Error
+        console.error("Error setting up request:", error.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -218,10 +245,6 @@ const styles = StyleSheet.create({
   socialButton: {
     marginHorizontal: 24,
     padding: 6,
-  },
-  socialIcon: {
-    width: 48,
-    height: 48,
   },
   signinContainer: {
     marginTop: 12,

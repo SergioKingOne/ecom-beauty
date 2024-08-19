@@ -8,6 +8,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -68,11 +69,11 @@ public class UserController {
     }
 
     // Update user
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateUser(@PathVariable Integer id, @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
-        Optional<User> existingUser = userService.getUserById(id);
-        if (existingUser.isPresent()) {
-            User user = existingUser.get();
+    @PutMapping("/update")
+    public ResponseEntity<Object> updateUser(@Valid @RequestBody UserUpdateDTO userUpdateDTO, Authentication authentication) {
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
             user.setFirstName(userUpdateDTO.getFirstName());
             user.setLastName(userUpdateDTO.getLastName());
             user.setProfilePhotoUrl(userUpdateDTO.getProfilePhotoUrl());
@@ -84,22 +85,20 @@ public class UserController {
             User updatedUser = userService.saveUser(user);
             return ResponseEntity.ok(updatedUser);
         } else {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Usuario no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Usuario no encontrado"));
         }
     }
 
     // Delete user
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
-        if (userService.getUserById(id).isPresent()) {
-            userService.deleteUser(id);
+    @DeleteMapping("/delete")
+    public ResponseEntity<Object> deleteUser(Authentication authentication) {
+        String email = authentication.getName();
+        User user = userService.getUserByEmail(email);
+        if (user != null) {
+            userService.deleteUser(user.getId());
             return ResponseEntity.noContent().build();
         } else {
-            Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Usuario no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Usuario no encontrado"));
         }
     }
 }
