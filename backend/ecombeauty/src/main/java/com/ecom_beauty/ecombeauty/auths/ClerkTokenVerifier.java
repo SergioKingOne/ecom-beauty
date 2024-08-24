@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 
 @Component
 public class ClerkTokenVerifier {
@@ -27,7 +26,7 @@ public class ClerkTokenVerifier {
         try {
             RSAPublicKey publicKey = getPublicKey(publicKeyPEM);
             Algorithm algorithm = Algorithm.RSA256(publicKey, null);
-            DecodedJWT jwt = JWT.require(algorithm)
+            JWT.require(algorithm)
                     .build()
                     .verify(token);
             
