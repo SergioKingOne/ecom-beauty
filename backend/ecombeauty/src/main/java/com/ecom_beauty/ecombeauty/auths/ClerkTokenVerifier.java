@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Component
 public class ClerkTokenVerifier {
@@ -26,17 +26,12 @@ public class ClerkTokenVerifier {
         try {
             RSAPublicKey publicKey = getPublicKey(publicKeyPEM);
             Algorithm algorithm = Algorithm.RSA256(publicKey, null);
-            JWT.require(algorithm)
-                    .build()
-                    .verify(token);
-            
+            JWTVerifier verifier = JWT.require(algorithm).build();
+            verifier.verify(token);
             LOGGER.info("Token verified successfully");
             return true;
-        } catch (JWTVerificationException exception) {
-            LOGGER.error("Token verification failed: {}", exception.getMessage());
-            return false;
         } catch (Exception e) {
-            LOGGER.error("Error in public key parsing or token verification: {}", e.getMessage());
+            LOGGER.error("Token verification failed", e);
             return false;
         }
     }

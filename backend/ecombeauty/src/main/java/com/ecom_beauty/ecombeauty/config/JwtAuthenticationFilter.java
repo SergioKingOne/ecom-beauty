@@ -1,11 +1,16 @@
 package com.ecom_beauty.ecombeauty.config;
 
 import java.io.IOException;
+import java.util.Collections;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,30 +33,31 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
         String requestTokenHeader = request.getHeader("Authorization");
-        String token;
+        LOGGER.info("Request URI: {}", request.getRequestURI());
+        LOGGER.info("Authorization header: {}", requestTokenHeader);
         
         if (requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ")) {
-            token = requestTokenHeader.substring(7);
+            String token = requestTokenHeader.substring(7);
+            LOGGER.info("Extracted token: {}", token);
             
             try {
                 if (clerkTokenVerifier.verifyToken(token)) {
-                    // Token is valid, you can set up the SecurityContext here if needed
-                    // For now, we'll just log that the token is valid
-                    LOGGER.info("Valid token");
+                    LOGGER.info("Token verified successfully");
                     
-                    // If you need to set up an authentication object, you can do it like this:
-                    // UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                    //     null, null, null); // You might want to extract user details from the token
-                    // authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    // SecurityContextHolder.getContext().setAuthentication(authToken);
+                    // Set up the SecurityContext with a simple authenticated token
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                        "clerkUser", null, Collections.singletonList(new SimpleGrantedAuthority("USER")));
+                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                    SecurityContextHolder.getContext().setAuthentication(authToken);
+                    LOGGER.info("SecurityContext set successfully");
                 } else {
-                    LOGGER.warn("Invalid token");
+                    LOGGER.warn("Token verification failed");
                 }
             } catch (Exception e) {
-                LOGGER.error("Error al procesar el token", e);
+                LOGGER.error("Error processing token", e);
             }
         } else {
-            LOGGER.warn("Token inválido o no presente. Encabezado: {}", requestTokenHeader);
+            LOGGER.warn("No valid Authorization header found");
         }
         
         filterChain.doFilter(request, response);
