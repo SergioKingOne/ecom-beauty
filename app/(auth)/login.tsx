@@ -12,17 +12,14 @@ import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useClerk, useSignIn, useUser } from "@clerk/clerk-expo";
+import { useAuth } from "@/app/(auth)/AuthContext";
 import { useRouter } from "expo-router";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const DB_URL = process.env.EXPO_PUBLIC_DB_URL || "http://localhost:8080";
 
 export default function Login() {
-  const { signIn, setActive, isLoaded } = useSignIn();
-  const { signOut } = useClerk();
-  const { user } = useUser();
+  const { login } = useAuth();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
@@ -30,90 +27,18 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
 
   const onSignInPress = React.useCallback(async () => {
-    if (!isLoaded) {
-      return;
-    }
-
     setLoading(true);
 
     try {
-      // First, attempt to sign in with Clerk
-      const signInAttempt = await signIn.create({
-        identifier: emailAddress,
-        password,
-      });
-
-      if (signInAttempt.status === "complete") {
-        try {
-          // Attempt to generate token
-          const response = await axios.post(`${DB_URL}/api/v1/generate-token`, {
-            email: emailAddress,
-            password: password,
-          });
-
-          console.debug("Token response:", response);
-
-          if (response.data && response.data.token) {
-            await AsyncStorage.setItem("userToken", response.data.token);
-            await setActive({ session: signInAttempt.createdSessionId });
-            router.replace("/");
-          } else {
-            throw new Error("Invalid token response");
-          }
-        } catch (tokenError: any) {
-          console.error("Token generation failed:", tokenError);
-          console.debug("User: ", user);
-          if (tokenError.response && tokenError.response.status === 401) {
-            // User doesn't exist in DB, attempt to create
-            try {
-              await axios.post(`${DB_URL}/api/v1/users/signup`, {
-                firstName: user?.firstName,
-                lastName: user?.lastName,
-                email: user?.emailAddresses[0].emailAddress,
-                passwordHash: password,
-                profilePhotoUrl: user?.imageUrl || "",
-              });
-
-              // After creating user, try to generate token again
-              const newTokenResponse = await axios.post(
-                `${DB_URL}/api/v1/generate-token`,
-                {
-                  email: emailAddress,
-                  password: password,
-                }
-              );
-
-              if (newTokenResponse.data && newTokenResponse.data.token) {
-                await AsyncStorage.setItem(
-                  "userToken",
-                  newTokenResponse.data.token
-                );
-                await setActive({ session: signInAttempt.createdSessionId });
-                router.replace("/");
-              } else {
-                throw new Error("Invalid token response after user creation");
-              }
-            } catch (signupError) {
-              console.error("User creation failed:", signupError);
-              Alert.alert("Error", "Failed to create user. Please try again.");
-              await signOut();
-            }
-          } else {
-            console.error("Token generation failed:", tokenError);
-            Alert.alert("Error", "Failed to generate token. Please try again.");
-            await signOut();
-          }
-        }
-      } else {
-        Alert.alert("Error", "Invalid credentials. Please try again.");
-      }
+      await login(emailAddress, password);
+      router.replace("/");
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
-      Alert.alert("Error", "Failed to sign in. Please try again later.");
+      console.error("Login error:", err.message);
+      Alert.alert("Error", "Failed to sign in. Please check your credentials and try again.");
     } finally {
       setLoading(false);
     }
-  }, [isLoaded, emailAddress, password, signIn, setActive, signOut, user]);
+  }, [emailAddress, password, login, router]);
 
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),

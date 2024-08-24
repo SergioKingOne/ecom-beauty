@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ecom_beauty.ecombeauty.config.JwtUtils;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -26,6 +29,12 @@ import jakarta.validation.Valid;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserDetailsServiceImpl userDetailsServiceImpl;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @PostMapping("/signup")
     public ResponseEntity<Object> createUser(@Valid @RequestBody UserSignupDTO userSignupDTO) throws Exception {    	
@@ -45,7 +54,16 @@ public class UserController {
 
         // Save new user
         User createdUser = userService.saveUser(newUser);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
+
+        // Generate token for the new user
+        UserDetails userDetails = userDetailsServiceImpl.loadUserByUsername(createdUser.getEmail());
+        String token = jwtUtils.generateToken(userDetails);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", createdUser);
+        response.put("token", token);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     // Get all users
