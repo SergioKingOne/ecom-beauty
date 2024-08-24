@@ -5,44 +5,115 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useSignIn } from "@clerk/clerk-expo";
+import { useClerk, useSignIn, useUser } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const DB_URL = process.env.EXPO_PUBLIC_DB_URL || "http://localhost:8080";
 
 export default function Login() {
   const { signIn, setActive, isLoaded } = useSignIn();
+  const { signOut } = useClerk();
+  const { user } = useUser();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSignInPress = React.useCallback(async () => {
     if (!isLoaded) {
       return;
     }
 
+    setLoading(true);
+
     try {
+      // First, attempt to sign in with Clerk
       const signInAttempt = await signIn.create({
         identifier: emailAddress,
         password,
       });
 
       if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId });
+        try {
+          // Attempt to generate token
+          const response = await axios.post(`${DB_URL}/api/v1/generate-token`, {
+            email: emailAddress,
+            password: password,
+          });
+
+          console.debug("Token response:", response);
+
+          if (response.data && response.data.token) {
+            await AsyncStorage.setItem("userToken", response.data.token);
+            await setActive({ session: signInAttempt.createdSessionId });
+            router.replace("/");
+          } else {
+            throw new Error("Invalid token response");
+          }
+        } catch (tokenError: any) {
+          console.error("Token generation failed:", tokenError);
+          console.debug("User: ", user);
+          if (tokenError.response && tokenError.response.status === 401) {
+            // User doesn't exist in DB, attempt to create
+            try {
+              await axios.post(`${DB_URL}/api/v1/users/signup`, {
+                firstName: user?.firstName,
+                lastName: user?.lastName,
+                email: user?.emailAddresses[0].emailAddress,
+                passwordHash: password,
+                profilePhotoUrl: user?.imageUrl || "",
+              });
+
+              // After creating user, try to generate token again
+              const newTokenResponse = await axios.post(
+                `${DB_URL}/api/v1/generate-token`,
+                {
+                  email: emailAddress,
+                  password: password,
+                }
+              );
+
+              if (newTokenResponse.data && newTokenResponse.data.token) {
+                await AsyncStorage.setItem(
+                  "userToken",
+                  newTokenResponse.data.token
+                );
+                await setActive({ session: signInAttempt.createdSessionId });
+                router.replace("/");
+              } else {
+                throw new Error("Invalid token response after user creation");
+              }
+            } catch (signupError) {
+              console.error("User creation failed:", signupError);
+              Alert.alert("Error", "Failed to create user. Please try again.");
+              await signOut();
+            }
+          } else {
+            console.error("Token generation failed:", tokenError);
+            Alert.alert("Error", "Failed to generate token. Please try again.");
+            await signOut();
+          }
+        }
       } else {
-        // TODO: See https://clerk.com/docs/custom-flows/error-handling
-        // for more info on error handling
-        console.error(JSON.stringify(signInAttempt, null, 2));
+        Alert.alert("Error", "Invalid credentials. Please try again.");
       }
     } catch (err: any) {
       console.error(JSON.stringify(err, null, 2));
+      Alert.alert("Error", "Failed to sign in. Please try again later.");
+    } finally {
+      setLoading(false);
     }
-  }, [isLoaded, emailAddress, password]);
+  }, [isLoaded, emailAddress, password, signIn, setActive, signOut, user]);
 
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),
@@ -82,8 +153,14 @@ export default function Login() {
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onSignInPress}>
-        <Text style={styles.signupButtonText}>SIGN IN</Text>
+      <TouchableOpacity
+        style={[styles.signupButton, loading && styles.disabledButton]}
+        onPress={onSignInPress}
+        disabled={loading}
+      >
+        <Text style={styles.signupButtonText}>
+          {loading ? "SIGNING IN..." : "SIGN IN"}
+        </Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>
         <Text style={styles.socialText}>Or sign in with social account</Text>
@@ -165,10 +242,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     padding: 6,
   },
-  socialIcon: {
-    width: 48,
-    height: 48,
-  },
   signinContainer: {
     marginTop: 12,
     flexDirection: "row",
@@ -180,5 +253,8 @@ const styles = StyleSheet.create({
   },
   signinLink: {
     color: "#f29c1d",
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });

@@ -12,14 +12,18 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { router } from "expo-router";
-import { useSignUp } from "@clerk/clerk-expo";
+import { useClerk, useSignUp, useUser } from "@clerk/clerk-expo";
 import axios from "axios";
+
+const DB_URL = process.env.EXPO_PUBLIC_DB_URL;
 
 export type RootStackParamList = {
   Login: undefined;
 };
 
 export default function Signup({ onSignup }: { onSignup: () => void }) {
+  const { signOut } = useClerk();
+  const { user } = useUser();
   const { isLoaded, signUp, setActive } = useSignUp();
 
   const [emailAddress, setEmailAddress] = useState("");
@@ -46,7 +50,11 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
 
       setPendingVerification(true);
     } catch (error: any) {
-      console.error("Error signing up:", error.response?.data || error.message);
+      if (error.errors && error.errors.length > 0) {
+        console.error("Clerk error:", error.errors[0].message);
+      } else {
+        console.error("Error signing up:", error.message || "Unknown error");
+      }
     } finally {
       setLoading(false);
     }
@@ -61,14 +69,40 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
         code,
       });
 
-      if (completeSignUp.status === "complete") {
-        await setActive({ session: completeSignUp.createdSessionId });
+      if (completeSignUp.status !== "complete") {
+        throw new Error("Signup verification incomplete");
+      }
+
+      // If database save is successful, set the active session
+      await setActive({ session: completeSignUp.createdSessionId });
+
+      // Save user data to the database
+      try {
+        console.debug("DB URL: ", DB_URL);
+        const response = await axios.post(`${DB_URL}/api/v1/users/signup`, {
+          firstName,
+          lastName,
+          email: emailAddress,
+          passwordHash: password,
+          profilePhotoUrl: "",
+        });
+
+        console.debug("DB Response: ", response);
+
+        // Navigate to the home page
         router.replace("/");
-      } else {
-        console.error(JSON.stringify(completeSignUp, null, 2));
+      } catch (dbError: any) {
+        console.debug("User: ", user);
+        console.debug("DB Error: ", dbError);
+        console.error(
+          "Error saving user to database:",
+          dbError.response?.data || dbError.message
+        );
+        // Redirect to login page if DB write fails
+        router.replace("/login");
       }
     } catch (error: any) {
-      console.error("Error verifying email:", error.errors[0].message);
+      console.error("Error during signup process:", error);
     } finally {
       setLoading(false);
     }
