@@ -5,70 +5,51 @@ import {
   TouchableOpacity,
   StyleSheet,
   GestureResponderEvent,
+  Alert,
 } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useSignIn } from "@clerk/clerk-expo";
 import { useRouter } from "expo-router";
+import { useAuth } from "@/app/(auth)/AuthContext";
+import axios from "axios";
+
+const DB_URL = process.env.EXPO_PUBLIC_DB_URL;
 
 export default function ForgotPassword() {
   const router = useRouter();
+  const { login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
   const [successfulCreation, setSuccessfulCreation] = useState(false);
-  const [secondFactor, setSecondFactor] = useState(false);
   const [error, setError] = useState("");
 
-  const { isLoaded, signIn, setActive } = useSignIn();
-
-  if (!isLoaded) {
-    return null;
-  }
-
-  async function create(e: GestureResponderEvent) {
+  async function requestReset(e: GestureResponderEvent) {
     e.preventDefault();
-    await signIn
-      ?.create({
-        strategy: "reset_password_email_code",
-        identifier: email,
-      })
-      .then((_) => {
-        setSuccessfulCreation(true);
-        setError("");
-      })
-      .catch((err) => {
-        console.error("error", err.errors[0].longMessage);
-        setError(err.errors[0].longMessage);
-      });
+    try {
+      await axios.post(`${DB_URL}/api/v1/request-reset`, { email });
+      setSuccessfulCreation(true);
+      setError("");
+    } catch (err: any) {
+      console.error("Error requesting reset:", err.response?.data?.message || err.message);
+      setError(err.response?.data?.message || "An error occurred while requesting password reset.");
+    }
   }
 
-  async function reset(e: GestureResponderEvent) {
-    await signIn
-      ?.attemptFirstFactor({
-        strategy: "reset_password_email_code",
-        code,
-        password,
-      })
-      .then((result) => {
-        if (result.status === "needs_second_factor") {
-          setSecondFactor(true);
-          setError("");
-        } else if (result.status === "complete") {
-          setActive({ session: result.createdSessionId });
-          setError("");
-        } else {
-          console.log(result);
-        }
-      })
-      .catch((err) => {
-        console.error("error", err.errors[0].longMessage);
-        setError(err.errors[0].longMessage);
-      });
+  async function resetPassword(e: GestureResponderEvent) {
+    e.preventDefault();
+    try {
+      await axios.post(`${DB_URL}/api/v1/reset-password`, { email, code, password });
+      Alert.alert("Success", "Your password has been reset. Please log in with your new password.");
+      router.replace("/login");
+    } catch (err: any) {
+      console.error("Error resetting password:", err.response?.data?.message || err.message);
+      setError(err.response?.data?.message || "An error occurred while resetting your password.");
+    }
   }
 
   const [fontsLoaded] = useFonts({
@@ -78,6 +59,7 @@ export default function ForgotPassword() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
   return (
     <ThemedView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
@@ -88,8 +70,7 @@ export default function ForgotPassword() {
       {!successfulCreation ? (
         <>
           <ThemedText>
-            Please, enter your email address. You will receive a link to create
-            a new password
+            Please enter your email address. You will receive a code to reset your password.
           </ThemedText>
           <TextInput
             style={styles.input}
@@ -98,14 +79,14 @@ export default function ForgotPassword() {
             value={email}
             onChangeText={setEmail}
           />
-          <TouchableOpacity style={styles.signupButton} onPress={create}>
-            <Text style={styles.signupButtonText}>SEND EMAIL</Text>
+          <TouchableOpacity style={styles.signupButton} onPress={requestReset}>
+            <Text style={styles.signupButtonText}>SEND CODE</Text>
           </TouchableOpacity>
         </>
       ) : (
         <>
           <ThemedText>
-            Please, enter the code you received and your new password
+            Please enter the code you received and your new password
           </ThemedText>
           <TextInput
             style={styles.input}
@@ -116,17 +97,18 @@ export default function ForgotPassword() {
           />
           <TextInput
             style={styles.input}
-            placeholder="Password"
+            placeholder="New Password"
             secureTextEntry
             placeholderTextColor="#818189"
             value={password}
             onChangeText={setPassword}
           />
-          <TouchableOpacity style={styles.signupButton} onPress={reset}>
+          <TouchableOpacity style={styles.signupButton} onPress={resetPassword}>
             <Text style={styles.signupButtonText}>RESET PASSWORD</Text>
           </TouchableOpacity>
         </>
       )}
+      {error ? <ThemedText style={styles.errorText}>{error}</ThemedText> : null}
     </ThemedView>
   );
 }
@@ -178,39 +160,8 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: "bold",
   },
-  socialContainer: {
-    flex: 1,
-    justifyContent: "flex-end",
-    alignItems: "center",
-    marginBottom: 36,
-  },
-  socialText: {
-    color: "#818189",
-    marginTop: 12,
-    fontSize: 16,
-  },
-  socialButtons: {
-    flexDirection: "row",
-    marginTop: 24,
-  },
-  socialButton: {
-    marginHorizontal: 24,
-    padding: 6,
-  },
-  socialIcon: {
-    width: 48,
-    height: 48,
-  },
-  signinContainer: {
-    marginTop: 12,
-    flexDirection: "row",
-    justifyContent: "flex-end",
-  },
-  signinText: {
-    color: "#818189",
-    fontSize: 16,
-  },
-  signinLink: {
-    color: "#f29c1d",
+  errorText: {
+    color: 'red',
+    marginTop: 10,
   },
 });
