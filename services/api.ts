@@ -10,7 +10,7 @@ export const fetchProducts = async (
     const response = await axios.get(
       selectedCategory && selectedCategory !== "All"
         ? `${API_URL}/products/?category=${selectedCategory}`
-        : `${API_URL}/products/`
+        : `${API_URL}/products`
     );
     return response.data;
   } catch (error) {

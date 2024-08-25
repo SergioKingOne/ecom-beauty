@@ -14,9 +14,6 @@ import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { useAuth } from "@/app/(auth)/AuthContext";
 import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const DB_URL = process.env.EXPO_PUBLIC_DB_URL || "http://localhost:8080";
 
 export default function Login() {
   const { login } = useAuth();
