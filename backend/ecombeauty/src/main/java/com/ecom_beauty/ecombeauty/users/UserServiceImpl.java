@@ -17,8 +17,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(String id) {
-        return userRepository.findById(id);
+    public User getUserById(Integer id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -27,14 +27,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String id) {
+    public void deleteUser(Integer id) {
         userRepository.deleteById(id);
     }
 
     @Override
     public User signupUser(UserSignupDTO userSignupDTO) {
         User user = new User();
-        user.setId(userSignupDTO.getId());
+        user.setClerkId(userSignupDTO.getClerkId());
         return userRepository.save(user);
+    }
+
+    @Override
+    public User getUserByClerkId(String clerkId) {
+        return userRepository.findByClerkId(clerkId);
     }
 }

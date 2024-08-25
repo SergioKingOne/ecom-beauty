@@ -10,8 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserSignupDTO
-{
-    @NotBlank(message = "id cannot be blank")
-    private String id;
+public class UserSignupDTO {
+    @NotBlank(message = "clerkId cannot be blank")
+    private String clerkId;
 }

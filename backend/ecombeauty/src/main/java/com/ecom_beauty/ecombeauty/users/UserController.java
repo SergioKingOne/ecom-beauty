@@ -3,7 +3,6 @@ package com.ecom_beauty.ecombeauty.users;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -41,9 +40,9 @@ public class UserController {
     // Get user by ID
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable Integer id) {
-        Optional<User> user = userService.getUserById(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
+        User user = userService.getUserById(id);
+        if (user != null) {
+            return ResponseEntity.ok(user);
         } else {
             Map<String, String> errorResponse = new HashMap<>();
             errorResponse.put("error", "Usuario no encontrado");
@@ -54,7 +53,7 @@ public class UserController {
     // Delete user
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteUser(@PathVariable Integer id) {
-        if (userService.getUserById(id).isPresent()) {
+        if (userService.getUserById(id) != null) {
             userService.deleteUser(id);
             return ResponseEntity.noContent().build();
         } else {
