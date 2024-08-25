@@ -103,9 +103,7 @@ export default function Signup() {
         <Text style={styles.signupButtonText}>SIGN UP</Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>
-        <Text style={styles.socialText}>
-          Or sign up with social account
-        </Text>
+        <Text style={styles.socialText}>Or sign up with social account</Text>
         <View style={styles.socialButtons}>
           <TouchableOpacity style={styles.socialButton}>
             <ThemedIcon name="logo-google" size={30} />

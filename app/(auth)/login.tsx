@@ -34,7 +34,10 @@ export default function Login() {
       router.replace("/");
     } catch (err: any) {
       console.error("Login error:", err.message);
-      Alert.alert("Error", "Failed to sign in. Please check your credentials and try again.");
+      Alert.alert(
+        "Error",
+        "Failed to sign in. Please check your credentials and try again."
+      );
     } finally {
       setLoading(false);
     }

@@ -8,7 +8,6 @@ interface User {
   firstName: string;
   lastName: string;
   profilePhotoUrl: string;
-  // Add any other user properties you need
 }
 
 interface AuthContextType {
