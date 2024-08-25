@@ -16,12 +16,15 @@ import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 import { useRouter } from "expo-router";
 import { fetchAllProducts } from "@/services/api";
+import { useUser } from "@clerk/clerk-expo";
 
 const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
-  
+  const { user } = useUser();
+  console.debug(user);
+
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 

@@ -1,11 +1,6 @@
 package com.ecom_beauty.ecombeauty.users;
 
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.HashSet;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,25 +15,10 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false, name = "first_name")
-    private String firstName;
-
-    @Column(nullable = false, name = "last_name")
-    private String lastName;
-
-    @Column(nullable = false, unique = true)
-    private String email;
-
-    @Column(name = "password_hash", nullable = false)
-    private String passwordHash;
-
-    @Column(name = "profile_photo_url")
-    private String profilePhotoUrl;
+    private String id;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -56,34 +36,4 @@ public class User implements UserDetails {
     protected void onUpdate() {
         updatedAt = LocalDateTime.now();
     }
-    
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-    
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-    
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-    
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<>();
-    }
-    
-    @Override
-    public String getUsername() {
-        return this.email;
-    }
-
-	@Override
-	public String getPassword() {
-		return this.passwordHash;
-	}
 }
