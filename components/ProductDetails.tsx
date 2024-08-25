@@ -16,7 +16,7 @@ import { ThemedText } from "@/components/ThemedText";
 import { Product } from "@/types/product";
 import { Ionicons } from "@expo/vector-icons";
 import { ThemedIcon } from "./ThemedIcon";
-import { ProductCard } from "@/app/(tabs)/products";
+import { ProductCard } from "@/app/deprecated/(tabs)/products";
 import ThemedScrollView from "./ThemedScrollView";
 import { StackNavigationProp } from "@react-navigation/stack";
 
