@@ -8,7 +8,7 @@ import { Slot, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import { AuthProvider, useAuth } from "./(auth)/AuthContext";
 import { useColorScheme } from "react-native";
 

@@ -6,37 +6,10 @@ import { Colors } from "@/constants/Colors";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { useAuth } from "@/app/(auth)/AuthContext";
-import axios from "axios";
-import * as SecureStore from "expo-secure-store";
-
-const DB_URL = process.env.EXPO_PUBLIC_DB_URL;
-
-const getAuthToken = async () => {
-  return await SecureStore.getItemAsync("userToken");
-};
 
 export const UserProfile: React.FC = () => {
-  const { logout } = useAuth();
+  const { user, logout } = useAuth();
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
-
-  useEffect(() => {
-    fetchUserProfile();
-  }, []);
-
-  const fetchUserProfile = async () => {
-    try {
-      const token = await getAuthToken();
-      const response = await axios.get(`${DB_URL}/api/v1/user/profile`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      setUser(response.data);
-    } catch (error) {
-      console.error("Error fetching user profile:", error);
-    }
-  };
 
   const handleLogout = async () => {
     try {
@@ -56,7 +29,7 @@ export const UserProfile: React.FC = () => {
       <View style={styles.header}>
         <Image
           source={{
-            uri: user.profilePicture || "https://via.placeholder.com/150",
+            uri: user.profilePhotoUrl || "https://via.placeholder.com/150",
           }}
           style={styles.profilePic}
         />
