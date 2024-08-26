@@ -9,8 +9,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
 import * as SecureStore from "expo-secure-store";
-import { AuthProvider, useAuth } from "./(auth)/authContext";
+
 import { useColorScheme } from "react-native";
+import { useAuth, AuthProvider } from "./(auth)/authContext";
 
 const tokenCache = {
   async getToken(key: string) {
