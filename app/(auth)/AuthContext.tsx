@@ -8,6 +8,7 @@ interface User {
   firstName: string;
   lastName: string;
   profilePhotoUrl: string;
+  // Add any other user properties you need
 }
 
 interface AuthContextType {
@@ -45,9 +46,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const checkAuthStatus = async () => {
     try {
       const token = await SecureStore.getItemAsync("userToken");
-      if (token) {
-        const userData = await fetchUserData(token);
-        setUser(userData);
+      const storedUser = await SecureStore.getItemAsync("userData");
+      if (token && storedUser) {
+        setUser(JSON.parse(storedUser));
         setIsAuthenticated(true);
       }
     } catch (error) {
@@ -57,11 +58,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     }
   };
 
-  const fetchUserData = async (token: string): Promise<User> => {
-    const response = await axios.get(`${DB_URL}/api/v1/user/profile`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
+  const storeUserData = async (token: string, userData: User) => {
+    await SecureStore.setItemAsync("userToken", token);
+    await SecureStore.setItemAsync("userData", JSON.stringify(userData));
   };
 
   const signup = async (userData: any) => {
@@ -70,7 +69,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       userData
     );
     const { token, user } = response.data;
-    await SecureStore.setItemAsync("userToken", token);
+    await storeUserData(token, user);
     setUser(user);
     setIsAuthenticated(true);
   };
@@ -81,13 +80,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       password,
     });
     const { token, user } = response.data;
-    await SecureStore.setItemAsync("userToken", token);
+    await storeUserData(token, user);
     setUser(user);
     setIsAuthenticated(true);
   };
 
   const logout = async () => {
     await SecureStore.deleteItemAsync("userToken");
+    await SecureStore.deleteItemAsync("userData");
     setUser(null);
     setIsAuthenticated(false);
   };

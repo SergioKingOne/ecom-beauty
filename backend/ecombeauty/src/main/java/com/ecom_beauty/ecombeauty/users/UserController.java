@@ -75,14 +75,22 @@ public class UserController {
 
     // Get user by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUserById(@PathVariable Integer id) {
-        Optional<User> user = userService.getUserById(id);
-        if (user.isPresent()) {
-            return ResponseEntity.ok(user.get());
-        } else {
+    public ResponseEntity<Object> getUserById(@PathVariable String id) {
+        try {
+            // log the id, info level
+            System.out.println("ID: " + id);
+            Optional<User> user = userService.getUserById(Integer.parseInt(id));
+            if (user.isPresent()) {
+                return ResponseEntity.ok(user.get());
+            } else {
+                Map<String, String> errorResponse = new HashMap<>();
+                errorResponse.put("error", "Usuario no encontrado");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            }
+        } catch (NumberFormatException e) {
             Map<String, String> errorResponse = new HashMap<>();
-            errorResponse.put("error", "Usuario no encontrado");
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+            errorResponse.put("error", "ID de usuario inválido");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
         }
     }
 
