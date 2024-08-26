@@ -13,7 +13,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { useRouter } from "expo-router";
-import { useAuth } from "@/app/(auth)/AuthContext";
+import { useAuth } from "@/app/(auth)/authContext";
 import axios from "axios";
 
 const DB_URL = process.env.EXPO_PUBLIC_DB_URL;
@@ -35,20 +35,39 @@ export default function ForgotPassword() {
       setSuccessfulCreation(true);
       setError("");
     } catch (err: any) {
-      console.error("Error requesting reset:", err.response?.data?.message || err.message);
-      setError(err.response?.data?.message || "An error occurred while requesting password reset.");
+      console.error(
+        "Error requesting reset:",
+        err.response?.data?.message || err.message
+      );
+      setError(
+        err.response?.data?.message ||
+          "An error occurred while requesting password reset."
+      );
     }
   }
 
   async function resetPassword(e: GestureResponderEvent) {
     e.preventDefault();
     try {
-      await axios.post(`${DB_URL}/api/v1/reset-password`, { email, code, password });
-      Alert.alert("Success", "Your password has been reset. Please log in with your new password.");
+      await axios.post(`${DB_URL}/api/v1/reset-password`, {
+        email,
+        code,
+        password,
+      });
+      Alert.alert(
+        "Success",
+        "Your password has been reset. Please log in with your new password."
+      );
       router.replace("/login");
     } catch (err: any) {
-      console.error("Error resetting password:", err.response?.data?.message || err.message);
-      setError(err.response?.data?.message || "An error occurred while resetting your password.");
+      console.error(
+        "Error resetting password:",
+        err.response?.data?.message || err.message
+      );
+      setError(
+        err.response?.data?.message ||
+          "An error occurred while resetting your password."
+      );
     }
   }
 
@@ -70,7 +89,8 @@ export default function ForgotPassword() {
       {!successfulCreation ? (
         <>
           <ThemedText>
-            Please enter your email address. You will receive a code to reset your password.
+            Please enter your email address. You will receive a code to reset
+            your password.
           </ThemedText>
           <TextInput
             style={styles.input}
@@ -161,7 +181,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   errorText: {
-    color: 'red',
+    color: "red",
     marginTop: 10,
   },
 });
