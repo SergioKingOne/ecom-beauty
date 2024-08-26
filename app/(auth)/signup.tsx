@@ -12,57 +12,37 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { router } from "expo-router";
-import { useSignUp } from "@clerk/clerk-expo";
+import { useAuth } from "@/app/(auth)/authContext";
 
 export type RootStackParamList = {
   Login: undefined;
 };
 
-export default function Signup({ onSignup }: { onSignup: () => void }) {
-  const { isLoaded, signUp, setActive } = useSignUp();
+export default function Signup() {
+  const { signup } = useAuth();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
-  const [pendingVerification, setPendingVerification] = useState(false);
-  const [code, setCode] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [loading, setLoading] = useState(false);
 
   const onSignUpPress = async () => {
-    if (!isLoaded) return;
     setLoading(true);
 
     try {
-      await signUp.create({ emailAddress, password, firstName, lastName });
-
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
-
-      setPendingVerification(true);
-    } catch (error: any) {
-      console.error("Error signing up:", error.errors[0].message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const onVerifyPress = async () => {
-    if (!isLoaded) return;
-    setLoading(true);
-
-    try {
-      const completeSignUp = await signUp.attemptEmailAddressVerification({
-        code,
+      await signup({
+        firstName,
+        lastName,
+        email: emailAddress,
+        passwordHash: password,
       });
 
-      if (completeSignUp.status === "complete") {
-        await setActive({ session: completeSignUp.createdSessionId });
-        router.replace("/");
-      } else {
-        console.error(JSON.stringify(completeSignUp, null, 2));
-      }
+      // Navigate to the home page on successful signup
+      router.replace("/");
     } catch (error: any) {
-      console.error("Error verifying email:", error.errors[0].message);
+      console.error("Error signing up:", error.message || "Unknown error");
+      // Handle error (e.g., show an alert to the user)
     } finally {
       setLoading(false);
     }
@@ -77,82 +57,59 @@ export default function Signup({ onSignup }: { onSignup: () => void }) {
   }
   return (
     <ThemedView style={styles.container}>
-      {!pendingVerification && (
-        <>
-          <ThemedText style={styles.title}>Sign up</ThemedText>
-          <View>
-            <TextInput
-              style={styles.input}
-              placeholder="First name"
-              placeholderTextColor="#818189"
-              value={firstName}
-              onChangeText={setFirstName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Last name"
-              placeholderTextColor="#818189"
-              value={lastName}
-              onChangeText={setLastName}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Email"
-              placeholderTextColor="#818189"
-              value={emailAddress}
-              onChangeText={setEmailAddress}
-            />
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-              placeholderTextColor="#818189"
-              value={password}
-              onChangeText={setPassword}
-            />
-          </View>
-          <TouchableOpacity
-            style={styles.signinContainer}
-            onPress={() => router.push("/login")}
-          >
-            <Text style={styles.signinText}>Already have an account? </Text>
-            <Text style={styles.signinLink}>Sign in</Text>
+      <ThemedText style={styles.title}>Sign up</ThemedText>
+      <View>
+        <TextInput
+          style={styles.input}
+          placeholder="First name"
+          placeholderTextColor="#818189"
+          value={firstName}
+          onChangeText={setFirstName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Last name"
+          placeholderTextColor="#818189"
+          value={lastName}
+          onChangeText={setLastName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#818189"
+          value={emailAddress}
+          onChangeText={setEmailAddress}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          secureTextEntry
+          placeholderTextColor="#818189"
+          value={password}
+          onChangeText={setPassword}
+        />
+      </View>
+      <TouchableOpacity
+        style={styles.signinContainer}
+        onPress={() => router.push("/login")}
+      >
+        <Text style={styles.signinText}>Already have an account? </Text>
+        <Text style={styles.signinLink}>Sign in</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.signupButton} onPress={onSignUpPress}>
+        <Text style={styles.signupButtonText}>SIGN UP</Text>
+      </TouchableOpacity>
+      <View style={styles.socialContainer}>
+        <Text style={styles.socialText}>Or sign up with social account</Text>
+        <View style={styles.socialButtons}>
+          <TouchableOpacity style={styles.socialButton}>
+            <ThemedIcon name="logo-google" size={30} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.signupButton} onPress={onSignUpPress}>
-            <Text style={styles.signupButtonText}>SIGN UP</Text>
+          <TouchableOpacity style={styles.socialButton}>
+            <ThemedIcon name="logo-facebook" size={30} />
           </TouchableOpacity>
-          <View style={styles.socialContainer}>
-            <Text style={styles.socialText}>
-              Or sign up with social account
-            </Text>
-            <View style={styles.socialButtons}>
-              <TouchableOpacity style={styles.socialButton}>
-                <ThemedIcon name="logo-google" size={30} />
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.socialButton}>
-                <ThemedIcon name="logo-facebook" size={30} />
-              </TouchableOpacity>
-            </View>
-          </View>
-        </>
-      )}
-      {pendingVerification && (
-        <>
-          <ThemedText style={styles.title}>Verify your email</ThemedText>
-          <View>
-            <TextInput
-              style={styles.input}
-              placeholder="Verification code"
-              placeholderTextColor="#818189"
-              value={code}
-              onChangeText={setCode}
-            />
-          </View>
-          <TouchableOpacity style={styles.signupButton} onPress={onVerifyPress}>
-            <Text style={styles.signupButtonText}>VERIFY</Text>
-          </TouchableOpacity>
-        </>
-      )}
+        </View>
+      </View>
     </ThemedView>
   );
 }
@@ -218,10 +175,6 @@ const styles = StyleSheet.create({
   socialButton: {
     marginHorizontal: 24,
     padding: 6,
-  },
-  socialIcon: {
-    width: 48,
-    height: 48,
   },
   signinContainer: {
     marginTop: 12,

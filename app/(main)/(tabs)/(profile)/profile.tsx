@@ -1,29 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Text, Image, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { useClerk, useUser } from "@clerk/clerk-expo";
+import { useAuth } from "@/app/(auth)/authContext";
 
 export const UserProfile: React.FC = () => {
-  const { user } = useUser();
-  const { signOut } = useClerk();
-
+  const { user, logout } = useAuth();
   const router = useRouter();
+
+  const handleLogout = async () => {
+    try {
+      await logout();
+      router.replace("/login");
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
+  };
+
+  if (!user) {
+    return <ThemedText>Loading...</ThemedText>;
+  }
 
   return (
     <ThemedScrollView style={styles.container}>
       <View style={styles.header}>
         <Image
           source={{
-            uri: "https://media.licdn.com/dms/image/D4E03AQF_JeoJnLFjWw/profile-displayphoto-shrink_800_800/0/1714257893682?e=1724284800&v=beta&t=Iyhj90I621uKj5-KI28TOP7Ce-clMl56n-poAKm4gM4",
+            uri: user.profilePhotoUrl || "https://via.placeholder.com/150",
           }}
           style={styles.profilePic}
         />
-        <ThemedText style={styles.name}>{user?.fullName}</ThemedText>
-        <Text style={styles.email}>{user?.emailAddresses[0].emailAddress}</Text>
+        <ThemedText
+          style={styles.name}
+        >{`${user.firstName} ${user.lastName}`}</ThemedText>
+        <Text style={styles.email}>{user.email}</Text>
       </View>
 
       <View style={styles.section}>
@@ -63,10 +76,7 @@ export const UserProfile: React.FC = () => {
           />
           <Text style={styles.settingsText}>Settings</Text>
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.settingsButton}
-          onPress={() => signOut()}
-        >
+        <TouchableOpacity style={styles.settingsButton} onPress={handleLogout}>
           <Ionicons
             name="log-out-outline"
             size={24}

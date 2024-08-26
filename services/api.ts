@@ -1,7 +1,7 @@
 import axios from "axios";
 import { Product } from "@/types/product";
 
-const API_URL = "http://192.168.0.5:3000";
+const API_URL = "http://localhost:8080/api/v1";
 
 export const fetchProducts = async (
   selectedCategory?: string
@@ -9,7 +9,7 @@ export const fetchProducts = async (
   try {
     const response = await axios.get(
       selectedCategory && selectedCategory !== "All"
-        ? `${API_URL}/products?category=${selectedCategory}`
+        ? `${API_URL}/products/?category=${selectedCategory}`
         : `${API_URL}/products`
     );
     return response.data;
@@ -21,7 +21,7 @@ export const fetchProducts = async (
 
 export const fetchAllProducts = async (): Promise<Product[]> => {
   try {
-    const response = await axios.get(`${API_URL}/products`);
+    const response = await axios.get(`${API_URL}/products/`);
     return response.data;
   } catch (error) {
     console.error("Error fetching all products:", error);

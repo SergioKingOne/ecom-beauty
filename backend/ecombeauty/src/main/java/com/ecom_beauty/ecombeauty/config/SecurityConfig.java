@@ -15,8 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.ecom_beauty.ecombeauty.users.UserDetailsServiceImpl;
-
 
 @Configuration
 @EnableWebSecurity
@@ -26,13 +24,11 @@ public class SecurityConfig
 	@Autowired
 	private JwtAuthenticationEntryPoint unauthorizeHandler;
 	
-	private final UserDetailsServiceImpl userDetailsServiceImpl;
 	private final JwtAuthenticationFilter jwtAuthenticationFilter;
 	
-	public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, JwtAuthenticationFilter jwtAuthenticationFilter)
+	public SecurityConfig(JwtAuthenticationFilter jwtAuthenticationFilter)
 	{
 		this.jwtAuthenticationFilter = jwtAuthenticationFilter;
-		this.userDetailsServiceImpl = userDetailsServiceImpl;
 	}
 	
 	@Bean

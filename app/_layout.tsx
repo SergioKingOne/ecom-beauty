@@ -8,15 +8,10 @@ import { Slot, useRouter, useSegments } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 import "react-native-reanimated";
-
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { ClerkLoaded, ClerkProvider, useAuth } from "@clerk/clerk-expo";
 import * as SecureStore from "expo-secure-store";
 
-const CLERK_PUBLISHABLE_KEY = process.env.EXPO_PUBLIC_CLERK_PUBLISHABLE_KEY;
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
+import { useColorScheme } from "react-native";
+import { useAuth, AuthProvider } from "./(auth)/authContext";
 
 const tokenCache = {
   async getToken(key: string) {
@@ -44,22 +39,21 @@ const tokenCache = {
 };
 
 function InitialLayout() {
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   const segments = useSegments();
   const router = useRouter();
 
   useEffect(() => {
-    if (!isLoaded) return;
+    if (isLoading) return;
 
     const inTabsGroup = segments[0] === "(main)";
 
-    if (isSignedIn && !inTabsGroup) {
+    if (isAuthenticated && !inTabsGroup) {
       router.replace("/(main)/(tabs)/(home)");
-    } else if (!isSignedIn) {
+    } else if (!isAuthenticated) {
       router.replace("/signup");
     }
-    console.log("isSignedIn: ", isSignedIn);
-  }, [isSignedIn]);
+  }, [isAuthenticated, isLoading]);
 
   return <Slot />;
 }
@@ -81,17 +75,10 @@ export default function RootLayoutNav() {
   }
 
   return (
-    <ClerkProvider
-      publishableKey={CLERK_PUBLISHABLE_KEY!}
-      tokenCache={tokenCache}
-    >
-      <ClerkLoaded>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <InitialLayout />
-        </ThemeProvider>
-      </ClerkLoaded>
-    </ClerkProvider>
+    <AuthProvider>
+      <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
+        <InitialLayout />
+      </ThemeProvider>
+    </AuthProvider>
   );
 }

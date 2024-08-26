@@ -5,44 +5,40 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
+  Alert,
 } from "react-native";
 import { useFonts } from "expo-font";
 import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useSignIn } from "@clerk/clerk-expo";
+import { useAuth } from "@/app/(auth)/authContext";
 import { useRouter } from "expo-router";
 
 export default function Login() {
-  const { signIn, setActive, isLoaded } = useSignIn();
+  const { login } = useAuth();
   const router = useRouter();
 
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const onSignInPress = React.useCallback(async () => {
-    if (!isLoaded) {
-      return;
-    }
+    setLoading(true);
 
     try {
-      const signInAttempt = await signIn.create({
-        identifier: emailAddress,
-        password,
-      });
-
-      if (signInAttempt.status === "complete") {
-        await setActive({ session: signInAttempt.createdSessionId });
-      } else {
-        // TODO: See https://clerk.com/docs/custom-flows/error-handling
-        // for more info on error handling
-        console.error(JSON.stringify(signInAttempt, null, 2));
-      }
+      await login(emailAddress, password);
+      router.replace("/");
     } catch (err: any) {
-      console.error(JSON.stringify(err, null, 2));
+      console.error("Login error:", err.message);
+      Alert.alert(
+        "Error",
+        "Failed to sign in. Please check your credentials and try again."
+      );
+    } finally {
+      setLoading(false);
     }
-  }, [isLoaded, emailAddress, password]);
+  }, [emailAddress, password, login, router]);
 
   const [fontsLoaded] = useFonts({
     Glorious: require("@/assets/fonts/GLORIOUS.otf"),
@@ -82,8 +78,14 @@ export default function Login() {
         <Text style={styles.signinText}>Forgot your password? </Text>
         <Text style={styles.signinLink}>Reset it</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.signupButton} onPress={onSignInPress}>
-        <Text style={styles.signupButtonText}>SIGN IN</Text>
+      <TouchableOpacity
+        style={[styles.signupButton, loading && styles.disabledButton]}
+        onPress={onSignInPress}
+        disabled={loading}
+      >
+        <Text style={styles.signupButtonText}>
+          {loading ? "SIGNING IN..." : "SIGN IN"}
+        </Text>
       </TouchableOpacity>
       <View style={styles.socialContainer}>
         <Text style={styles.socialText}>Or sign in with social account</Text>
@@ -165,10 +167,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 24,
     padding: 6,
   },
-  socialIcon: {
-    width: 48,
-    height: 48,
-  },
   signinContainer: {
     marginTop: 12,
     flexDirection: "row",
@@ -180,5 +178,8 @@ const styles = StyleSheet.create({
   },
   signinLink: {
     color: "#f29c1d",
+  },
+  disabledButton: {
+    opacity: 0.5,
   },
 });
