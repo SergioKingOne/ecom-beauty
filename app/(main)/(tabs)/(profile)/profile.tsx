@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import { Colors } from "@/constants/Colors";
 import ThemedScrollView from "@/components/ThemedScrollView";
 import { ThemedText } from "@/components/ThemedText";
-import { useAuth } from "@/app/(auth)/AuthContext";
+import { useAuth } from "@/app/(auth)/authContext";
 
 export const UserProfile: React.FC = () => {
   const { user, logout } = useAuth();

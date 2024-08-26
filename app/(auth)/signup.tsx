@@ -12,10 +12,7 @@ import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
 import { router } from "expo-router";
-import { useAuth } from "@/app/(auth)/AuthContext";
-import axios from "axios";
-
-const DB_URL = process.env.EXPO_PUBLIC_DB_URL;
+import { useAuth } from "@/app/(auth)/authContext";
 
 export type RootStackParamList = {
   Login: undefined;

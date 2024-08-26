@@ -12,7 +12,7 @@ import AppLoading from "expo-app-loading";
 import { ThemedView } from "@/components/ThemedView";
 import { ThemedIcon } from "@/components/ThemedIcon";
 import { ThemedText } from "@/components/ThemedText";
-import { useAuth } from "@/app/(auth)/AuthContext";
+import { useAuth } from "@/app/(auth)/authContext";
 import { useRouter } from "expo-router";
 
 export default function Login() {

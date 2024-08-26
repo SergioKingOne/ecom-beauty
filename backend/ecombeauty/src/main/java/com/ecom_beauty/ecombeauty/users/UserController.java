@@ -77,8 +77,6 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<Object> getUserById(@PathVariable String id) {
         try {
-            // log the id, info level
-            System.out.println("ID: " + id);
             Optional<User> user = userService.getUserById(Integer.parseInt(id));
             if (user.isPresent()) {
                 return ResponseEntity.ok(user.get());
