@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Product } from "@/types/product";
+import * as SecureStore from "expo-secure-store";
 
 const API_URL = "http://localhost:8080/api/v1";
 
@@ -7,10 +8,20 @@ export const fetchProducts = async (
   selectedCategory?: string
 ): Promise<Product[]> => {
   try {
+    const token = await SecureStore.getItemAsync("userToken");
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
     const response = await axios.get(
       selectedCategory && selectedCategory !== "All"
         ? `${API_URL}/products/?category=${selectedCategory}`
-        : `${API_URL}/products`
+        : `${API_URL}/products`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
     return response.data;
   } catch (error) {
