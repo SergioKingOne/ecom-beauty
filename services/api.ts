@@ -15,7 +15,7 @@ export const fetchProducts = async (
 
     const response = await axios.get(
       selectedCategory && selectedCategory !== "All"
-        ? `${API_URL}/products/?category=${selectedCategory}`
+        ? `${API_URL}/products/category/${selectedCategory}`
         : `${API_URL}/products`,
       {
         headers: {
@@ -87,6 +87,25 @@ export const fetchFavoriteProducts = async (): Promise<Product[]> => {
     return response.data;
   } catch (error) {
     console.error("Error fetching favorite products:", error);
+    throw error;
+  }
+};
+
+export const fetchAllCategories = async (): Promise<string[]> => {
+  try {
+    const token = await SecureStore.getItemAsync("userToken");
+    if (!token) {
+      throw new Error("No authentication token found");
+    }
+
+    const response = await axios.get(`${API_URL}/api/v1/categories`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching categories:", error);
     throw error;
   }
 };
