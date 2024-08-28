@@ -48,8 +48,6 @@ const HomeScreen: React.FC = () => {
           response = await fetchProductByCategory(selectedCategory.id);
         }
 
-        console.debug("Products response:", response);
-
         // The products are directly in response.data
         const productsData = response.data;
 
@@ -83,7 +81,6 @@ const HomeScreen: React.FC = () => {
       try {
         const categoriesData: Array<{ id: number; name: string }> =
           await fetchAllCategories();
-        console.debug("Categories data:", categoriesData);
         setCategories([
           { id: 0, name: "All" },
           ...categoriesData.map((category) => ({

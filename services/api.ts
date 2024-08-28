@@ -42,7 +42,6 @@ export const fetchAllProducts = async (): Promise<AxiosResponse> => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.debug("Products response:", response);
     return response;
   } catch (error) {
     console.error("Error fetching all products:", error);
