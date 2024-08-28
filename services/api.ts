@@ -2,7 +2,7 @@ import axios from "axios";
 import { Product } from "@/types/product";
 import * as SecureStore from "expo-secure-store";
 
-const API_URL = "http://localhost:8080/api/v1";
+const API_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export const fetchProducts = async (
   selectedCategory?: string

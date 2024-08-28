@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Image,
   StyleSheet,
@@ -15,28 +15,51 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 import { useRouter } from "expo-router";
-import { fetchAllProducts } from "@/services/api";
-
-const categories = ["All", "Skincare", "Cosmetics", "Fragrance"];
+import { fetchAllProducts, fetchAllCategories } from "@/services/api";
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<string[]>(["All"]);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [lastProductsFetchTime, setLastProductsFetchTime] = useState<number>(0);
+  const [lastCategoriesFetchTime, setLastCategoriesFetchTime] =
+    useState<number>(0);
 
-  useEffect(() => {
-    const loadProducts = async () => {
+  const loadProducts = useCallback(async () => {
+    const currentTime = Date.now();
+    const cacheExpiration = 5 * 60 * 1000; // 5 minutes
+
+    if (currentTime - lastProductsFetchTime > cacheExpiration) {
       try {
-        // Fetch products from the backend API
         const productsData = await fetchAllProducts();
         setProducts(productsData);
+        setLastProductsFetchTime(currentTime);
       } catch (error) {
         console.error("Error loading products:", error);
       }
-    };
+    }
+  }, [lastProductsFetchTime]);
 
+  const loadCategories = useCallback(async () => {
+    const currentTime = Date.now();
+    const cacheExpiration = 30 * 60 * 1000; // 30 minutes
+
+    if (currentTime - lastCategoriesFetchTime > cacheExpiration) {
+      try {
+        const categoriesData = await fetchAllCategories();
+        setCategories(["All", ...categoriesData]);
+        setLastCategoriesFetchTime(currentTime);
+      } catch (error) {
+        console.error("Error loading categories:", error);
+      }
+    }
+  }, [lastCategoriesFetchTime]);
+
+  useEffect(() => {
     loadProducts();
-  }, [selectedCategory]);
+    loadCategories();
+  }, [loadProducts, loadCategories]);
 
   const handleCategoryPress = (category: string) => {
     setSelectedCategory(category);

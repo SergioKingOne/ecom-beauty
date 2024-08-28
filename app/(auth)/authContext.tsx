@@ -30,7 +30,7 @@ export const useAuth = () => {
   return context;
 };
 
-const DB_URL = process.env.EXPO_PUBLIC_DB_URL;
+const DB_URL = process.env.EXPO_PUBLIC_API_URL;
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
