@@ -15,13 +15,22 @@ import { ThemedText } from "@/components/ThemedText";
 import { ThemedCategoryButton } from "@/components/ThemedCategoryButton";
 import { ThemedImageIcon } from "@/components/ThemedImageIcon";
 import { useRouter } from "expo-router";
-import { fetchAllProducts, fetchAllCategories } from "@/services/api";
+import {
+  fetchAllProducts,
+  fetchAllCategories,
+  fetchProductByCategory,
+} from "@/services/api";
 
 const HomeScreen: React.FC = () => {
   const router = useRouter();
   const [products, setProducts] = useState<Product[]>([]);
-  const [categories, setCategories] = useState<string[]>(["All"]);
-  const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [categories, setCategories] = useState<
+    Array<{ id: number; name: string }>
+  >([]);
+  const [selectedCategory, setSelectedCategory] = useState<{
+    id: number;
+    name: string;
+  }>({ id: 0, name: "All" });
   const [lastProductsFetchTime, setLastProductsFetchTime] = useState<number>(0);
   const [lastCategoriesFetchTime, setLastCategoriesFetchTime] =
     useState<number>(0);
@@ -32,14 +41,39 @@ const HomeScreen: React.FC = () => {
 
     if (currentTime - lastProductsFetchTime > cacheExpiration) {
       try {
-        const productsData = await fetchAllProducts();
-        setProducts(productsData);
+        let response;
+        if (selectedCategory.id === 0) {
+          response = await fetchAllProducts();
+        } else {
+          response = await fetchProductByCategory(selectedCategory.id);
+        }
+
+        console.debug("Products response:", response);
+
+        // The products are directly in response.data
+        const productsData = response.data;
+
+        // Map the products to include the category and ensure all required fields are present
+        const mappedProducts = productsData.map((product: any) => ({
+          id: product.id,
+          name: product.name,
+          description: product.description,
+          price: product.price,
+          rating: product.rating,
+          photoUrl: product.photoUrl,
+          stock: product.stock,
+          createdAt: product.createdAt,
+          updatedAt: product.updatedAt,
+          category: product.category.name, // Use the category name from the product data
+        }));
+
+        setProducts(mappedProducts);
         setLastProductsFetchTime(currentTime);
       } catch (error) {
         console.error("Error loading products:", error);
       }
     }
-  }, [lastProductsFetchTime]);
+  }, [lastProductsFetchTime, selectedCategory]);
 
   const loadCategories = useCallback(async () => {
     const currentTime = Date.now();
@@ -47,8 +81,16 @@ const HomeScreen: React.FC = () => {
 
     if (currentTime - lastCategoriesFetchTime > cacheExpiration) {
       try {
-        const categoriesData = await fetchAllCategories();
-        setCategories(["All", ...categoriesData]);
+        const categoriesData: Array<{ id: number; name: string }> =
+          await fetchAllCategories();
+        console.debug("Categories data:", categoriesData);
+        setCategories([
+          { id: 0, name: "All" },
+          ...categoriesData.map((category) => ({
+            id: category.id,
+            name: category.name,
+          })),
+        ]);
         setLastCategoriesFetchTime(currentTime);
       } catch (error) {
         console.error("Error loading categories:", error);
@@ -61,16 +103,19 @@ const HomeScreen: React.FC = () => {
     loadCategories();
   }, [loadProducts, loadCategories]);
 
-  const handleCategoryPress = (category: string) => {
+  const handleCategoryPress = (category: { id: number; name: string }) => {
     setSelectedCategory(category);
   };
 
+  console.debug("Products:", products);
+
   const filteredProducts =
-    selectedCategory === "All"
+    selectedCategory.name === "All"
       ? products
       : products.filter(
           (product) =>
-            product.category.toLowerCase() === selectedCategory.toLowerCase()
+            product.category.toLowerCase() ===
+            selectedCategory.name.toLowerCase()
         );
 
   return (
@@ -94,10 +139,10 @@ const HomeScreen: React.FC = () => {
       <ThemedView style={styles.categoryContainer}>
         {categories.map((category) => (
           <ThemedCategoryButton
-            key={category}
-            category={category}
-            selectedCategory={selectedCategory}
-            handleCategoryPress={handleCategoryPress}
+            key={category.id}
+            category={category.name}
+            selectedCategory={selectedCategory.name}
+            handleCategoryPress={() => handleCategoryPress(category)}
           />
         ))}
       </ThemedView>
@@ -113,7 +158,7 @@ const HomeScreen: React.FC = () => {
         numColumns={1}
         contentContainerStyle={styles.flatListContent}
         ListHeaderComponent={
-          selectedCategory === "All" ? (
+          selectedCategory.name === "All" ? (
             <>
               <ThemedText style={styles.sectionTitle}>WHAT'S NEW?</ThemedText>
               <View style={styles.heroImageContainer}>
