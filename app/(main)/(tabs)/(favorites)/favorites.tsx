@@ -155,7 +155,9 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
         <Text style={styles.ratingCount}>({product.rating})</Text>
       </View>
       <View>
-        <Text style={styles.productBrand}>{product.category.name}</Text>
+        <Text style={styles.productBrand}>
+          {product.category?.name || "No category"}
+        </Text>
         <ThemedText style={styles.productName}>{product.name}</ThemedText>
         <View style={styles.priceContainer}>
           <ThemedText

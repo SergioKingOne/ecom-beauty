@@ -84,25 +84,48 @@ export const fetchFavoriteProducts = async (): Promise<Product[]> => {
         Authorization: `Bearer ${token}`,
       },
     });
+    console.debug("Response:", response);
     const apiProducts = response.data._embedded?.products;
 
     if (!Array.isArray(apiProducts)) {
       throw new Error("Unexpected response format");
     }
 
-    const products: Product[] = apiProducts.map((apiProduct) => ({
-      id: apiProduct.id,
-      name: apiProduct.name,
-      description: apiProduct.description,
-      price: apiProduct.price,
-      rating: apiProduct.rating,
-      image: apiProduct.photoUrl,
-      stock: apiProduct.stock,
-      createdAt: apiProduct.createdAt,
-      updatedAt: apiProduct.updatedAt,
-      category: apiProduct.category,
-      discountPrice: apiProduct.discountPrice,
-    }));
+    console.debug("API Products:", apiProducts);
+
+    const products: Product[] = await Promise.all(
+      apiProducts.map(async (apiProduct) => {
+        const categoryResponse = await axios.get(
+          apiProduct._links.category.href,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const category = categoryResponse.data;
+
+        return {
+          id: apiProduct.id,
+          name: apiProduct.name,
+          description: apiProduct.description,
+          price: apiProduct.price,
+          rating: apiProduct.rating,
+          image: apiProduct.photoUrl,
+          stock: apiProduct.stock,
+          createdAt: apiProduct.createdAt,
+          updatedAt: apiProduct.updatedAt,
+          category: {
+            id: category.id,
+            name: category.name,
+            description: category.description,
+            createdAt: category.createdAt,
+            updatedAt: category.updatedAt,
+          },
+          discountPrice: apiProduct.discountPrice,
+        };
+      })
+    );
 
     return products;
   } catch (error) {
