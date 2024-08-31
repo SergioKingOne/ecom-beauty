@@ -62,7 +62,13 @@ const HomeScreen: React.FC = () => {
           stock: product.stock,
           createdAt: product.createdAt,
           updatedAt: product.updatedAt,
-          category: product.category.name, // Use the category name from the product data
+          category: {
+            id: product.category.id,
+            name: product.category.name,
+            description: product.category.description,
+            createdAt: product.category.createdAt,
+            updatedAt: product.category.updatedAt,
+          },
         }));
 
         setProducts(mappedProducts);
@@ -111,7 +117,7 @@ const HomeScreen: React.FC = () => {
       ? products
       : products.filter(
           (product) =>
-            product.category.toLowerCase() ===
+            product.category.name.toLowerCase() ===
             selectedCategory.name.toLowerCase()
         );
 
