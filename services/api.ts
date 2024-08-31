@@ -84,16 +84,12 @@ export const fetchFavoriteProducts = async (): Promise<Product[]> => {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.debug("Favorite products response:", response);
-
-    // Extract the products array from the response
     const apiProducts = response.data._embedded?.products;
 
     if (!Array.isArray(apiProducts)) {
       throw new Error("Unexpected response format");
     }
 
-    // Map API products to match the Product type
     const products: Product[] = apiProducts.map((apiProduct) => ({
       id: apiProduct.id,
       name: apiProduct.name,
