@@ -66,7 +66,7 @@ const ProductDetailsScreen: React.FC = () => {
     const fetchProducts = async () => {
       try {
         const products = await fetchAllProducts();
-        setProducts(products);
+        setProducts(products.data);
       } catch (error) {
         console.error("Error fetching products:", error);
       } finally {

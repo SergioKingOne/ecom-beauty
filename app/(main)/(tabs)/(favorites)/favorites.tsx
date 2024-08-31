@@ -33,10 +33,10 @@ export const Favorites: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const products = await fetchAllProducts();
-        setProducts(products);
+        const favoriteProducts = await fetchFavoriteProducts();
+        setProducts(favoriteProducts);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Error fetching favorite products:", error);
       } finally {
         setLoading(false);
       }
@@ -155,7 +155,9 @@ const ProductCard: React.FC<{ product: Product; style?: any }> = ({
         <Text style={styles.ratingCount}>({product.rating})</Text>
       </View>
       <View>
-        <Text style={styles.productBrand}>{product.category}</Text>
+        <Text style={styles.productBrand}>
+          {product.category?.name || "No category"}
+        </Text>
         <ThemedText style={styles.productName}>{product.name}</ThemedText>
         <View style={styles.priceContainer}>
           <ThemedText
