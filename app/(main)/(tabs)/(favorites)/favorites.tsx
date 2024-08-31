@@ -33,20 +33,7 @@ export const Favorites: React.FC = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await fetchFavoriteProducts();
-        // Assuming the products are in the `data` property of the response
-        const favoriteProducts = response.data.map((product: any) => ({
-          id: product.id,
-          name: product.name,
-          description: product.description,
-          price: product.price,
-          rating: product.rating,
-          photoUrl: product.photoUrl,
-          stock: product.stock,
-          createdAt: product.createdAt,
-          updatedAt: product.updatedAt,
-          category: product.category.name, // Assuming category is an object with a name property
-        }));
+        const favoriteProducts = await fetchFavoriteProducts();
         setProducts(favoriteProducts);
       } catch (error) {
         console.error("Error fetching favorite products:", error);

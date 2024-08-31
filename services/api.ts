@@ -84,7 +84,31 @@ export const fetchFavoriteProducts = async (): Promise<Product[]> => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response.data;
+    console.debug("Favorite products response:", response);
+
+    // Extract the products array from the response
+    const apiProducts = response.data._embedded?.products;
+
+    if (!Array.isArray(apiProducts)) {
+      throw new Error("Unexpected response format");
+    }
+
+    // Map API products to match the Product type
+    const products: Product[] = apiProducts.map((apiProduct) => ({
+      id: apiProduct.id,
+      name: apiProduct.name,
+      description: apiProduct.description,
+      price: apiProduct.price,
+      rating: apiProduct.rating,
+      image: apiProduct.photoUrl,
+      stock: apiProduct.stock,
+      createdAt: apiProduct.createdAt,
+      updatedAt: apiProduct.updatedAt,
+      category: apiProduct.category,
+      discountPrice: apiProduct.discountPrice,
+    }));
+
+    return products;
   } catch (error) {
     console.error("Error fetching favorite products:", error);
     throw error;
